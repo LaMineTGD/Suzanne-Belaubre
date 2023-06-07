@@ -193,15 +193,15 @@ VisualEffect:
   m_InitialEventName: OnPlay
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
-  m_ResetSeedOnPlay: 0
+  m_ResetSeedOnPlay: 1
   m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
       m_Array:
-      - m_Value: 1.2
+      - m_Value: 0.75
         m_Name: wave_speed
         m_Overridden: 1
-      - m_Value: 0.5
+      - m_Value: 1
         m_Name: wave_size
         m_Overridden: 1
       - m_Value: 3
@@ -210,7 +210,7 @@ VisualEffect:
       - m_Value: 5
         m_Name: Initial Color Cycle Duration
         m_Overridden: 1
-      - m_Value: 0.5
+      - m_Value: 0.3
         m_Name: fade_speed
         m_Overridden: 1
       - m_Value: 0.98
