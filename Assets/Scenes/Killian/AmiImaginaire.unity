@@ -193,7 +193,7 @@ VisualEffect:
   m_InitialEventName: OnPlay
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
-  m_ResetSeedOnPlay: 1
+  m_ResetSeedOnPlay: 0
   m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
@@ -213,10 +213,16 @@ VisualEffect:
       - m_Value: 0.5
         m_Name: fade_speed
         m_Overridden: 1
+      - m_Value: 0.98
+        m_Name: SDF_ratio
+        m_Overridden: 1
     m_Vector2f:
       m_Array:
       - m_Value: {x: 2, y: 2}
         m_Name: New Vector2
+        m_Overridden: 1
+      - m_Value: {x: 0, y: 0}
+        m_Name: drop_1
         m_Overridden: 1
     m_Vector3f:
       m_Array:
@@ -237,17 +243,17 @@ VisualEffect:
       m_Array:
       - m_Value:
           serializedVersion: 2
-          key0: {r: 0.082282715, g: 0.06480328, b: 0.5209957, a: 0.7019608}
-          key1: {r: 1.0557042, g: 0.15920061, b: 2.9350598, a: 0.7019608}
-          key2: {r: 0.78039217, g: 0.10224175, b: 0.5457247, a: 0.03529412}
+          key0: {r: 0.16470589, g: 0.13333334, b: 1.0431373, a: 1}
+          key1: {r: 1.0557042, g: 0.15920061, b: 2.9350598, a: 1}
+          key2: {r: 1.5607843, g: 0.20392157, b: 1.0901961, a: 0.03529412}
           key3: {r: 0, g: 0, b: 0, a: 0.03529412}
           key4: {r: 0, g: 0, b: 0, a: 0}
           key5: {r: 0, g: 0, b: 0, a: 0}
           key6: {r: 0, g: 0, b: 0, a: 0}
           key7: {r: 0, g: 0, b: 0, a: 0}
-          ctime0: 22344
+          ctime0: 14326
           ctime1: 33103
-          ctime2: 43726
+          ctime2: 51744
           ctime3: 65535
           ctime4: 65535
           ctime5: 0

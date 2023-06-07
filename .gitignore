@@ -75,3 +75,7 @@ Assets/AudioClips/
 # Killian ADD
 /[Aa]ssets/Scenes/Killian/ignore*
 
+Assets/VFX/Killian/test.vfx
+Assets/VFX/Killian/test_sdf.vfx
+Assets/VFX/Killian/test_sdf.vfx.meta
+Assets/VFX/Killian/test.vfx
