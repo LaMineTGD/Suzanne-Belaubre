@@ -198,7 +198,7 @@ VisualEffect:
   m_PropertySheet:
     m_Float:
       m_Array:
-      - m_Value: 0.9
+      - m_Value: 0.75
         m_Name: wave_speed
         m_Overridden: 1
       - m_Value: 1
@@ -210,34 +210,37 @@ VisualEffect:
       - m_Value: 5
         m_Name: Initial Color Cycle Duration
         m_Overridden: 1
-      - m_Value: 0.5
+      - m_Value: 0.3
         m_Name: fade_speed
         m_Overridden: 1
-      - m_Value: 0.98
+      - m_Value: 0.5
         m_Name: SDF_ratio
+        m_Overridden: 1
+      - m_Value: 10000
+        m_Name: DropSignalTime
         m_Overridden: 1
     m_Vector2f:
       m_Array:
       - m_Value: {x: 2, y: 2}
         m_Name: New Vector2
         m_Overridden: 1
-      - m_Value: {x: 2.5, y: 1}
+      - m_Value: {x: 0, y: 0}
         m_Name: drop_1
-        m_Overridden: 1
+        m_Overridden: 0
     m_Vector3f:
       m_Array:
       - m_Value: {x: 0, y: 0, z: 0}
         m_Name: Sphere position
+        m_Overridden: 1
+      - m_Value: {x: 0, y: -90, z: 0}
+        m_Name: Rotation
         m_Overridden: 1
     m_Vector4f:
       m_Array: []
     m_Uint:
       m_Array: []
     m_Int:
-      m_Array:
-      - m_Value: 1
-        m_Name: wave_number
-        m_Overridden: 1
+      m_Array: []
     m_Matrix4x4f:
       m_Array: []
     m_AnimationCurve:
@@ -276,7 +279,11 @@ VisualEffect:
         m_Name: Initial Color Cycle
         m_Overridden: 1
     m_NamedObject:
-      m_Array: []
+      m_Array:
+      - m_Value: {fileID: 6775435000000457311, guid: 7147e7cd8fab0624cae41a9c69df3e0b,
+          type: 3}
+        m_Name: Texture3D
+        m_Overridden: 1
     m_Bool:
       m_Array: []
 --- !u!4 &481798776
@@ -294,6 +301,83 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &778105934
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 778105935}
+  - component: {fileID: 778105936}
+  - component: {fileID: 778105937}
+  m_Layer: 0
+  m_Name: Script
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &778105935
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778105934}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &778105936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778105934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbb3b8d7314ea8a42a92ff585b526ec0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vfx: {fileID: 481798775}
+--- !u!114 &778105937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 778105934}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 7e23aa0f92b5f864c803d1ee5d0cf092,
+    type: 3}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: Concert
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &1535732911
 GameObject:
   m_ObjectHideFlags: 0

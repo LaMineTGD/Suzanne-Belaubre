@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Goutte d'eau",
+                    "type": "Button",
+                    "id": "92966470-965f-4f40-bd89-e8fcb20415e4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -229,6 +238,17 @@
                     "action": "Frequency",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "7d8d4142-fcae-4c4f-8263-8d1dc4da4946",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Goutte d'eau",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }
