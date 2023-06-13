@@ -407,7 +407,16 @@ VisualEffect:
   m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
-      m_Array: []
+      m_Array:
+      - m_Value: 1000
+        m_Name: wind_speed
+        m_Overridden: 1
+      - m_Value: 0.3
+        m_Name: tree_radius
+        m_Overridden: 1
+      - m_Value: 10
+        m_Name: Rate
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
@@ -417,7 +426,10 @@ VisualEffect:
     m_Uint:
       m_Array: []
     m_Int:
-      m_Array: []
+      m_Array:
+      - m_Value: 454123
+        m_Name: SEED
+        m_Overridden: 1
     m_Matrix4x4f:
       m_Array: []
     m_AnimationCurve:
