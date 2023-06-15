@@ -1,5 +1,5 @@
 {
-    "name": "Miroirs",
+    "name": "InputActions",
     "maps": [
         {
             "name": "Concert",
@@ -15,8 +15,17 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "FogToggle",
+                    "type": "Button",
+                    "id": "1e1a22c8-3eb9-4023-8657-c5dc759231be",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "Explosion",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "d71220ec-fbce-4383-a2bf-608d398de02d",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -49,6 +58,24 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Bascule",
+                    "type": "Value",
+                    "id": "de5597ec-0a66-4a04-9463-7fd7e3eaf3df",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "FOV",
+                    "type": "Value",
+                    "id": "6523f26b-c030-4a45-9340-706b47bf1b46",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -247,6 +274,61 @@
                     "processors": "",
                     "groups": "",
                     "action": "Goutte d'eau",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "f343c860-d07b-4eb8-ac1e-1111a1bfbce1",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Bascule",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "d46b13cf-7e8a-4c41-9f6d-5e587b3b49c6",
+                    "path": "<Gamepad>/leftTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Bascule",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "1e2f0ede-3a78-4340-97e3-e084abc3a9f0",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Bascule",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "097c3dbb-4ff0-4c77-9721-462618210d85",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "FOV",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1cc0d5b3-656a-4b8b-8c15-18044feafb5c",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "FogToggle",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
