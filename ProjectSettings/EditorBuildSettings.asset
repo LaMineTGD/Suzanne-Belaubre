@@ -6,8 +6,41 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Julien/Wave.unity
-    guid: 8124e5870f4fd4c779e7a5f994e84ad1
+    path: Assets/Scenes/Spectacle.unity
+    guid: 6e94b3972631dda4bacd8ac7f296451e
+  - enabled: 1
+    path: Assets/Scenes/Tracks/AliceAlice.unity
+    guid: 8e9a660df5023c2409347ccc83e64211
+  - enabled: 1
+    path: Assets/Scenes/Tracks/AmiImaginaire.unity
+    guid: aec8e192d8379a9418c76fa03460f31c
+  - enabled: 1
+    path: Assets/Scenes/Tracks/Aube.unity
+    guid: 15e3db350064d574dad58539b79612cd
+  - enabled: 1
+    path: Assets/Scenes/Tracks/BonnesDesillusions.unity
+    guid: edac30535db3fb9438897353d16aa3c0
+  - enabled: 1
+    path: Assets/Scenes/Tracks/CestRien.unity
+    guid: ad223562c94445049a65102a7ee55456
+  - enabled: 1
+    path: Assets/Scenes/Tracks/Commencement.unity
+    guid: 263d6d25a580b484aa79db9a34d341aa
+  - enabled: 1
+    path: Assets/Scenes/Tracks/LeBruit.unity
+    guid: 15615371a4fc670478366a1d0ed25f4f
+  - enabled: 1
+    path: Assets/Scenes/Tracks/LesAlarmes.unity
+    guid: 096c1830969450b429bdb71894edfb3d
+  - enabled: 1
+    path: Assets/Scenes/Tracks/LesVoiesDorees.unity
+    guid: f6f367ee532aaa744bf91a2ca80aafd5
+  - enabled: 1
+    path: Assets/Scenes/Tracks/Seum.unity
+    guid: fe4b6f18db1156a4faeb589f4b826c7c
+  - enabled: 1
+    path: Assets/Scenes/Tracks/Siffle.unity
+    guid: bffe2aa988b467b4193b7bfd3a24888e
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 89e54caead3ce9b418c2ccef9667f34a,
       type: 2}
