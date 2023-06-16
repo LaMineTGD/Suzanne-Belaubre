@@ -21,16 +21,26 @@ public class ShowManager : MonoBehaviour
     }
 
     [NonReorderable] public TrackList[] m_TrackList;
+
+    [SerializeField] private int m_rotationStep = 10;
+
     private int m_TrackPlaying = -1;
+    private Camera m_mainCamera;
+    private bool m_isAltitudeDirty = true;
 
     void Start()
     {
+        m_mainCamera = Camera.main;
+
         StartNextTrack();
     }
 
     void Update()
     {
-        
+        if(m_isAltitudeDirty)
+        {
+            SetAltitude();
+        }
     }
 
     void StartNextTrack()
@@ -39,9 +49,20 @@ public class ShowManager : MonoBehaviour
         {
             SceneManager.LoadScene(m_TrackList[m_TrackPlaying + 1]._SceneName, LoadSceneMode.Additive);
             if(m_TrackPlaying>=0)
+            {
                 SceneManager.UnloadSceneAsync(m_TrackList[m_TrackPlaying]._SceneName);
+            }
             m_TrackPlaying++;
+
         }
+        else
+        {
+            SceneManager.LoadScene(m_TrackList[0]._SceneName, LoadSceneMode.Additive);
+            SceneManager.UnloadSceneAsync(m_TrackList[m_TrackList.Length -1]._SceneName);
+            m_TrackPlaying = 0;
+        }
+
+        ApplyEffects();
     }
 
     void OnNextTrack(InputValue _Value)
@@ -49,4 +70,34 @@ public class ShowManager : MonoBehaviour
         if (_Value.isPressed)
             StartNextTrack();
     }
+
+    private void ApplyEffects()
+    {
+        m_isAltitudeDirty = true;
+    }
+
+    private void SetAltitude()
+    {
+        float lerpSpeed = 5f;
+        var targetVector = new Vector3((float)(m_TrackList[m_TrackPlaying]._Altitude * m_rotationStep), 0f, 0f);
+        Quaternion targetRotation = Quaternion.Euler(targetVector);
+        var rotation =  Quaternion.Lerp(m_mainCamera.transform.rotation, targetRotation, lerpSpeed * Time.deltaTime);
+        m_mainCamera.transform.rotation = rotation;
+
+        if(rotation == targetRotation)
+        {
+            m_isAltitudeDirty = false;
+        }
+    }
+
+    private void SetLocation()
+    {
+
+    }
+
+    public string GetTrackName()
+    {
+        return m_TrackList[m_TrackPlaying]._SceneName;
+    }
+
 }
