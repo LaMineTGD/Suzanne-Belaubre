@@ -7,6 +7,7 @@ using UnityEngine.InputSystem;
 
 public class ShowManager : MonoBehaviour
 {
+    [HideInInspector] public static ShowManager m_Instance;
     public enum Location { Interior, Exterior, Both, InBetween, Neither };
 
     [Serializable]
@@ -30,8 +31,8 @@ public class ShowManager : MonoBehaviour
 
     void Start()
     {
+        m_Instance = this;
         m_mainCamera = Camera.main;
-
         StartNextTrack();
     }
 

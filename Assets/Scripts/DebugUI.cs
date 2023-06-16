@@ -20,6 +20,7 @@ public class DebugUI : MonoBehaviour
     void Update()
     {
         m_FPSText.text = GetFramerate();
+        m_TrackName.text = ShowManager.m_Instance.GetTrackName();
         m_IPText.text = GetLocalIPv4();
     }
 
