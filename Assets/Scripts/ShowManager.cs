@@ -35,16 +35,17 @@ public class ShowManager : MonoBehaviour
 
     void StartNextTrack()
     {
-        if (m_TrackPlaying < m_TrackList.Length)
+        if (m_TrackPlaying < m_TrackList.Length -1)
+        {
             SceneManager.LoadScene(m_TrackList[m_TrackPlaying + 1]._SceneName, LoadSceneMode.Additive);
-        if(m_TrackPlaying>=0)
-            SceneManager.UnloadSceneAsync(m_TrackList[m_TrackPlaying]._SceneName);
-        m_TrackPlaying++;
+            if(m_TrackPlaying>=0)
+                SceneManager.UnloadSceneAsync(m_TrackList[m_TrackPlaying]._SceneName);
+            m_TrackPlaying++;
+        }
     }
 
     void OnNextTrack(InputValue _Value)
     {
-        Debug.Log("meuh");
         if (_Value.isPressed)
             StartNextTrack();
     }
