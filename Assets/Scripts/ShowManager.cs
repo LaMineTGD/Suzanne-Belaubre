@@ -30,15 +30,24 @@ public class ShowManager : MonoBehaviour
 
     [NonReorderable] public TrackList[] m_TrackList;
 
-
-
     private int m_TrackPlaying = -1;
     private Camera m_MainCamera;
     private IEnumerator m_altitudeCoroutine;
 
+    private void Awake()
+    {
+        if(m_Instance != null && m_Instance != this)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            m_Instance = this;
+        }
+    }
+
     void Start()
     {
-        m_Instance = this;
         m_MainCamera = Camera.main;
         StartNextTrack();
     }
