@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.5217181, g: 0.50520617, b: 0.82468045, a: 1}
+  m_IndirectSpecularColor: {r: 0.44032294, g: 0.44081312, b: 0.5220681, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -155,6 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_SkyFogManager: {fileID: 1216320611}
+  m_LineVFXManager: {fileID: 1201499417}
   m_rotationStep: 15
   m_altitudeLerpDuration: 100
   m_TrackList:
@@ -173,9 +174,6 @@ MonoBehaviour:
     - {r: 0.023529395, g: 0.10903084, b: 0.9137255, a: 0}
     _ThirdColorList: []
     _FourthColorList: []
-    _MainHDRColorList: []
-    _testColorList:
-    - {r: 1, g: 0, b: 0, a: 0}
   - _SceneName: BonnesDesillusions
     _Altitude: -1
     _Temperature: 1
@@ -189,8 +187,6 @@ MonoBehaviour:
     - {r: 0.49595356, g: 0, b: 1, a: 0}
     _FourthColorList:
     - {r: 1, g: 0.9451673, b: 0, a: 0}
-    _MainHDRColorList: []
-    _testColorList: []
   - _SceneName: Seum
     _Altitude: -2
     _Temperature: 1
@@ -203,8 +199,6 @@ MonoBehaviour:
     - {r: 1, g: 0.94509804, b: 0, a: 0}
     _ThirdColorList: []
     _FourthColorList: []
-    _MainHDRColorList: []
-    _testColorList: []
   - _SceneName: AliceAlice
     _Altitude: -2
     _Temperature: 0
@@ -219,8 +213,6 @@ MonoBehaviour:
     _ThirdColorList:
     - {r: 0.6009035, g: 0, b: 1, a: 0}
     _FourthColorList: []
-    _MainHDRColorList: []
-    _testColorList: []
   - _SceneName: CestRien
     _Altitude: -1
     _Temperature: 0
@@ -233,8 +225,6 @@ MonoBehaviour:
     - {r: 0, g: 0, b: 0, a: 0}
     _ThirdColorList: []
     _FourthColorList: []
-    _MainHDRColorList: []
-    _testColorList: []
   - _SceneName: Commencement
     _Altitude: 0
     _Temperature: 0
@@ -247,8 +237,6 @@ MonoBehaviour:
     - {r: 1, g: 0.60784316, b: 0, a: 0}
     _FourthColorList:
     - {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 0}
-    _MainHDRColorList: []
-    _testColorList: []
   - _SceneName: LesAlarmes
     _Altitude: -1
     _Temperature: 0
@@ -259,8 +247,6 @@ MonoBehaviour:
     _SecondaryColorList: []
     _ThirdColorList: []
     _FourthColorList: []
-    _MainHDRColorList: []
-    _testColorList: []
   - _SceneName: LesVoiesDorees
     _Altitude: 0
     _Temperature: 0
@@ -273,8 +259,6 @@ MonoBehaviour:
     _SecondaryColorList: []
     _ThirdColorList: []
     _FourthColorList: []
-    _MainHDRColorList: []
-    _testColorList: []
   - _SceneName: AmiImaginaire
     _Altitude: 2
     _Temperature: 2
@@ -288,8 +272,6 @@ MonoBehaviour:
     - {r: 0.7169812, g: 0.7169812, b: 0.7169812, a: 0}
     _ThirdColorList: []
     _FourthColorList: []
-    _MainHDRColorList: []
-    _testColorList: []
   - _SceneName: Siffle
     _Altitude: 3
     _Temperature: 1
@@ -303,8 +285,6 @@ MonoBehaviour:
     - {r: 0.7176471, g: 0.7176471, b: 0.7176471, a: 0}
     _ThirdColorList: []
     _FourthColorList: []
-    _MainHDRColorList: []
-    _testColorList: []
   - _SceneName: LeBruit
     _Altitude: 4
     _Temperature: 2
@@ -318,8 +298,6 @@ MonoBehaviour:
     - {r: 0, g: 0, b: 0, a: 0}
     _ThirdColorList: []
     _FourthColorList: []
-    _MainHDRColorList: []
-    _testColorList: []
 --- !u!4 &733124276
 Transform:
   m_ObjectHideFlags: 0
@@ -472,10 +450,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1201499416}
+  - component: {fileID: 1201499417}
   - component: {fileID: 1201499415}
   - component: {fileID: 1201499414}
   m_Layer: 0
-  m_Name: VFX
+  m_Name: Line VFX
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -624,6 +603,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1201499417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1201499413}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24013953b4f280248b1104ecf2951ff3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ColorLerpDuration: 5
 --- !u!1 &1216320608
 GameObject:
   m_ObjectHideFlags: 0

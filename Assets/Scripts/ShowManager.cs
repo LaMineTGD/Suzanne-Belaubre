@@ -13,6 +13,7 @@ public class ShowManager : MonoBehaviour
 
     [Header("Script Requirements")]
     [SerializeField] private SkyFogManager m_SkyFogManager;
+    [SerializeField] private LineVFXManager m_LineVFXManager;
 
     [Header("Editables")]
     [SerializeField] private int m_rotationStep = 15;
@@ -98,6 +99,7 @@ public class ShowManager : MonoBehaviour
     {
         SetAltitude();
         SetSkyColor();
+        SetLineVFXColor();
     }
 
     private void SetAltitude()
@@ -146,6 +148,22 @@ public class ShowManager : MonoBehaviour
         }
         
         m_SkyFogManager.SetSkyColor(SkyFogManager.SkyLevel.Middle, color);
+    }
+
+    private void SetLineVFXColor()
+    {
+        Color color = Color.magenta;
+        if(m_TrackList[m_TrackPlaying]._MainColorList != null && m_TrackList[m_TrackPlaying]._MainColorList.Count > 1)
+        {
+            color = m_TrackList[m_TrackPlaying]._MainColorList[1];
+        }
+        else if(m_TrackList[m_TrackPlaying]._SecondaryColorList != null && m_TrackList[m_TrackPlaying]._SecondaryColorList.Count != 0)
+        {
+            color = m_TrackList[m_TrackPlaying]._SecondaryColorList[0];
+        }
+
+        m_LineVFXManager.SetColorOverLifetime(color);
+
     }
 
     public string GetTrackName()
