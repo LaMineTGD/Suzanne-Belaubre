@@ -134,7 +134,15 @@ public class ShowManager : MonoBehaviour
         Color color = Color.black;
         if(m_TrackList[m_TrackPlaying]._MainColorList != null && m_TrackList[m_TrackPlaying]._MainColorList.Count != 0)
         {
+            //sets the middle color of the sky to a darker version of the first main color
             color = m_TrackList[m_TrackPlaying]._MainColorList[0];
+
+            //reduce intensity by 2
+            float intensity = -2f;
+            for (int i = 0; i < 3; i++)
+            {
+                color[i] *= (float)Math.Pow(2f,intensity);
+            }
         }
         
         m_SkyFogManager.SetSkyColor(SkyFogManager.SkyLevel.Middle, color);
