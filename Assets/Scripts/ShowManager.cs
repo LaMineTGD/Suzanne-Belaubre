@@ -9,13 +9,14 @@ public class ShowManager : MonoBehaviour
 {
     [HideInInspector] public static ShowManager m_Instance;
     public enum Location { Interior, Exterior, Both, InBetween, Neither };
+    public enum Temperature { Warm, Cool, Both };
 
     [Serializable]
     public struct TrackList
     {
         public String _SceneName;
         public int _Altitude;
-        public int _Temperature;
+        public Temperature _Temperature;
         public Location _Location;
         public List<Color> _MainColorList;
         public List<Color> _SecondaryColorList;
