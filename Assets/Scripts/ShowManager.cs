@@ -11,6 +11,10 @@ public class ShowManager : MonoBehaviour
     public enum Location { Interior, Exterior, Both, InBetween, Neither };
     public enum Temperature { Warm, Cool, Both };
 
+    [Header("Script Requirements")]
+    [SerializeField] private SkyFogManager m_SkyFogManager;
+
+    [Header("Editables")]
     [SerializeField] private int m_rotationStep = 15;
     [SerializeField] private float m_altitudeLerpDuration = 100f;
 
@@ -58,7 +62,7 @@ public class ShowManager : MonoBehaviour
         ApplyTrackBasicEffects();
     }
 
-    void LoadNextTrack()
+    private void LoadNextTrack()
     {
         if (m_TrackPlaying < m_TrackList.Length -1)
         {
@@ -80,7 +84,7 @@ public class ShowManager : MonoBehaviour
         }
     }
 
-    void OnNextTrack(InputValue _Value)
+    private void OnNextTrack(InputValue _Value)
     {
         if (_Value.isPressed)
             StartNextTrack();
@@ -88,16 +92,22 @@ public class ShowManager : MonoBehaviour
 
     private void ApplyTrackBasicEffects()
     {
+        SetAltitude();
+        SetSkyColor();
+    }
+
+    private void SetAltitude()
+    {
         if(m_altitudeCoroutine != null)
         {
             StopCoroutine(m_altitudeCoroutine);
         }
 
-        m_altitudeCoroutine = SetAltitude();
+        m_altitudeCoroutine = SetAltitudeCoroutine();
         StartCoroutine(m_altitudeCoroutine);
     }
 
-    private IEnumerator SetAltitude()
+    private IEnumerator SetAltitudeCoroutine()
     {
         float elapsedTime = 0f;
         while(elapsedTime < m_altitudeLerpDuration)
@@ -115,9 +125,15 @@ public class ShowManager : MonoBehaviour
         yield return null;
     }
 
-    private void SetLocation()
+    private void SetSkyColor()
     {
-
+        Color color = Color.black;
+        if(m_TrackList[m_TrackPlaying]._MainColorList != null && m_TrackList[m_TrackPlaying]._MainColorList.Count != 0)
+        {
+            color = m_TrackList[m_TrackPlaying]._MainColorList[0];
+        }
+        
+        m_SkyFogManager.SetSkyColor(SkyFogManager.SkyLevel.Middle, color);
     }
 
     public string GetTrackName()
