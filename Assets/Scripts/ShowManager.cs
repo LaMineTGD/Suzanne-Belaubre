@@ -20,6 +20,8 @@ public class ShowManager : MonoBehaviour
         public Location _Location;
         public List<Color> _MainColorList;
         public List<Color> _SecondaryColorList;
+        public List<Color> _ThirdColorList;
+        public List<Color> _FourthColorList;
     }
 
     [NonReorderable] public TrackList[] m_TrackList;
