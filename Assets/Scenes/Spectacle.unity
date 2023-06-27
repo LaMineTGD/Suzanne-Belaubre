@@ -154,6 +154,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbae7e1fe8da433438a083a1a89809b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_rotationStep: 15
+  m_altitudeLerpDuration: 100
   m_TrackList:
   - _SceneName: Aube
     _Altitude: 0
@@ -294,7 +296,6 @@ MonoBehaviour:
     - {r: 0, g: 0, b: 0, a: 0}
     _ThirdColorList: []
     _FourthColorList: []
-  m_rotationStep: 10
 --- !u!4 &733124276
 Transform:
   m_ObjectHideFlags: 0

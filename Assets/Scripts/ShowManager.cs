@@ -11,6 +11,10 @@ public class ShowManager : MonoBehaviour
     public enum Location { Interior, Exterior, Both, InBetween, Neither };
     public enum Temperature { Warm, Cool, Both };
 
+    [SerializeField] private int m_rotationStep = 15;
+    [SerializeField] private float m_altitudeLerpDuration = 100f;
+
+
     [Serializable]
     public struct TrackList
     {
@@ -26,31 +30,30 @@ public class ShowManager : MonoBehaviour
 
     [NonReorderable] public TrackList[] m_TrackList;
 
-    [SerializeField] private int m_rotationStep = 10;
+
 
     private int m_TrackPlaying = -1;
-    private Camera m_mainCamera;
-    private bool m_isAltitudeDirty = true;
+    private Camera m_MainCamera;
+    private IEnumerator m_altitudeCoroutine;
 
     void Start()
     {
         m_Instance = this;
-        m_mainCamera = Camera.main;
+        m_MainCamera = Camera.main;
         StartNextTrack();
     }
 
-    void Update()
+    private void StartNextTrack()
     {
-        if(m_isAltitudeDirty)
-        {
-            SetAltitude();
-        }
+        LoadNextTrack();
+        ApplyTrackBasicEffects();
     }
 
-    void StartNextTrack()
+    void LoadNextTrack()
     {
         if (m_TrackPlaying < m_TrackList.Length -1)
         {
+            //go to following track
             SceneManager.LoadScene(m_TrackList[m_TrackPlaying + 1]._SceneName, LoadSceneMode.Additive);
             if(m_TrackPlaying>=0)
             {
@@ -61,12 +64,11 @@ public class ShowManager : MonoBehaviour
         }
         else
         {
+            //reached end of track list, loops back to beginning
             SceneManager.LoadScene(m_TrackList[0]._SceneName, LoadSceneMode.Additive);
             SceneManager.UnloadSceneAsync(m_TrackList[m_TrackList.Length -1]._SceneName);
             m_TrackPlaying = 0;
         }
-
-        ApplyEffects();
     }
 
     void OnNextTrack(InputValue _Value)
@@ -75,23 +77,33 @@ public class ShowManager : MonoBehaviour
             StartNextTrack();
     }
 
-    private void ApplyEffects()
+    private void ApplyTrackBasicEffects()
     {
-        m_isAltitudeDirty = true;
+        if(m_altitudeCoroutine != null)
+        {
+            StopCoroutine(m_altitudeCoroutine);
+        }
+
+        m_altitudeCoroutine = SetAltitude();
+        StartCoroutine(m_altitudeCoroutine);
     }
 
-    private void SetAltitude()
+    private IEnumerator SetAltitude()
     {
-        float lerpSpeed = 5f;
-        var targetVector = new Vector3((float)(m_TrackList[m_TrackPlaying]._Altitude * m_rotationStep), 0f, 0f);
-        Quaternion targetRotation = Quaternion.Euler(targetVector);
-        var rotation =  Quaternion.Lerp(m_mainCamera.transform.rotation, targetRotation, lerpSpeed * Time.deltaTime);
-        m_mainCamera.transform.rotation = rotation;
-
-        if(rotation == targetRotation)
+        float elapsedTime = 0f;
+        while(elapsedTime < m_altitudeLerpDuration)
         {
-            m_isAltitudeDirty = false;
+            var targetVector = new Vector3((float)(m_TrackList[m_TrackPlaying]._Altitude * m_rotationStep), 0f, 0f);
+            Quaternion targetRotation = Quaternion.Euler(targetVector);
+            Quaternion initialRotation = m_MainCamera.transform.rotation;
+            m_MainCamera.transform.rotation =  Quaternion.Lerp(initialRotation, targetRotation, elapsedTime / m_altitudeLerpDuration);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
         }
+
+        yield return null;
     }
 
     private void SetLocation()
