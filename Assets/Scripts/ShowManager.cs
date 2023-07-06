@@ -14,6 +14,7 @@ public class ShowManager : MonoBehaviour
     [Header("Script Requirements")]
     [SerializeField] private SkyFogManager m_SkyFogManager;
     [SerializeField] private LineVFXManager m_LineVFXManager;
+    [SerializeField] private PostProcessVolumeManager m_postProcessVolumeManager;
 
     [Header("Editables")]
     [SerializeField] private int m_rotationStep = 15;
@@ -100,6 +101,7 @@ public class ShowManager : MonoBehaviour
         SetAltitude();
         SetSkyColor();
         SetLineVFXColor();
+        SetLocation();
     }
 
     private void SetAltitude()
@@ -164,6 +166,11 @@ public class ShowManager : MonoBehaviour
 
         m_LineVFXManager.SetColorOverLifetime(color);
 
+    }
+
+    private void SetLocation()
+    {
+        m_postProcessVolumeManager.SetVignette(m_TrackList[m_TrackPlaying]._Location);
     }
 
     public string GetTrackName()

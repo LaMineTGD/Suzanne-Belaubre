@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.41829854, g: 0.41829854, b: 0.41829854, a: 1}
+  m_IndirectSpecularColor: {r: 0.44032294, g: 0.44081312, b: 0.5220681, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -156,6 +156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_SkyFogManager: {fileID: 1216320611}
   m_LineVFXManager: {fileID: 1201499417}
+  m_postProcessVolumeManager: {fileID: 965866303}
   m_rotationStep: 15
   m_altitudeLerpDuration: 100
   m_TrackList:
@@ -406,6 +407,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7688f9d476788964fabece3f610a9471, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_interpDuration: 50
+  m_interiorVignetteIntensity:
+    m_OverrideState: 0
+    m_Value: 0.4
 --- !u!1 &1062494798
 GameObject:
   m_ObjectHideFlags: 1
