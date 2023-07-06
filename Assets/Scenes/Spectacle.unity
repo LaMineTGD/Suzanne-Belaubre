@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44032294, g: 0.44081312, b: 0.5220681, a: 1}
+  m_IndirectSpecularColor: {r: 0.49536997, g: 0.4299224, b: 0.49220616, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -157,8 +157,6 @@ MonoBehaviour:
   m_SkyFogManager: {fileID: 1216320611}
   m_LineVFXManager: {fileID: 1201499417}
   m_postProcessVolumeManager: {fileID: 965866303}
-  m_rotationStep: 15
-  m_altitudeLerpDuration: 100
   m_TrackList:
   - _SceneName: Aube
     _Altitude: 0
@@ -408,9 +406,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_interpDuration: 50
-  m_interiorVignetteIntensity:
-    m_OverrideState: 0
-    m_Value: 0.4
+  m_interiorVignetteIntensity: 0.5
 --- !u!1 &1062494798
 GameObject:
   m_ObjectHideFlags: 1
@@ -1112,3 +1108,49 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89cbdfe65bec4eb4eae904f405e42089, type: 3}
+--- !u!1 &1888274008
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1888274010}
+  - component: {fileID: 1888274009}
+  m_Layer: 0
+  m_Name: ITrackManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1888274009
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888274008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 247aad212e0a2c146a9284b684f7798c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_rotationStep: 15
+  m_altitudeLerpDuration: 100
+--- !u!4 &1888274010
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888274008}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

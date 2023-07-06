@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,15 +10,10 @@ public class ShowManager : MonoBehaviour
     public enum Location { Interior, Exterior, Both, InBetween, Neither };
     public enum Temperature { Warm, Cool, Both };
 
-    [Header("Script Requirements")]
+    [Header("References")]
     [SerializeField] private SkyFogManager m_SkyFogManager;
     [SerializeField] private LineVFXManager m_LineVFXManager;
     [SerializeField] private PostProcessVolumeManager m_postProcessVolumeManager;
-
-    [Header("Editables")]
-    [SerializeField] private int m_rotationStep = 15;
-    [SerializeField] private float m_altitudeLerpDuration = 100f;
-
 
     [Serializable]
     public struct TrackList
@@ -41,8 +35,6 @@ public class ShowManager : MonoBehaviour
     [NonReorderable] public TrackList[] m_TrackList;
 
     private int m_TrackPlaying = -1;
-    private Camera m_MainCamera;
-    private IEnumerator m_altitudeCoroutine;
 
     private void Awake()
     {
@@ -58,14 +50,14 @@ public class ShowManager : MonoBehaviour
 
     void Start()
     {
-        m_MainCamera = Camera.main;
+        //m_MainCamera = Camera.main;
         StartNextTrack();
     }
 
     private void StartNextTrack()
     {
         LoadNextTrack();
-        ApplyTrackBasicEffects();
+        //ApplyTrackBasicEffects();
     }
 
     private void LoadNextTrack()
@@ -96,86 +88,29 @@ public class ShowManager : MonoBehaviour
             StartNextTrack();
     }
 
-    private void ApplyTrackBasicEffects()
-    {
-        SetAltitude();
-        SetSkyColor();
-        SetLineVFXColor();
-        SetLocation();
-    }
-
-    private void SetAltitude()
-    {
-        if(m_altitudeCoroutine != null)
-        {
-            StopCoroutine(m_altitudeCoroutine);
-        }
-
-        m_altitudeCoroutine = SetAltitudeCoroutine();
-        StartCoroutine(m_altitudeCoroutine);
-    }
-
-    private IEnumerator SetAltitudeCoroutine()
-    {
-        float elapsedTime = 0f;
-        while(elapsedTime < m_altitudeLerpDuration)
-        {
-            var targetVector = new Vector3((float)(m_TrackList[m_TrackPlaying]._Altitude * m_rotationStep), 0f, 0f);
-            Quaternion targetRotation = Quaternion.Euler(targetVector);
-            Quaternion initialRotation = m_MainCamera.transform.rotation;
-            m_MainCamera.transform.rotation =  Quaternion.Lerp(initialRotation, targetRotation, elapsedTime / m_altitudeLerpDuration);
-
-            elapsedTime += Time.deltaTime;
-
-            yield return null;
-        }
-
-        yield return null;
-    }
-
-    private void SetSkyColor()
-    {
-        Color color = Color.black;
-        if(m_TrackList[m_TrackPlaying]._MainColorList != null && m_TrackList[m_TrackPlaying]._MainColorList.Count != 0)
-        {
-            //sets the middle color of the sky to a darker version of the first main color
-            color = m_TrackList[m_TrackPlaying]._MainColorList[0];
-
-            //reduce intensity by 2
-            float intensity = -2f;
-            for (int i = 0; i < 3; i++)
-            {
-                color[i] *= (float)Math.Pow(2f,intensity);
-            }
-        }
-        
-        m_SkyFogManager.SetSkyColor(SkyFogManager.SkyLevel.Middle, color);
-    }
-
-    private void SetLineVFXColor()
-    {
-        Color color = Color.magenta;
-        if(m_TrackList[m_TrackPlaying]._MainColorList != null && m_TrackList[m_TrackPlaying]._MainColorList.Count > 1)
-        {
-            color = m_TrackList[m_TrackPlaying]._MainColorList[1];
-        }
-        else if(m_TrackList[m_TrackPlaying]._SecondaryColorList != null && m_TrackList[m_TrackPlaying]._SecondaryColorList.Count != 0)
-        {
-            color = m_TrackList[m_TrackPlaying]._SecondaryColorList[0];
-        }
-
-        m_LineVFXManager.SetColorOverLifetime(color);
-
-    }
-
-    private void SetLocation()
-    {
-        m_postProcessVolumeManager.SetVignette(m_TrackList[m_TrackPlaying]._Location);
-    }
-
     public string GetTrackName()
     {
         return m_TrackList[m_TrackPlaying]._SceneName;
+    }
+
+    public ShowManager.TrackList GetCurrentTrack()
+    {
+        return m_TrackList[m_TrackPlaying];
+    }
+
+    public SkyFogManager GetSkyFogManager()
+    {
+        return m_SkyFogManager;
+    }
+
+    public LineVFXManager GetLineVFXManager()
+    {
+        return m_LineVFXManager;
+    }
+
+    public PostProcessVolumeManager GetPostProcessVolumeManager()
+    {
+        return m_postProcessVolumeManager;
     }
 
 }
