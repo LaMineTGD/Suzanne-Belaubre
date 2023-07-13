@@ -6,12 +6,18 @@ using extOSC;
 public class KeyboardManager : MonoBehaviour
 {
     public OSCReceiver m_OSCReceiver;
-    float _posX, posY;
+    List <GameObject> m_SphereList = new List<GameObject>();
 
     void Start()
     {
-        m_OSCReceiver.Bind("/Note1", OSCNote);
-        m_OSCReceiver.Bind("/Velocity1", OSCVelocity);
+        for(int i = 1; i <= 10; i++)
+        {
+            m_OSCReceiver.Bind("/Note" +i.ToString(), OSCNote);
+            m_OSCReceiver.Bind("/Velocity" +i.ToString(), OSCVelocity);
+            GameObject _NewSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            _NewSphere.transform.position = new Vector3(3*i, 0, 0);
+            m_SphereList.Add(_NewSphere);
+        }
     }
 
     void Update()
@@ -19,15 +25,19 @@ public class KeyboardManager : MonoBehaviour
         
     }
 
-    void MoveTo(float _X, float _Y)
-    {
-        transform.position = new Vector3(_X, _Y, transform.position.z);
-    }
-
     void OSCNote(OSCMessage message)
     {
-        Debug.Log(message.Values[0].IntValue);
-        transform.position = new Vector3(message.Values[0].IntValue, transform.position.y, transform.position.z);
+        string[] _SplitArray = message.Address.Split('e');
+        bool _ParsingSuccess = int.TryParse(_SplitArray[1], out int _NoteNumber);
+
+        if (_ParsingSuccess)
+        {
+            for (int i = 1; i <= 10; i++)
+            {
+                if (_NoteNumber == i)
+                    m_SphereList[i].transform.position = new Vector3(m_SphereList[i].transform.position.x, message.Values[0].IntValue, m_SphereList[i].transform.position.z);
+            }
+        }
     }
 
     void OSCVelocity(OSCMessage message)
