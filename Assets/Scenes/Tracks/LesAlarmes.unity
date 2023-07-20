@@ -167,3 +167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d4bb31946f6d424094232974495a466, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_rotationStep: 15
+  m_altitudeLerpDuration: 100
+  m_track: {fileID: 8300000, guid: 1ed3fcab03319f246b6d4395efe3e6d4, type: 3}

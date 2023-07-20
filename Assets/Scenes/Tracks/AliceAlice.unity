@@ -167,8 +167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08058b761396c394688d5ec10bd4eefd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SkyFogManager: {fileID: 0}
-  m_LineVFXManager: {fileID: 0}
-  m_postProcessVolumeManager: {fileID: 0}
   m_rotationStep: 15
   m_altitudeLerpDuration: 100
+  m_track: {fileID: 8300000, guid: ab9f23f29cc49284b91996ae047bc3f1, type: 3}
