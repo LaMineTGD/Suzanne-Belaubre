@@ -8,13 +8,15 @@ public class PostProcessVolumeManager : MonoBehaviour
     [SerializeField] private float m_interpDuration = 100f;
     [SerializeField] private float m_interiorVignetteIntensity = .4f;
 
+    private Volume m_postProcessVolume;
     private VolumeProfile m_postProcessVolumeProfile;
     private Vignette m_vignette;
     private IEnumerator m_InterpCoroutine;
 
     private void Awake()
     {
-        m_postProcessVolumeProfile = GetComponent<Volume>().sharedProfile;
+        m_postProcessVolume = GetComponent<Volume>();
+        m_postProcessVolumeProfile = m_postProcessVolume.sharedProfile;
         
         if(m_postProcessVolumeProfile.TryGet<Vignette>(out var vignette))
         {
@@ -72,5 +74,8 @@ public class PostProcessVolumeManager : MonoBehaviour
     }
 
 
-
+    public void SetVisible(bool isVisible, float duration){
+        m_InterpCoroutine = Utils.Utils.InterpolatVolumeVisibility(isVisible,m_postProcessVolume,duration);
+        StartCoroutine(m_InterpCoroutine);
+    }
 }

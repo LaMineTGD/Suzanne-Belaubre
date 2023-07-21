@@ -2,20 +2,22 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
+using Utils;
 
 public class SkyFogManager : MonoBehaviour
 {
     public enum SkyLevel { Top, Middle, Bottom };
 
     [SerializeField] private float m_colorInterpDuration = 100f;
-
+    private Volume m_SkyFog;
     private VolumeProfile m_SkyFogProfile;
     private GradientSky m_GradientSky;
     private IEnumerator m_InterpCoroutine;
 
     private void Awake()
     {
-        m_SkyFogProfile = GetComponent<Volume>().sharedProfile;
+        m_SkyFog = GetComponent<Volume>();
+        m_SkyFogProfile = m_SkyFog.sharedProfile;
         
         if(m_SkyFogProfile.TryGet<GradientSky>(out var gradientSky))
         {
@@ -71,4 +73,12 @@ public class SkyFogManager : MonoBehaviour
 
         yield return null;
     }
+
+    public void SetVisible(bool isVisible, float duration){
+
+        m_InterpCoroutine = Utils.Utils.InterpolatVolumeVisibility(isVisible,m_SkyFog,duration);
+        StartCoroutine(m_InterpCoroutine);
+    }
+
+
 }
