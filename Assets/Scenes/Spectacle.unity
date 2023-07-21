@@ -532,18 +532,18 @@ VisualEffect:
   m_PropertySheet:
     m_Float:
       m_Array:
-      - m_Value: 0.25
+      - m_Value: 0.52
         m_Name: Particule_Speed
         m_Overridden: 1
     m_Vector2f:
       m_Array:
-      - m_Value: {x: -2, y: 3.17}
+      - m_Value: {x: -0.39, y: 5.02}
         m_Name: Value_1
         m_Overridden: 1
-      - m_Value: {x: -2, y: 2.44}
+      - m_Value: {x: -1.97, y: 1.78}
         m_Name: Value_2
         m_Overridden: 1
-      - m_Value: {x: 0, y: 354.91}
+      - m_Value: {x: 0, y: 800}
         m_Name: Circle
         m_Overridden: 1
       - m_Value: {x: 1, y: 2}
@@ -557,7 +557,7 @@ VisualEffect:
       m_Array: []
     m_Int:
       m_Array:
-      - m_Value: 52382
+      - m_Value: 67534
         m_Name: Rate
         m_Overridden: 1
     m_Matrix4x4f:
