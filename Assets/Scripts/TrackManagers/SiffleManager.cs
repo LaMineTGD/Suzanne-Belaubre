@@ -1,4 +1,4 @@
-public class SiffleManager : ITrackManager
+public class SiffleManager : TrackTailorMadeManager
 {
     protected override void Start()
     {

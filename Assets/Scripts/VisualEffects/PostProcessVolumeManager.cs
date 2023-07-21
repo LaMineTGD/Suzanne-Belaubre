@@ -75,7 +75,6 @@ public class PostProcessVolumeManager : MonoBehaviour
 
 
     public void SetVisible(bool isVisible, float duration){
-        m_InterpCoroutine = Utils.Utils.InterpolatVolumeVisibility(isVisible,m_postProcessVolume,duration);
-        StartCoroutine(m_InterpCoroutine);
+        StartCoroutine( Utils.Utils.InterpolatVolumeVisibility(isVisible,m_postProcessVolume,duration));
     }
 }

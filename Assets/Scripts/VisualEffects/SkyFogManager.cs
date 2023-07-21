@@ -74,10 +74,9 @@ public class SkyFogManager : MonoBehaviour
         yield return null;
     }
 
-    public void SetVisible(bool isVisible, float duration){
-
-        m_InterpCoroutine = Utils.Utils.InterpolatVolumeVisibility(isVisible,m_SkyFog,duration);
-        StartCoroutine(m_InterpCoroutine);
+    public void SetVisible(bool isVisible, float duration)
+    {
+        StartCoroutine(Utils.Utils.InterpolatVolumeVisibility(isVisible,m_SkyFog,duration));
     }
 
 

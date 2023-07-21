@@ -11,10 +11,12 @@ using UnityEngine.Rendering.HighDefinition;
         {
             volume.enabled=true;
             float elapsedTime = 0f;
+            float tpm = 0f;
             while(volume.weight>0 && !isVisible || isVisible && volume.weight<1)
+            //while(elapsedTime<duration)
             {
-                float tpm = elapsedTime / duration;
-                volume.weight = Mathf.Min(Mathf.Max(isVisible ? tpm: 1-tpm,0.0f),1.0f);
+                tpm = elapsedTime / duration;
+                volume.weight = Mathf.Min(Mathf.Max(isVisible ? tpm: 1.0f-tpm,0.0f),1.0f);
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }

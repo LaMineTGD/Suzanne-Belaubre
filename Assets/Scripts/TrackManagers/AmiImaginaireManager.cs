@@ -1,4 +1,4 @@
-public class AmiImaginaireManager : ITrackManager
+public class AmiImaginaireManager : TrackTailorMadeManager
 {
     protected override void Start()
     {

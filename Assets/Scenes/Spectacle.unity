@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4674788, g: 0.43826085, b: 0.49361044, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -160,6 +160,8 @@ MonoBehaviour:
   m_TrackList:
   - _SceneName: Aube
     _Altitude: 0
+    _Type: 0
+    _Start_Transition_duration: 0
     _Temperature: 2
     _Location: 1
     _MainColorList:
@@ -175,6 +177,8 @@ MonoBehaviour:
     _FourthColorList: []
   - _SceneName: BonnesDesillusions
     _Altitude: -1
+    _Type: 0
+    _Start_Transition_duration: 0
     _Temperature: 1
     _Location: 0
     _MainColorList:
@@ -188,6 +192,8 @@ MonoBehaviour:
     - {r: 1, g: 0.9451673, b: 0, a: 0}
   - _SceneName: Seum
     _Altitude: -2
+    _Type: 0
+    _Start_Transition_duration: 0
     _Temperature: 1
     _Location: 0
     _MainColorList:
@@ -200,6 +206,8 @@ MonoBehaviour:
     _FourthColorList: []
   - _SceneName: AliceAlice
     _Altitude: -2
+    _Type: 0
+    _Start_Transition_duration: 0
     _Temperature: 0
     _Location: 0
     _MainColorList:
@@ -214,6 +222,8 @@ MonoBehaviour:
     _FourthColorList: []
   - _SceneName: CestRien
     _Altitude: -1
+    _Type: 0
+    _Start_Transition_duration: 0
     _Temperature: 0
     _Location: 0
     _MainColorList:
@@ -226,6 +236,8 @@ MonoBehaviour:
     _FourthColorList: []
   - _SceneName: Commencement
     _Altitude: 0
+    _Type: 0
+    _Start_Transition_duration: 0
     _Temperature: 0
     _Location: 0
     _MainColorList:
@@ -238,6 +250,8 @@ MonoBehaviour:
     - {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 0}
   - _SceneName: LesAlarmes
     _Altitude: -1
+    _Type: 0
+    _Start_Transition_duration: 0
     _Temperature: 0
     _Location: 1
     _MainColorList:
@@ -248,6 +262,8 @@ MonoBehaviour:
     _FourthColorList: []
   - _SceneName: LesVoiesDorees
     _Altitude: 0
+    _Type: 0
+    _Start_Transition_duration: 0
     _Temperature: 0
     _Location: 1
     _MainColorList:
@@ -260,6 +276,8 @@ MonoBehaviour:
     _FourthColorList: []
   - _SceneName: AmiImaginaire
     _Altitude: 2
+    _Type: 1
+    _Start_Transition_duration: 5
     _Temperature: 2
     _Location: 0
     _MainColorList:
@@ -272,7 +290,9 @@ MonoBehaviour:
     _ThirdColorList: []
     _FourthColorList: []
   - _SceneName: Siffle
-    _Altitude: 3
+    _Altitude: 0
+    _Type: 1
+    _Start_Transition_duration: 5
     _Temperature: 1
     _Location: 4
     _MainColorList:
@@ -286,6 +306,8 @@ MonoBehaviour:
     _FourthColorList: []
   - _SceneName: LeBruit
     _Altitude: 4
+    _Type: 0
+    _Start_Transition_duration: 10
     _Temperature: 2
     _Location: 4
     _MainColorList:
@@ -1140,6 +1162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_rotationStep: 15
   m_altitudeLerpDuration: 100
+  m_track: {fileID: 0}
 --- !u!4 &1888274010
 Transform:
   m_ObjectHideFlags: 0

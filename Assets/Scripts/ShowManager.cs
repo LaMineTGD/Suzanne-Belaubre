@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
@@ -9,6 +10,7 @@ public class ShowManager : MonoBehaviour
     [HideInInspector] public static ShowManager m_Instance;
     public enum Location { Interior, Exterior, Both, InBetween, Neither };
     public enum Temperature { Warm, Cool, Both };
+    public enum TrackType {Default, TailorMade};
 
     [Header("References")]
     [SerializeField] private SkyFogManager m_SkyFogManager;
@@ -20,6 +22,8 @@ public class ShowManager : MonoBehaviour
     {
         public String _SceneName;
         public int _Altitude;
+        public TrackType _Type;
+        public float _Start_Transition_duration;
         public Temperature _Temperature;
         public Location _Location;
         [ColorUsage(true, true)] //enables HDR color in the inspector
@@ -34,7 +38,14 @@ public class ShowManager : MonoBehaviour
 
     [NonReorderable] public TrackList[] m_TrackList;
 
-    private int m_TrackPlaying = -1;
+    private TrackTailorMadeManager currentTailorManager;
+
+    private int m_TrackPlaying = 0;
+
+    private bool firstTrack;
+
+    private bool isTransitionning = false;
+    private Coroutine currentTransition;
 
     private void Awake()
     {
@@ -51,6 +62,8 @@ public class ShowManager : MonoBehaviour
     void Start()
     {
         //m_MainCamera = Camera.main;
+        firstTrack = true;
+        currentTailorManager = null;
         StartNextTrack();
     }
 
@@ -60,32 +73,58 @@ public class ShowManager : MonoBehaviour
         //ApplyTrackBasicEffects();
     }
 
+    private IEnumerator DeleteSceneWithDelay(float duration, string sceneName){
+        float elapsedTime = 0f;
+        isTransitionning=true;
+        while(elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        SceneManager.UnloadSceneAsync(sceneName);
+        isTransitionning=false;
+        yield return null;
+    }
+
     private void LoadNextTrack()
     {
-        if (m_TrackPlaying < m_TrackList.Length -1)
-        {
-            //go to following track
-            SceneManager.LoadScene(m_TrackList[m_TrackPlaying + 1]._SceneName, LoadSceneMode.Additive);
-            if(m_TrackPlaying>=0)
-            {
-                SceneManager.UnloadSceneAsync(m_TrackList[m_TrackPlaying]._SceneName);
-            }
-            m_TrackPlaying++;
+        int lastTrack =  (m_TrackList.Length+m_TrackPlaying-1) % m_TrackList.Length;
+        int currentTrack = m_TrackPlaying % m_TrackList.Length;
+        int nextTrack = (currentTrack + 1) % m_TrackList.Length;
 
+        SceneManager.LoadScene(m_TrackList[nextTrack]._SceneName, LoadSceneMode.Additive);
+        if (!firstTrack) {
+            if (isTransitionning){
+                StopCoroutine(currentTransition);
+                SceneManager.UnloadSceneAsync(m_TrackList[lastTrack]._SceneName);
+                isTransitionning=false;
+            }
+            currentTransition =StartCoroutine(DeleteSceneWithDelay(m_TrackList[nextTrack]._Start_Transition_duration,m_TrackList[currentTrack]._SceneName));
+            if (m_TrackList[nextTrack]._Type==TrackType.TailorMade && m_TrackList[currentTrack]._Type==TrackType.Default){
+                SetDefaultVisible(false, m_TrackList[nextTrack]._Start_Transition_duration);
+            }
+            else if (m_TrackList[currentTrack]._Type==TrackType.TailorMade){
+                currentTailorManager.SetTransitionToVisibleOff(m_TrackList[nextTrack]._Start_Transition_duration);
+                if (m_TrackList[nextTrack]._Type==TrackType.Default)
+                    SetDefaultVisible(true, m_TrackList[nextTrack]._Start_Transition_duration);
+            }
         }
-        else
-        {
-            //reached end of track list, loops back to beginning
-            SceneManager.LoadScene(m_TrackList[0]._SceneName, LoadSceneMode.Additive);
-            SceneManager.UnloadSceneAsync(m_TrackList[m_TrackList.Length -1]._SceneName);
-            m_TrackPlaying = 0;
-        }
+        firstTrack=false;
+        m_TrackPlaying = nextTrack;
+    }
+
+    private void SetDefaultVisible(bool isVisible,float duration){
+        m_SkyFogManager.SetVisible(isVisible,duration);
+        //m_LineVFXManager.SetVisible(isVisible,duration);
+        //m_postProcessVolumeManager.SetVisible(isVisible,duration);
     }
 
     private void OnNextTrack(InputValue _Value)
     {
         if (_Value.isPressed)
+        {
             StartNextTrack();
+        }
     }
 
     public string GetTrackName()
@@ -111,6 +150,10 @@ public class ShowManager : MonoBehaviour
     public PostProcessVolumeManager GetPostProcessVolumeManager()
     {
         return m_postProcessVolumeManager;
+    }
+
+    public void SetCurrentTailorTrack(TrackTailorMadeManager manager){
+        currentTailorManager = manager;
     }
 
 }
