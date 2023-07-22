@@ -7,13 +7,16 @@ public class LineVFXManager : MonoBehaviour
     private const string COLOR_OVER_LIFETIME_PROPERTY = "Color_Over_LifeTime";
 
     [SerializeField] private float m_ColorLerpDuration = 5f;
+    [SerializeField] protected int base_rate_value = 67534;
 
     private VisualEffect m_LineVFX;
     private IEnumerator m_ColorCoroutine;
 
+    protected const string rate_name = "Rate";
     private void Awake()
     {
         m_LineVFX = GetComponent<VisualEffect>();
+        m_LineVFX.SetInt(rate_name,base_rate_value);
     }
 
     public void SetColorOverLifetime(Color color)
@@ -48,5 +51,7 @@ public class LineVFXManager : MonoBehaviour
         yield return null;
     }
 
-
+    public void SetVisible(bool isVisible, float duration){
+        StartCoroutine( Utils.Utils.InterpolatVfxIntVisibility(isVisible,rate_name,base_rate_value,m_LineVFX,duration));
+    }
 }

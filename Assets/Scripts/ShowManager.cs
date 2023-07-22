@@ -15,7 +15,7 @@ public class ShowManager : MonoBehaviour
     [Header("References")]
     [SerializeField] private SkyFogManager m_SkyFogManager;
     [SerializeField] private LineVFXManager m_LineVFXManager;
-    [SerializeField] private PostProcessVolumeManager m_postProcessVolumeManager;
+    [SerializeField] private PostProcessVolumeManager m_PostProcessVolumeManager;
 
     [Serializable]
     public struct TrackList
@@ -115,8 +115,8 @@ public class ShowManager : MonoBehaviour
 
     private void SetDefaultVisible(bool isVisible,float duration){
         m_SkyFogManager.SetVisible(isVisible,duration);
-        //m_LineVFXManager.SetVisible(isVisible,duration);
-        //m_postProcessVolumeManager.SetVisible(isVisible,duration);
+        m_LineVFXManager.SetVisible(isVisible,duration);
+        m_PostProcessVolumeManager.SetVisible(isVisible,duration);
     }
 
     private void OnNextTrack(InputValue _Value)
@@ -149,7 +149,7 @@ public class ShowManager : MonoBehaviour
 
     public PostProcessVolumeManager GetPostProcessVolumeManager()
     {
-        return m_postProcessVolumeManager;
+        return m_PostProcessVolumeManager;
     }
 
     public void SetCurrentTailorTrack(TrackTailorMadeManager manager){
