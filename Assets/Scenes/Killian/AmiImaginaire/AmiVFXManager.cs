@@ -20,8 +20,9 @@ public class AmiVFXManager : MonoBehaviour
         vfx.SetVector2(name, location);
     }
 
-    private void DropSignal()
+    public void WaterDropSignal()
     {
+        Debug.Log("Test");
         float signalTime = Time.time - 1.0f;
         vfx.SetFloat(DROP_SIGNAL, signalTime);
         for (int i = 1; i <= 3; i++)
@@ -35,8 +36,7 @@ public class AmiVFXManager : MonoBehaviour
 
     void OnGouttedeau(InputValue _Value)
     {
-        Debug.Log("test" + _Value);
-        DropSignal();
+        WaterDropSignal();
     }
 
     void FixedUpdate()
