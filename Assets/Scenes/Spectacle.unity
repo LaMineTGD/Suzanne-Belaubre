@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44199187, g: 0.44034535, b: 0.5217686, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_TrackList:
   - _SceneName: Aube
     _Altitude: 0
-    _Type: 0
+    _Type: 1
     _Start_Transition_duration: 0
     _Temperature: 2
     _Location: 1
@@ -178,7 +178,7 @@ MonoBehaviour:
   - _SceneName: BonnesDesillusions
     _Altitude: -1
     _Type: 0
-    _Start_Transition_duration: 0
+    _Start_Transition_duration: 5
     _Temperature: 1
     _Location: 0
     _MainColorList:
@@ -801,7 +801,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1425285365}
-  m_LocalRotation: {x: -0.12593928, y: 0, z: 0, w: 0.99203795}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -809,7 +809,7 @@ Transform:
   - {fileID: 1201499416}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -14.47, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1425285369
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AubeManager : ITrackManager
+public class AubeManager : TrackTailorMadeManager
 {
     protected override void Start()
     {
@@ -8,9 +8,29 @@ public class AubeManager : ITrackManager
         base.ApplyDefaultEffects();
     }
 
-    public void SayHi()
+    public void DeuxiemeVagueHarmonique()
     {
-        Debug.Log("Hi!");
+        Debug.Log("DeuxiemeVagueHarmonique");
+    }
+
+    public void DebutPercussion()
+    {
+        Debug.Log("DebutPercussion");
+    }
+
+    public void ChantContreSens()
+    {
+        Debug.Log("ChantContreSens");
+    }
+
+    public void AubeSeLeve()
+    {
+        Debug.Log("AubeSeLeve");
+    }
+
+    public void DebutTransition()
+    {
+        Debug.Log("DebutTransition");
     }
 }
 

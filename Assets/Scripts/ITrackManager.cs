@@ -7,7 +7,7 @@ public class ITrackManager : MonoBehaviour
     [SerializeField] protected int m_rotationStep = 15;
     [SerializeField] protected float m_altitudeLerpDuration = 100f;
     [SerializeField] protected AudioClip m_track;
-    
+
     protected IEnumerator m_altitudeCoroutine;
     protected Camera m_MainCamera;
 
@@ -26,7 +26,7 @@ public class ITrackManager : MonoBehaviour
 
     protected virtual void SetAltitude()
     {
-        if(m_altitudeCoroutine != null)
+        if (m_altitudeCoroutine != null)
         {
             StopCoroutine(m_altitudeCoroutine);
         }
@@ -38,12 +38,12 @@ public class ITrackManager : MonoBehaviour
     private IEnumerator SetAltitudeCoroutine()
     {
         float elapsedTime = 0f;
-        while(elapsedTime < m_altitudeLerpDuration)
+        while (elapsedTime < m_altitudeLerpDuration)
         {
             var targetVector = new Vector3((float)(ShowManager.m_Instance.GetCurrentTrack()._Altitude * m_rotationStep), 0f, 0f);
             Quaternion targetRotation = Quaternion.Euler(targetVector);
             Quaternion initialRotation = m_MainCamera.transform.rotation;
-            m_MainCamera.transform.rotation =  Quaternion.Lerp(initialRotation, targetRotation, elapsedTime / m_altitudeLerpDuration);
+            m_MainCamera.transform.rotation = Quaternion.Lerp(initialRotation, targetRotation, elapsedTime / m_altitudeLerpDuration);
 
             elapsedTime += Time.deltaTime;
 
@@ -56,7 +56,7 @@ public class ITrackManager : MonoBehaviour
     protected virtual void SetSkyColor()
     {
         Color color = Color.black;
-        if(ShowManager.m_Instance.GetCurrentTrack()._MainColorList != null && ShowManager.m_Instance.GetCurrentTrack()._MainColorList.Count != 0)
+        if (ShowManager.m_Instance.GetCurrentTrack()._MainColorList != null && ShowManager.m_Instance.GetCurrentTrack()._MainColorList.Count != 0)
         {
             //sets the middle color of the sky to a darker version of the first main color
             color = ShowManager.m_Instance.GetCurrentTrack()._MainColorList[0];
@@ -65,21 +65,21 @@ public class ITrackManager : MonoBehaviour
             float intensity = -2f;
             for (int i = 0; i < 3; i++)
             {
-                color[i] *= (float)Math.Pow(2f,intensity);
+                color[i] *= (float)Math.Pow(2f, intensity);
             }
         }
-        
+
         ShowManager.m_Instance.GetSkyFogManager().SetSkyColor(SkyFogManager.SkyLevel.Middle, color);
     }
 
     protected virtual void SetLineVFXColor()
     {
         Color color = Color.magenta;
-        if(ShowManager.m_Instance.GetCurrentTrack()._MainColorList != null && ShowManager.m_Instance.GetCurrentTrack()._MainColorList.Count > 1)
+        if (ShowManager.m_Instance.GetCurrentTrack()._MainColorList != null && ShowManager.m_Instance.GetCurrentTrack()._MainColorList.Count > 1)
         {
             color = ShowManager.m_Instance.GetCurrentTrack()._MainColorList[1];
         }
-        else if(ShowManager.m_Instance.GetCurrentTrack()._SecondaryColorList != null && ShowManager.m_Instance.GetCurrentTrack()._SecondaryColorList.Count != 0)
+        else if (ShowManager.m_Instance.GetCurrentTrack()._SecondaryColorList != null && ShowManager.m_Instance.GetCurrentTrack()._SecondaryColorList.Count != 0)
         {
             color = ShowManager.m_Instance.GetCurrentTrack()._SecondaryColorList[0];
         }

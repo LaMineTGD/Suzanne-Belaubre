@@ -1,47 +1,68 @@
-   
+
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 using UnityEngine.VFX;
 
-   namespace Utils
-   {
-    class Utils{
-        public static IEnumerator InterpolatVolumeVisibility(bool isVisible, Volume volume,float duration)
+namespace Utils
+{
+    class Utils
+    {
+        public static IEnumerator InterpolatVolumeVisibility(bool isVisible, Volume volume, float duration)
         {
-            volume.enabled=true;
+            volume.enabled = true;
             float elapsedTime = 0f;
             float tpm = 0f;
-            while(volume.weight>0 && !isVisible || isVisible && volume.weight<1)
+            while (volume.weight > 0 && !isVisible || isVisible && volume.weight < 1)
             {
                 tpm = elapsedTime / duration;
-                volume.weight = Mathf.Min(Mathf.Max(isVisible ? tpm: 1.0f-tpm,0.0f),1.0f);
+                volume.weight = Mathf.Min(Mathf.Max(isVisible ? tpm : 1.0f - tpm, 0.0f), 1.0f);
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
-            volume.enabled=isVisible;
+            volume.enabled = isVisible;
             yield return null;
         }
 
-        public static IEnumerator InterpolatVfxIntVisibility(bool isVisible,string parameter_name,int final_value, VisualEffect vfx,float duration)
+        public static IEnumerator InterpolatVfxIntVisibility(bool isVisible, string parameter_name, int final_value, VisualEffect vfx, float duration)
         {
-            vfx.enabled=true;
+            vfx.enabled = true;
             float elapsedTime = 0f;
             float tpm = 0f;
             float current_value = vfx.GetInt(parameter_name);
-            
-            while(current_value>0 && !isVisible || isVisible && current_value<final_value)
+
+            while (current_value > 0 && !isVisible || isVisible && current_value < final_value)
             {
                 tpm = elapsedTime / duration;
-                int value =Mathf.RoundToInt(Mathf.Min(Mathf.Max(isVisible ? tpm: 1.0f-tpm,0.0f),1.0f)*final_value);
-                vfx.SetInt(parameter_name,value);
-                current_value=value;
+                int value = Mathf.RoundToInt(Mathf.Min(Mathf.Max(isVisible ? tpm : 1.0f - tpm, 0.0f), 1.0f) * final_value);
+                vfx.SetInt(parameter_name, value);
+                current_value = value;
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
-            vfx.enabled=isVisible;
+            vfx.enabled = isVisible;
+            yield return null;
+        }
+
+        public static IEnumerator InterpolatVfxFloatVisibility(bool isVisible, string parameter_name, float final_value, VisualEffect vfx, float duration)
+        {
+            vfx.enabled = true;
+            float elapsedTime = 0f;
+            float tpm = 0f;
+            float current_value = vfx.GetFloat(parameter_name);
+
+            while (current_value > 0 && !isVisible || isVisible && current_value < final_value)
+            {
+                tpm = elapsedTime / duration;
+                float value = Mathf.Min(Mathf.Max(isVisible ? tpm : 1.0f - tpm, 0.0f), 1.0f) * final_value;
+                vfx.SetFloat(parameter_name, value);
+                current_value = value;
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            vfx.enabled = isVisible;
             yield return null;
         }
     }
-   }
+}

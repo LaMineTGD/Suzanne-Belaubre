@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class test_micro : MonoBehaviour
 {
-    [SerializeField] private FFTWindow _fftWindow = FFTWindow.Rectangular; 
-    [SerializeField] private AudioSource _audioSource; 
-    [SerializeField] private Mesh _mesh; 
-    [SerializeField] private Material _mat1; 
-    [SerializeField] private Material _mat2; 
+    [SerializeField] private FFTWindow _fftWindow = FFTWindow.Rectangular;
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private Mesh _mesh;
+    [SerializeField] private Material _mat1;
+    [SerializeField] private Material _mat2;
     private int _sampleSize;
     private float[] _samples_1;
 
@@ -19,18 +19,19 @@ public class test_micro : MonoBehaviour
 
     private void Awake()
     {
-        _sampleSize = 512; 
+        _sampleSize = 512;
         _samples_1 = new float[_sampleSize];
         _samples_2 = new float[_sampleSize];
         _go1 = new GameObject[_sampleSize];
         _go2 = new GameObject[_sampleSize];
-        _audioSource = GetComponent<AudioSource>(); 
+        _audioSource = GetComponent<AudioSource>();
     }
 
-    private GameObject generate_GO(Material material){
+    private GameObject generate_GO(Material material)
+    {
         GameObject go = new GameObject();
         MeshFilter meshFilter = go.AddComponent<MeshFilter>();
-        meshFilter.mesh=_mesh;
+        meshFilter.mesh = _mesh;
         MeshRenderer meshRenderer = go.AddComponent<MeshRenderer>();
         meshRenderer.material = material;
         return go;
@@ -44,9 +45,9 @@ public class test_micro : MonoBehaviour
             Debug.Log("Name: " + device);
         }
         //_audioSource.clip = Microphone.Start("Microphone sur casque (3- Arctis 7 Chat)", true,10,44100);
-        _audioSource.clip = Microphone.Start("Line 1/2 (M-Audio Fast Track Pro)", true,10,44100);
+        _audioSource.clip = Microphone.Start("Line 1/2 (M-Audio Fast Track Pro)", true, 10, 44100);
         _audioSource.loop = true;
-        while(!(Microphone.GetPosition(null) > 0)){}
+        while (!(Microphone.GetPosition(null) > 0)) { }
         _audioSource.Play();
         Debug.Log("Name: " + _audioSource.clip.channels);
         GameObject go = new GameObject("Test");
@@ -54,11 +55,11 @@ public class test_micro : MonoBehaviour
         {
             _go1[i] = generate_GO(_mat1);
             _go1[i].transform.SetParent(go.transform);
-            _go1[i].transform.localScale=new (1f,1f,1f);
-            
+            _go1[i].transform.localScale = new(1f, 1f, 1f);
+
             _go2[i] = generate_GO(_mat2);
             _go2[i].transform.SetParent(go.transform);
-            _go2[i].transform.localScale=new (1f,1f,1f);
+            _go2[i].transform.localScale = new(1f, 1f, 1f);
         }
 
     }
@@ -71,9 +72,9 @@ public class test_micro : MonoBehaviour
         for (int i = 0; i < _sampleSize; i++)
         {
             //_go[i].transform.position= new Vector3(i*0.01f,_samples[i]*100,0.0f);
-            _go1[i].transform.position= new Vector3(i,Mathf.Log(_samples_1[i]+0.0001f),0.0f);
-            
-            _go2[i].transform.position= new Vector3(i,220f-Mathf.Log(_samples_2[i]+0.0001f),0.0f);
+            _go1[i].transform.position = new Vector3(i, Mathf.Log(_samples_1[i] + 0.0001f), 0.0f);
+
+            _go2[i].transform.position = new Vector3(i, 220f - Mathf.Log(_samples_2[i] + 0.0001f), 0.0f);
         }
     }
 }
