@@ -6,9 +6,9 @@ using UnityEngine.VFX;
 
 public class TrackTailorMadeManager : ITrackManager
 {
-    [SerializeField] private Volume m_SkyFogVolume;
-    [SerializeField] private Volume m_PostProcessVolume;
-    [SerializeField] private VisualEffect m_VFX;
+    [SerializeField] protected Volume m_SkyFogVolume;
+    [SerializeField] protected Volume m_PostProcessVolume;
+    [SerializeField] protected VisualEffect m_VFX;
 
     protected float base_rate_value = 0;
 
