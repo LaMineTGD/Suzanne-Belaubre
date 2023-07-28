@@ -169,7 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_rotationStep: 15
   m_altitudeLerpDuration: 100
-  m_track: {fileID: 8300000, guid: ebaa7aa4e3a0901478b20b8d557bcfc1, type: 3}
+  m_trackName: 6
 --- !u!1 &1665158050
 GameObject:
   m_ObjectHideFlags: 0
@@ -301,6 +301,8 @@ PlayableDirector:
   m_SceneBindings:
   - key: {fileID: 5617740069503468230, guid: 91f35dab54248ef4b987ac724d29e3a1, type: 2}
     value: {fileID: 1665158051}
+  - key: {fileID: 4176575894098890822, guid: 91f35dab54248ef4b987ac724d29e3a1, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &1665158053

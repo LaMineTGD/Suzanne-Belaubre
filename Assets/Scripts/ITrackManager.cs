@@ -6,7 +6,7 @@ public class ITrackManager : MonoBehaviour
 {
     [SerializeField] protected int m_rotationStep = 15;
     [SerializeField] protected float m_altitudeLerpDuration = 100f;
-    [SerializeField] protected AudioClip m_track;
+    [SerializeField] protected Tracks.TracksEnum m_trackName;
 
     protected IEnumerator m_altitudeCoroutine;
     protected Camera m_MainCamera;

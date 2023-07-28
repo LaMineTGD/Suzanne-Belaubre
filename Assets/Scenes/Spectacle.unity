@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.5220681, g: 0.41829854, b: 0.50918967, a: 1}
+  m_IndirectSpecularColor: {r: 0.41829854, g: 0.41829854, b: 0.41829854, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -716,6 +716,63 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_colorInterpDuration: 100
+--- !u!1 &1246462635
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1246462637}
+  - component: {fileID: 1246462636}
+  m_Layer: 0
+  m_Name: Tracks
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1246462636
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246462635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a78b09d9b8dfa04d9f665e220791373, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _trackAliceAlice: {fileID: 8300000, guid: ab9f23f29cc49284b91996ae047bc3f1, type: 3}
+  _trackAmiImaginaire: {fileID: 8300000, guid: 398d833cab7dd724e80a4978753548b8, type: 3}
+  _trackAube: {fileID: 8300000, guid: 2da202f40ee4bc1409fa2f3784ae3356, type: 3}
+  _trackBonnesDesillusions: {fileID: 8300000, guid: 98d8a0f4132e1234784faa0a7c5f2ef6,
+    type: 3}
+  _trackCestRien: {fileID: 8300000, guid: 8f9929ecab2c53e4d9bfab34359a0a31, type: 3}
+  _trackCommencement: {fileID: 8300000, guid: 37c9560626e07c34d842130064fc952a, type: 3}
+  _trackLeBruit: {fileID: 8300000, guid: ebaa7aa4e3a0901478b20b8d557bcfc1, type: 3}
+  _trackLesAlarmes: {fileID: 8300000, guid: 1ed3fcab03319f246b6d4395efe3e6d4, type: 3}
+  _trackLesVoiesDorees: {fileID: 8300000, guid: 3925074f284e80248814096bdc11bbf4,
+    type: 3}
+  _trackSeum: {fileID: 8300000, guid: f985e72b1d930d7479765ed8db906e15, type: 3}
+  _trackSiffle: {fileID: 8300000, guid: 645f5508d94a6c642a193111741e5084, type: 3}
+--- !u!4 &1246462637
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246462635}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.502365, y: 4.3622136, z: -11.261717}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1425285365
 GameObject:
   m_ObjectHideFlags: 0

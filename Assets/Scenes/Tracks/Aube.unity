@@ -38,8 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0013274116, g: 0.00016798826, b: 0.0000007499476,
-    a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -561,7 +560,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_rotationStep: 15
   m_altitudeLerpDuration: 100
-  m_track: {fileID: 8300000, guid: 7a945d2817d658e48a73aadecd1155f9, type: 3}
+  m_trackName: 2
   m_SkyFogVolume: {fileID: 1823032830}
   m_PostProcessVolume: {fileID: 331782807}
   m_VFX: {fileID: 262510764}

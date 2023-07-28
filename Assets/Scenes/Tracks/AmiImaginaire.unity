@@ -624,7 +624,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_rotationStep: 15
   m_altitudeLerpDuration: 100
-  m_track: {fileID: 8300000, guid: 21833ee9284c84c4a8950ff49f0bc364, type: 3}
+  m_trackName: 1
   m_SkyFogVolume: {fileID: 571452014}
   m_PostProcessVolume: {fileID: 2034275270}
   m_VFX: {fileID: 776039827}

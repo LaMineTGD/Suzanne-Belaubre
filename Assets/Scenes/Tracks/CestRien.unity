@@ -317,4 +317,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_rotationStep: 15
   m_altitudeLerpDuration: 100
-  m_track: {fileID: 8300000, guid: 8f9929ecab2c53e4d9bfab34359a0a31, type: 3}
+  m_trackName: 4

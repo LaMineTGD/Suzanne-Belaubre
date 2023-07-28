@@ -169,7 +169,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_rotationStep: 15
   m_altitudeLerpDuration: 100
-  m_track: {fileID: 8300000, guid: 37c9560626e07c34d842130064fc952a, type: 3}
+  m_trackName: 5
 --- !u!1 &1627979791
 GameObject:
   m_ObjectHideFlags: 0
