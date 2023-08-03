@@ -22,8 +22,9 @@ public class TrackTailorMadeManager : ITrackManager
 
     protected override void ApplyDefaultEffects()
     {
-        base.ApplyDefaultEffects();
-        float duration = ShowManager.m_Instance.GetCurrentTrack()._Start_Transition_duration;
+        if (ShowManager.m_Instance != null)
+            base.ApplyDefaultEffects();
+        float duration = ShowManager.m_Instance != null ? ShowManager.m_Instance.GetCurrentTrack()._Start_Transition_duration : 2;
         if (m_SkyFogVolume != null)
             m_SkyFogVolume.weight = 0;
         if (m_PostProcessVolume != null)
@@ -36,7 +37,8 @@ public class TrackTailorMadeManager : ITrackManager
         SkyTransition(true, duration);
         PostProcessTransition(true, duration);
         VFXTransition(true, duration);
-        ShowManager.m_Instance.SetCurrentTailorTrack(this);
+        if (ShowManager.m_Instance != null)
+            ShowManager.m_Instance.SetCurrentTailorTrack(this);
     }
 
     public void SetTransitionToVisibleOff(float duration)
