@@ -292,7 +292,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_rotationStep: 15
   m_altitudeLerpDuration: 100
-  m_trackName: 10
+  m_track: {fileID: 8300000, guid: 19c17d7c5fdbe334988d56c95519fae2, type: 3}
   m_SkyFogVolume: {fileID: 1456417839}
   m_PostProcessVolume: {fileID: 2007376990}
   m_VFX: {fileID: 621161059}
@@ -314,7 +314,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &994807459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -546,7 +546,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 19c17d7c5fdbe334988d56c95519fae2, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
