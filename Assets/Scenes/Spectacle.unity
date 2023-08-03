@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.41829854, g: 0.41829854, b: 0.41829854, a: 1}
+  m_IndirectSpecularColor: {r: 0.5220681, g: 0.41829854, b: 0.5053597, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -164,6 +164,7 @@ MonoBehaviour:
     _Start_Transition_duration: 0
     _Temperature: 2
     _Location: 1
+    _Tempo: 0
     _MainColorList:
     - {r: 1, g: 0, b: 0.8379879, a: 0}
     - {r: 1, g: 0.40889087, b: 0, a: 0}
@@ -181,6 +182,7 @@ MonoBehaviour:
     _Start_Transition_duration: 5
     _Temperature: 1
     _Location: 0
+    _Tempo: 1.86
     _MainColorList:
     - {r: 0.21226418, g: 0.21684395, b: 1, a: 0}
     _SecondaryColorList:
@@ -196,6 +198,7 @@ MonoBehaviour:
     _Start_Transition_duration: 0
     _Temperature: 1
     _Location: 0
+    _Tempo: 0
     _MainColorList:
     - {r: 0, g: 0.4528302, b: 0.0580697, a: 0}
     - {r: 0.5745813, g: 0.8773585, b: 0.33521718, a: 0}
@@ -210,6 +213,7 @@ MonoBehaviour:
     _Start_Transition_duration: 0
     _Temperature: 0
     _Location: 0
+    _Tempo: 0
     _MainColorList:
     - {r: 1, g: 0, b: 0.9071803, a: 0}
     - {r: 1, g: 0, b: 0.06054926, a: 0}
@@ -226,6 +230,7 @@ MonoBehaviour:
     _Start_Transition_duration: 0
     _Temperature: 0
     _Location: 0
+    _Tempo: 0
     _MainColorList:
     - {r: 1, g: 0, b: 0.05882353, a: 0}
     - {r: 1, g: 0.60784316, b: 0, a: 0}
@@ -240,6 +245,7 @@ MonoBehaviour:
     _Start_Transition_duration: 0
     _Temperature: 0
     _Location: 0
+    _Tempo: 0
     _MainColorList:
     - {r: 1, g: 0, b: 0.05882353, a: 0}
     _SecondaryColorList:
@@ -254,6 +260,7 @@ MonoBehaviour:
     _Start_Transition_duration: 0
     _Temperature: 0
     _Location: 1
+    _Tempo: 0
     _MainColorList:
     - {r: 1, g: 0.94509804, b: 0, a: 0}
     - {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 0}
@@ -266,6 +273,7 @@ MonoBehaviour:
     _Start_Transition_duration: 0
     _Temperature: 0
     _Location: 1
+    _Tempo: 0
     _MainColorList:
     - {r: 1, g: 0.94509804, b: 0, a: 0}
     - {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 0}
@@ -280,6 +288,7 @@ MonoBehaviour:
     _Start_Transition_duration: 4
     _Temperature: 2
     _Location: 0
+    _Tempo: 0
     _MainColorList:
     - {r: 1, g: 0, b: 0.8753972, a: 0}
     - {r: 0.60969925, g: 0, b: 1, a: 0}
@@ -295,6 +304,7 @@ MonoBehaviour:
     _Start_Transition_duration: 4
     _Temperature: 1
     _Location: 4
+    _Tempo: 0
     _MainColorList:
     - {r: 0.0049114227, g: 0, b: 1, a: 0}
     - {r: 0, g: 0.6792453, b: 0.15410367, a: 0}
@@ -310,6 +320,7 @@ MonoBehaviour:
     _Start_Transition_duration: 4
     _Temperature: 2
     _Location: 4
+    _Tempo: 0
     _MainColorList:
     - {r: 0, g: 0.6784314, b: 0.15294118, a: 0}
     - {r: 1, g: 0.94509804, b: 0, a: 0}
@@ -652,6 +663,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ColorLerpDuration: 5
+  m_PulseLerpDuration: 1
   base_rate_value: 67534
 --- !u!1 &1216320608
 GameObject:

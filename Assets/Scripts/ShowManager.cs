@@ -26,6 +26,7 @@ public class ShowManager : MonoBehaviour
         public float _Start_Transition_duration;
         public Temperature _Temperature;
         public Location _Location;
+        public float _Tempo;
         [ColorUsage(true, true)] //enables HDR color in the inspector
         public List<Color> _MainColorList;
         [ColorUsage(true, true)]

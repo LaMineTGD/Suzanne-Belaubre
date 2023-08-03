@@ -10,9 +10,13 @@ public class ITrackManager : MonoBehaviour
 
     protected IEnumerator m_altitudeCoroutine;
     protected Camera m_MainCamera;
+    private Coroutine pulsingCoroutine;
+    private WaitForSeconds pulseInterval;
 
     protected virtual void Start()
     {
+        var tempo = ShowManager.m_Instance.GetCurrentTrack()._Tempo;
+        pulseInterval = new WaitForSeconds(tempo);
         m_MainCamera = Camera.main;
     }
 
@@ -91,5 +95,27 @@ public class ITrackManager : MonoBehaviour
     protected virtual void SetLocation()
     {
         ShowManager.m_Instance.GetPostProcessVolumeManager().SetVignette(ShowManager.m_Instance.GetCurrentTrack()._Location);
+    }
+    
+    private IEnumerator PulsingCoroutine()
+    {
+        ShowManager.m_Instance.GetLineVFXManager().PulseEffect();
+        yield return pulseInterval;
+        Pulse();
+    }
+
+    public void Pulse()
+    {
+        if(ShowManager.m_Instance.GetCurrentTrack()._Type == ShowManager.TrackType.TailorMade)
+        {
+            return;
+        }
+
+        if(pulsingCoroutine != null)
+        {
+            StopCoroutine(pulsingCoroutine);
+        }
+
+        pulsingCoroutine = StartCoroutine(PulsingCoroutine());
     }
 }
