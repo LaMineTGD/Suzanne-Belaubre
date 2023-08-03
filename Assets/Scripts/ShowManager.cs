@@ -106,7 +106,7 @@ public class ShowManager : MonoBehaviour
         }
         if (!firstTrack)
             currentTransition = StartCoroutine(DeleteSceneWithDelay(duration, m_TrackList[currentTrack]._SceneName));
-        if (m_TrackList[nextTrack]._Type == TrackType.TailorMade && m_TrackList[currentTrack]._Type == TrackType.Default)
+        if (m_TrackList[nextTrack]._Type == TrackType.TailorMade && (m_TrackList[currentTrack]._Type == TrackType.Default || firstTrack))
             SetDefaultVisible(false, duration);
         else if (m_TrackList[currentTrack]._Type == TrackType.TailorMade)
         {
