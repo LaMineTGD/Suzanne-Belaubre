@@ -1,4 +1,4 @@
-public class LeBruitManager : ITrackManager
+public class LeBruitManager : TrackTailorMadeManager
 {
     protected override void Start()
     {

@@ -306,7 +306,7 @@ MonoBehaviour:
     _FourthColorList: []
   - _SceneName: LeBruit
     _Altitude: 1
-    _Type: 0
+    _Type: 1
     _Start_Transition_duration: 4
     _Temperature: 2
     _Location: 4
@@ -752,7 +752,7 @@ MonoBehaviour:
     type: 3}
   _trackCestRien: {fileID: 8300000, guid: 8f9929ecab2c53e4d9bfab34359a0a31, type: 3}
   _trackCommencement: {fileID: 8300000, guid: 37c9560626e07c34d842130064fc952a, type: 3}
-  _trackLeBruit: {fileID: 8300000, guid: ebaa7aa4e3a0901478b20b8d557bcfc1, type: 3}
+  _trackLeBruit: {fileID: 0}
   _trackLesAlarmes: {fileID: 8300000, guid: 1ed3fcab03319f246b6d4395efe3e6d4, type: 3}
   _trackLesVoiesDorees: {fileID: 8300000, guid: 3925074f284e80248814096bdc11bbf4,
     type: 3}
@@ -1220,7 +1220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_rotationStep: 15
   m_altitudeLerpDuration: 100
-  m_track: {fileID: 0}
+  m_trackName: 0
 --- !u!4 &1888274010
 Transform:
   m_ObjectHideFlags: 0
