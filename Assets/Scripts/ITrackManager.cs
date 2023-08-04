@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class ITrackManager : MonoBehaviour
 {
-    [SerializeField] protected int m_rotationStep = 15;
+    [SerializeField] protected int m_rotationStep = 30;
     [SerializeField] protected float m_altitudeLerpDuration = 100f;
+    [SerializeField] protected float m_FOVLerpDuration = 100f;
     [SerializeField] protected Tracks.TracksEnum m_trackName;
 
     protected IEnumerator m_altitudeCoroutine;
+    protected IEnumerator m_cameraFOVCoroutine;
     protected Camera m_MainCamera;
+    private float m_InitFOVLerpDuration = 3f;
     private Coroutine pulsingCoroutine;
     private WaitForSeconds pulseInterval;
+    private float baseCameraFOV = 60;
+    private float tempo;
 
     protected virtual void Start()
     {
-        var tempo = ShowManager.m_Instance.GetCurrentTrack()._Tempo;
+        tempo = ShowManager.m_Instance.GetCurrentTrack()._Tempo;
         pulseInterval = new WaitForSeconds(tempo);
         m_MainCamera = Camera.main;
     }
@@ -26,6 +31,20 @@ public class ITrackManager : MonoBehaviour
         SetSkyColor();
         SetLineVFXColor();
         SetLocation();
+        SetCameraFOV();
+    }
+
+    private void Update()
+    {
+        if(ShowManager.m_Instance.GetCurrentTrack()._Type == ShowManager.TrackType.TailorMade)
+        {
+            if (m_cameraFOVCoroutine != null)
+            {
+                StopCoroutine(m_cameraFOVCoroutine);
+            }
+
+            StartCoroutine(IntializeCameraFOVCoroutine());
+        }
     }
 
     protected virtual void SetAltitude()
@@ -48,6 +67,50 @@ public class ITrackManager : MonoBehaviour
             Quaternion targetRotation = Quaternion.Euler(targetVector);
             Quaternion initialRotation = m_MainCamera.transform.rotation;
             m_MainCamera.transform.rotation = Quaternion.Lerp(initialRotation, targetRotation, elapsedTime / m_altitudeLerpDuration);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        yield return null;
+    }
+
+    protected virtual void SetCameraFOV()
+    {
+        if (m_cameraFOVCoroutine != null)
+        {
+            StopCoroutine(m_cameraFOVCoroutine);
+        }
+
+        m_cameraFOVCoroutine = SetCameraFOVCoroutine();
+        StartCoroutine(m_cameraFOVCoroutine);
+    }
+
+    private IEnumerator SetCameraFOVCoroutine()
+    {
+        float elapsedTime = 0f;
+        float currentCameraFOV = m_MainCamera.fieldOfView;
+        while (elapsedTime < m_FOVLerpDuration)
+        {
+            var targetFOV = 100f;
+            m_MainCamera.fieldOfView = Mathf.SmoothStep(currentCameraFOV, targetFOV, elapsedTime / m_FOVLerpDuration);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        yield return null;
+    }
+
+    protected IEnumerator IntializeCameraFOVCoroutine()
+    {
+        float elapsedTime = 0f;
+        float currentCameraFOV = m_MainCamera.fieldOfView;
+        while (elapsedTime < m_InitFOVLerpDuration)
+        {
+            m_MainCamera.fieldOfView = Mathf.SmoothStep(currentCameraFOV, baseCameraFOV, elapsedTime / m_InitFOVLerpDuration);
 
             elapsedTime += Time.deltaTime;
 
@@ -117,5 +180,15 @@ public class ITrackManager : MonoBehaviour
         }
 
         pulsingCoroutine = StartCoroutine(PulsingCoroutine());
+    }
+
+    public void Effilage()
+    {
+        if(ShowManager.m_Instance.GetCurrentTrack()._Type == ShowManager.TrackType.TailorMade)
+        {
+            return;
+        }
+
+        ShowManager.m_Instance.GetLineVFXManager().EffilageEffect(tempo);
     }
 }

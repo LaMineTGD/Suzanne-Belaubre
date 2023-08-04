@@ -5,23 +5,36 @@ using UnityEngine.VFX;
 public class LineVFXManager : MonoBehaviour
 {
     private const string COLOR_OVER_LIFETIME_PROPERTY = "Color_Over_LifeTime";
+    private const string rate_name = "Rate";
+    private const string line_radius_name = "LineRadius";
+    private const string value1_name = "Value_1";
 
     [SerializeField] private float m_ColorLerpDuration = 5f;
-    [SerializeField] private float m_PulseLerpDuration = 1f;
+    [SerializeField] private float m_PulseLerpDuration = 0.1f;
     [SerializeField] protected float base_rate_value = 67534;
+    [SerializeField] private float m_EffilageLerpDuration = 10000f;
+    [SerializeField] private Vector2 base_value1= new (2f, 30f);
+
 
     private VisualEffect m_LineVFX;
     private IEnumerator m_ColorCoroutine;
     private IEnumerator m_PulseEffectCoroutine;
+    private IEnumerator m_EffilageEffectCoroutine;
+    private float baseLineRadius;
+    private Vector2 movingValue1;
 
-
-    protected const string rate_name = "Rate";
-    protected const string particle_speed_name = "Particule_Speed";
 
     private void Awake()
     {
         m_LineVFX = GetComponent<VisualEffect>();
+    }
+
+    private void Start()
+    {
+        baseLineRadius = m_LineVFX.GetFloat(line_radius_name);
+        m_LineVFX.SetVector2(value1_name, base_value1);
         m_LineVFX.SetFloat(rate_name, base_rate_value);
+        movingValue1 = base_value1;
     }
 
     public void SetColorOverLifetime(Color color)
@@ -61,11 +74,41 @@ public class LineVFXManager : MonoBehaviour
         StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(isVisible, rate_name, base_rate_value, m_LineVFX, duration));
     }
 
+    public void EffilageEffect(float tempo)
+    {
+        if (m_EffilageEffectCoroutine != null)
+        {
+            StopCoroutine(m_EffilageEffectCoroutine);
+        }
+
+        m_EffilageEffectCoroutine = EffilageEffectCoroutine(tempo);
+        StartCoroutine(m_EffilageEffectCoroutine);
+    }
+
+    private IEnumerator EffilageEffectCoroutine(float tempo)
+    {
+        float elapsedTime = 0f;
+        Vector2 targetValue1 = new (30f, 2f);
+
+        while(elapsedTime < m_EffilageLerpDuration)
+        {
+            movingValue1 = Vector2.Lerp(base_value1, targetValue1, elapsedTime / (m_EffilageLerpDuration * tempo));
+            m_LineVFX.SetVector2(value1_name, movingValue1);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        yield return null;
+    }
+
     public void PulseEffect()
     {
         if (m_PulseEffectCoroutine != null)
         {
             StopCoroutine(m_PulseEffectCoroutine);
+            m_LineVFX.SetFloat(line_radius_name, baseLineRadius);
         }
 
         m_PulseEffectCoroutine = PulseEffectCoroutine();
@@ -75,21 +118,28 @@ public class LineVFXManager : MonoBehaviour
     private IEnumerator PulseEffectCoroutine()
     {
         float elapsedTime = 0f;
-        float targetParticleSpeed = 3f;
-        float baseParticleSpeed = m_LineVFX.GetFloat(particle_speed_name);
-        float movingParticleSpeed = baseParticleSpeed;
+        float targetLineRadius = 0.15f;
+        float movingLineRadius;
 
-        while (elapsedTime < m_PulseLerpDuration)
+        while(elapsedTime < m_PulseLerpDuration)
         {
-            movingParticleSpeed = Mathf.Lerp(movingParticleSpeed, targetParticleSpeed, elapsedTime / m_PulseLerpDuration);
-            m_LineVFX.SetFloat(particle_speed_name, movingParticleSpeed);
+            movingLineRadius = Mathf.SmoothStep(baseLineRadius, targetLineRadius, elapsedTime / m_PulseLerpDuration);
+            m_LineVFX.SetFloat(line_radius_name, movingLineRadius);
 
             elapsedTime += Time.deltaTime;
 
             yield return null;
         }
 
-        m_LineVFX.SetFloat(particle_speed_name, baseParticleSpeed);
+        while(elapsedTime > 0)
+        {
+            movingLineRadius = Mathf.SmoothStep(baseLineRadius, targetLineRadius, elapsedTime / m_PulseLerpDuration);
+            m_LineVFX.SetFloat(line_radius_name, movingLineRadius);
+
+            elapsedTime -= Time.deltaTime;
+
+            yield return null;
+        }
 
         yield return null;
     }

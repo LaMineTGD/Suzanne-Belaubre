@@ -170,7 +170,6 @@ MonoBehaviour:
   m_rotationStep: 15
   m_altitudeLerpDuration: 100
   m_trackName: 3
-  tempo: 1.84
 --- !u!1 &608742013
 GameObject:
   m_ObjectHideFlags: 0
@@ -341,6 +340,18 @@ MonoBehaviour:
         - m_Target: {fileID: 492293305}
           m_TargetAssemblyTypeName: ITrackManager, Assembly-CSharp
           m_MethodName: Pulse
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
+        - m_Target: {fileID: 492293305}
+          m_TargetAssemblyTypeName: ITrackManager, Assembly-CSharp
+          m_MethodName: Effilage
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
