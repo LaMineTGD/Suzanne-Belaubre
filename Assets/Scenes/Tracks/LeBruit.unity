@@ -209,7 +209,7 @@ VisualEffect:
       - m_Value: 2
         m_Name: Radius
         m_Overridden: 1
-      - m_Value: 0.4
+      - m_Value: 2
         m_Name: Thickness
         m_Overridden: 1
       - m_Value: 0
@@ -245,14 +245,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 868367409}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.0010472151, z: 0, w: 0.9999995}
   m_LocalPosition: {x: 0, y: 0, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0.3, z: 0}
 --- !u!95 &868367413
 Animator:
   serializedVersion: 5
@@ -320,6 +320,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_rotationStep: 15
   m_altitudeLerpDuration: 100
+  m_FOVLerpDuration: 100
   m_trackName: 6
   m_SkyFogVolume: {fileID: 0}
   m_PostProcessVolume: {fileID: 0}
