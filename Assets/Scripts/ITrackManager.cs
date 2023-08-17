@@ -15,20 +15,15 @@ public class ITrackManager : MonoBehaviour
     protected IEnumerator m_cameraFOVCoroutine;
     protected Camera m_MainCamera;
     private float m_InitFOVLerpDuration = 3f;
-    private Coroutine pulsingCoroutine;
-    private WaitForSeconds pulseInterval;
     private float baseCameraFOV = 60;
-    private float tempo;
+    private bool _isCameraDirty = false;
 
     //Transition variables
     private Volume _activeTailorMadeSky;
     private Volume _activeTailorMadePostProcess;
-    private Color _defaultSkyColor = Color.black;
 
     protected virtual void Start()
     {
-        tempo = ShowManager.m_Instance.GetCurrentTrack()._Tempo;
-        pulseInterval = new WaitForSeconds(tempo);
         m_MainCamera = Camera.main;
     }
 
@@ -36,45 +31,60 @@ public class ITrackManager : MonoBehaviour
     {
         if(!ShowManager.m_Instance.IsPreviousTrackTailorMade())
         {
+            //These methods are called if there is no transition from a TailorMade scene required 
             SetAltitude();
-            SetSkyColor();
-            SetLineVFXColor();
+            SetSkyColor(GetDefaultSkyColor());
+            SetLineVFXColor(GetDefaultLineVFXColor());
             SetLocation();
-            SetCameraFOV();
+            ZoomOutLineVFX();
         }
         else
         {
+            //This method is called if the previous scene is a TailorMade script
             ApplyTransitionEffects();
         }
     }
 
-    protected virtual void ApplyTransitionEffects()
+        private void Update()
     {
-        _activeTailorMadeSky = ShowManager.m_Instance.GetPreviousTailorVolumes()[0];
-        _activeTailorMadePostProcess = ShowManager.m_Instance.GetPreviousTailorVolumes()[1];
+        ResetCameraFOV();
+    }
 
-        SetAltitude();
-        SetLocation();
-        SetCameraFOV();
-        SetLineVFXColor();
-        TransitionSkyVolume();
-        TransitionPostProcess();
-    } 
+    //Below are all the methods used in the default effects
+    #region Default Effects
 
-    private void Update()
+    //Reset the Camera FOC to its initial value if the next track is Tailor Made 
+    protected virtual void ResetCameraFOV()
     {
-        if(ShowManager.m_Instance.GetCurrentTrack()._Type == ShowManager.TrackType.TailorMade)
+        if(_isCameraDirty && ShowManager.m_Instance.GetCurrentTrack()._Type == ShowManager.TrackType.TailorMade)
         {
             if (m_cameraFOVCoroutine != null)
             {
                 StopCoroutine(m_cameraFOVCoroutine);
             }
 
-            StartCoroutine(IntializeCameraFOVCoroutine());
+            StartCoroutine(ResetCameraFOVCoroutine());
+            _isCameraDirty = false;
         }
     }
 
-    #region Default Effects
+    protected IEnumerator ResetCameraFOVCoroutine()
+    {
+        float elapsedTime = 0f;
+        float currentCameraFOV = m_MainCamera.fieldOfView;
+        while (elapsedTime < m_InitFOVLerpDuration)
+        {
+            m_MainCamera.fieldOfView = Mathf.SmoothStep(currentCameraFOV, baseCameraFOV, elapsedTime / m_InitFOVLerpDuration);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        yield return null;
+    }
+
+    //Rotate the camera up or down depending on the altitude parameter in ShowManager
     protected virtual void SetAltitude()
     {
         if (m_altitudeCoroutine != null)
@@ -104,18 +114,20 @@ public class ITrackManager : MonoBehaviour
         yield return null;
     }
 
-    protected virtual void SetCameraFOV()
+    //Zoom the camera out accross the different Default tracks, giving an overview of the LineVFX
+    protected virtual void ZoomOutLineVFX()
     {
         if (m_cameraFOVCoroutine != null)
         {
             StopCoroutine(m_cameraFOVCoroutine);
         }
 
-        m_cameraFOVCoroutine = SetCameraFOVCoroutine();
+        m_cameraFOVCoroutine = ZoomOutLineVFXCoroutine();
         StartCoroutine(m_cameraFOVCoroutine);
+        _isCameraDirty = true;
     }
 
-    private IEnumerator SetCameraFOVCoroutine()
+    private IEnumerator ZoomOutLineVFXCoroutine()
     {
         float elapsedTime = 0f;
         float currentCameraFOV = m_MainCamera.fieldOfView;
@@ -128,30 +140,13 @@ public class ITrackManager : MonoBehaviour
 
             yield return null;
         }
-
         yield return null;
     }
 
-    protected IEnumerator IntializeCameraFOVCoroutine()
+    //Change the color of the Gradient sky depending on a color defined in ShowManager for the track
+    protected virtual void SetSkyColor(Color color)
     {
-        float elapsedTime = 0f;
-        float currentCameraFOV = m_MainCamera.fieldOfView;
-        while (elapsedTime < m_InitFOVLerpDuration)
-        {
-            m_MainCamera.fieldOfView = Mathf.SmoothStep(currentCameraFOV, baseCameraFOV, elapsedTime / m_InitFOVLerpDuration);
-
-            elapsedTime += Time.deltaTime;
-
-            yield return null;
-        }
-
-        yield return null;
-    }
-
-    protected virtual void SetSkyColor()
-    {
-        _defaultSkyColor = GetDefaultSkyColor();
-        ShowManager.m_Instance.GetSkyFogManager().SetSkyColor(SkyFogManager.SkyLevel.Middle, _defaultSkyColor);
+        ShowManager.m_Instance.GetSkyFogManager().SetSkyColor(SkyFogManager.SkyLevel.Middle, color);
     }
 
     private Color GetDefaultSkyColor()
@@ -173,7 +168,13 @@ public class ITrackManager : MonoBehaviour
         return color;
     }
 
-    protected virtual void SetLineVFXColor()
+    //Set the color of the LineVFX perticles 
+    protected virtual void SetLineVFXColor(Color color)
+    {
+        ShowManager.m_Instance.GetLineVFXManager().SetColorOverLifetime(color);
+    }
+
+    private Color GetDefaultLineVFXColor()
     {
         Color color = Color.magenta;
         if (ShowManager.m_Instance.GetCurrentTrack()._MainColorList != null && ShowManager.m_Instance.GetCurrentTrack()._MainColorList.Count > 1)
@@ -185,50 +186,45 @@ public class ITrackManager : MonoBehaviour
             color = ShowManager.m_Instance.GetCurrentTrack()._SecondaryColorList[0];
         }
 
-        ShowManager.m_Instance.GetLineVFXManager().SetColorOverLifetime(color);
-
+        return color;
     }
 
+    //Adjust the vignette effect depending on the Location parameter in ShowManager
     protected virtual void SetLocation()
     {
         ShowManager.m_Instance.GetPostProcessVolumeManager().SetVignette(ShowManager.m_Instance.GetCurrentTrack()._Location);
     }
     
-    private IEnumerator PulsingCoroutine()
+    //Make the VFX line pulse
+    public void PulseLineVFX()
     {
         ShowManager.m_Instance.GetLineVFXManager().PulseEffect();
-        yield return pulseInterval;
-        Pulse();
     }
 
-    public void Pulse()
+    //Make the Line VFX rotate at a given speed
+    public void RotateLineVFX(float effilageSpeed)
     {
-        if(ShowManager.m_Instance.GetCurrentTrack()._Type == ShowManager.TrackType.TailorMade)
-        {
-            return;
-        }
-
-        if(pulsingCoroutine != null)
-        {
-            StopCoroutine(pulsingCoroutine);
-        }
-
-        pulsingCoroutine = StartCoroutine(PulsingCoroutine());
-    }
-
-    public void Effilage()
-    {
-        if(ShowManager.m_Instance.GetCurrentTrack()._Type == ShowManager.TrackType.TailorMade)
-        {
-            return;
-        }
-
-        ShowManager.m_Instance.GetLineVFXManager().EffilageEffect(tempo);
+        ShowManager.m_Instance.GetLineVFXManager().EffilageEffect(effilageSpeed);
     }
     #endregion
 
     #region Transition Effects
-    protected virtual void TransitionSkyVolume()
+
+    protected virtual void ApplyTransitionEffects()
+    {
+        Debug.LogWarning("Transitioning from a TailorMade scene to a default scene");
+        _activeTailorMadeSky = ShowManager.m_Instance.GetPreviousTailorVolumes()[0];
+        _activeTailorMadePostProcess = ShowManager.m_Instance.GetPreviousTailorVolumes()[1];
+
+        SetAltitude();
+        SetLocation();
+        ZoomOutLineVFX();
+        SetLineVFXColor(GetDefaultLineVFXColor());
+        TransitionSkyVolume(GetDefaultSkyColor());
+        TransitionPostProcess();
+    } 
+
+    protected virtual void TransitionSkyVolume(Color color)
     {
         VolumeProfile activeSkyProfile = _activeTailorMadeSky.sharedProfile;
         Color activeSkyColor;
@@ -240,8 +236,7 @@ public class ITrackManager : MonoBehaviour
                 if (activeSkyProfile.TryGet<PhysicallyBasedSky>(out var activePhysicallyBasedSky))
                 {
                     activeSkyColor = (Color)activePhysicallyBasedSky.groundTint;
-                    _defaultSkyColor = GetDefaultSkyColor();
-                    ShowManager.m_Instance.GetSkyFogManager().TransitionTailorMadeSkyColor(SkyFogManager.SkyLevel.All, activeSkyColor, _defaultSkyColor);
+                    ShowManager.m_Instance.GetSkyFogManager().TransitionTailorMadeSkyColor(SkyFogManager.SkyLevel.All, activeSkyColor, color);
                 }
             }
         }

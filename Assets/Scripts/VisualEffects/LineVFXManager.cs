@@ -74,25 +74,25 @@ public class LineVFXManager : MonoBehaviour
         StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(isVisible, rate_name, base_rate_value, m_LineVFX, duration));
     }
 
-    public void EffilageEffect(float tempo)
+    public void EffilageEffect(float speed)
     {
         if (m_EffilageEffectCoroutine != null)
         {
             StopCoroutine(m_EffilageEffectCoroutine);
         }
 
-        m_EffilageEffectCoroutine = EffilageEffectCoroutine(tempo);
+        m_EffilageEffectCoroutine = EffilageEffectCoroutine(speed);
         StartCoroutine(m_EffilageEffectCoroutine);
     }
 
-    private IEnumerator EffilageEffectCoroutine(float tempo)
+    private IEnumerator EffilageEffectCoroutine(float speed)
     {
         float elapsedTime = 0f;
         Vector2 targetValue1 = new (30f, 2f);
 
         while(elapsedTime < m_EffilageLerpDuration)
         {
-            movingValue1 = Vector2.Lerp(base_value1, targetValue1, elapsedTime / (m_EffilageLerpDuration * tempo));
+            movingValue1 = Vector2.Lerp(base_value1, targetValue1, elapsedTime / (m_EffilageLerpDuration * speed));
             m_LineVFX.SetVector2(value1_name, movingValue1);
 
             elapsedTime += Time.deltaTime;
