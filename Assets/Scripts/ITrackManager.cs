@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 
 public class ITrackManager : MonoBehaviour
 {
@@ -18,6 +20,11 @@ public class ITrackManager : MonoBehaviour
     private float baseCameraFOV = 60;
     private float tempo;
 
+    //Transition variables
+    private Volume _activeTailorMadeSky;
+    private Volume _activeTailorMadePostProcess;
+    private Color _defaultSkyColor = Color.black;
+
     protected virtual void Start()
     {
         tempo = ShowManager.m_Instance.GetCurrentTrack()._Tempo;
@@ -27,12 +34,32 @@ public class ITrackManager : MonoBehaviour
 
     protected virtual void ApplyDefaultEffects()
     {
+        if(!ShowManager.m_Instance.IsPreviousTrackTailorMade())
+        {
+            SetAltitude();
+            SetSkyColor();
+            SetLineVFXColor();
+            SetLocation();
+            SetCameraFOV();
+        }
+        else
+        {
+            ApplyTransitionEffects();
+        }
+    }
+
+    protected virtual void ApplyTransitionEffects()
+    {
+        _activeTailorMadeSky = ShowManager.m_Instance.GetPreviousTailorVolumes()[0];
+        _activeTailorMadePostProcess = ShowManager.m_Instance.GetPreviousTailorVolumes()[1];
+
         SetAltitude();
-        SetSkyColor();
-        SetLineVFXColor();
         SetLocation();
         SetCameraFOV();
-    }
+        SetLineVFXColor();
+        TransitionSkyVolume();
+        TransitionPostProcess();
+    } 
 
     private void Update()
     {
@@ -47,6 +74,7 @@ public class ITrackManager : MonoBehaviour
         }
     }
 
+    #region Default Effects
     protected virtual void SetAltitude()
     {
         if (m_altitudeCoroutine != null)
@@ -122,6 +150,12 @@ public class ITrackManager : MonoBehaviour
 
     protected virtual void SetSkyColor()
     {
+        _defaultSkyColor = GetDefaultSkyColor();
+        ShowManager.m_Instance.GetSkyFogManager().SetSkyColor(SkyFogManager.SkyLevel.Middle, _defaultSkyColor);
+    }
+
+    private Color GetDefaultSkyColor()
+    {
         Color color = Color.black;
         if (ShowManager.m_Instance.GetCurrentTrack()._MainColorList != null && ShowManager.m_Instance.GetCurrentTrack()._MainColorList.Count != 0)
         {
@@ -136,7 +170,7 @@ public class ITrackManager : MonoBehaviour
             }
         }
 
-        ShowManager.m_Instance.GetSkyFogManager().SetSkyColor(SkyFogManager.SkyLevel.Middle, color);
+        return color;
     }
 
     protected virtual void SetLineVFXColor()
@@ -191,4 +225,38 @@ public class ITrackManager : MonoBehaviour
 
         ShowManager.m_Instance.GetLineVFXManager().EffilageEffect(tempo);
     }
+    #endregion
+
+    #region Transition Effects
+    protected virtual void TransitionSkyVolume()
+    {
+        VolumeProfile activeSkyProfile = _activeTailorMadeSky.sharedProfile;
+        Color activeSkyColor;
+        if (activeSkyProfile.TryGet<VisualEnvironment>(out var activeVisualEnvironment))
+        {
+            if (activeVisualEnvironment.skyType == (int)SkyType.PhysicallyBased)
+            {
+                //Active VisualEnvironment is PhysicallyBasedSky
+                if (activeSkyProfile.TryGet<PhysicallyBasedSky>(out var activePhysicallyBasedSky))
+                {
+                    activeSkyColor = (Color)activePhysicallyBasedSky.groundTint;
+                    _defaultSkyColor = GetDefaultSkyColor();
+                    ShowManager.m_Instance.GetSkyFogManager().TransitionTailorMadeSkyColor(SkyFogManager.SkyLevel.All, activeSkyColor, _defaultSkyColor);
+                }
+            }
+        }
+        else
+        {
+            Debug.LogWarning("There is no VisualEnvironment in the TailorMade scene to transition from");
+        }
+    }
+
+    protected virtual void TransitionPostProcess()
+    {
+        ShowManager.m_Instance.GetPostProcessVolumeManager().TransitionTailorMadePostProcess(_activeTailorMadePostProcess);
+    }
+
+
+
+    #endregion
 }

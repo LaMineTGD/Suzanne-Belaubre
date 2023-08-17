@@ -1,4 +1,6 @@
+using System;
 using System.Collections;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
@@ -12,6 +14,11 @@ public class PostProcessVolumeManager : MonoBehaviour
     private VolumeProfile m_postProcessVolumeProfile;
     private Vignette m_vignette;
     private IEnumerator m_InterpCoroutine;
+
+    private Bloom m_bloom;
+    private MotionBlur m_motionBlur;
+    private Tonemapping m_tonemapping;
+    private float m_interpOffDuration = 5f;
 
     private void Awake()
     {
@@ -72,6 +79,103 @@ public class PostProcessVolumeManager : MonoBehaviour
 
         yield return null;
     }
+
+    public void TransitionTailorMadePostProcess(Volume postProcessVolume)
+    {
+        if(postProcessVolume.sharedProfile.TryGet<Bloom>(out var bloom))
+        {
+            if(bloom.IsActive())
+            {
+                if(!m_postProcessVolumeProfile.Has<Bloom>())
+                {
+                    VolumeProfileFactory.CreateVolumeComponent<Bloom>(m_postProcessVolumeProfile);
+                }
+
+                if(m_postProcessVolumeProfile.TryGet<Bloom>(out var spectacleBloom))
+                {
+                    spectacleBloom.active = true;
+                    spectacleBloom.quality.overrideState = bloom.quality.overrideState;
+                    spectacleBloom.quality.value = bloom.quality.value;
+                    spectacleBloom.threshold.overrideState = bloom.threshold.overrideState;
+                    spectacleBloom.threshold.value = bloom.threshold.value;
+                    spectacleBloom.intensity.overrideState = bloom.intensity.overrideState;
+                    spectacleBloom.intensity.value = bloom.intensity.value;
+                    m_bloom = spectacleBloom;
+                }
+                StartCoroutine(InterpolateTailorBloomOff());
+            }
+        } 
+
+        if(postProcessVolume.sharedProfile.TryGet<MotionBlur>(out var motionBlur))
+        {
+            if(motionBlur.IsActive())
+            {
+                if(!m_postProcessVolumeProfile.Has<MotionBlur>())
+                {
+                    VolumeProfileFactory.CreateVolumeComponent<MotionBlur>(m_postProcessVolumeProfile);
+                }
+
+                if(m_postProcessVolumeProfile.TryGet<MotionBlur>(out var spectacleMotionBlur))
+                {
+                    spectacleMotionBlur.active = true;
+                    spectacleMotionBlur.intensity.overrideState = motionBlur.intensity.overrideState;
+                    spectacleMotionBlur.intensity.value = motionBlur.intensity.value;
+                    m_motionBlur = spectacleMotionBlur;
+                }
+                StartCoroutine(InterpolateTailorMotionBlurOff());
+            }
+        }
+
+        // if(postProcessVolume.sharedProfile.TryGet<Tonemapping>(out var tonemapping))
+        // {
+        //     if(tonemapping.IsActive())
+        //     {
+        //         if(!m_postProcessVolumeProfile.Has<Tonemapping>())
+        //         {
+        //             VolumeProfileFactory.CreateVolumeComponent<Tonemapping>(m_postProcessVolumeProfile);
+        //         }
+
+        //         if(m_postProcessVolumeProfile.TryGet<Tonemapping>(out var spectacleTonemapping))
+        //         {
+        //             spectacleTonemapping.active = true;
+        //             spectacleTonemapping.mode.overrideState = tonemapping.mode.overrideState;
+        //             spectacleTonemapping.mode.value = tonemapping.mode.value;
+        //             m_tonemapping = spectacleTonemapping;
+        //         }
+        //     }
+        // } 
+    }
+
+    private IEnumerator InterpolateTailorBloomOff()
+    {
+        float elapsedTime = 0f;
+        float fromIntensity = (float)m_bloom.intensity.value;
+        
+        while(elapsedTime < m_interpOffDuration)
+        {
+            m_bloom.intensity.value =  Mathf.Lerp(fromIntensity, 0f, elapsedTime / m_interpOffDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        m_bloom.active = false;
+        yield return null;
+    }
+
+    private IEnumerator InterpolateTailorMotionBlurOff()
+    {
+        float elapsedTime = 0f;
+        float fromIntensity = (float)m_motionBlur.intensity.value;
+        
+        while(elapsedTime < m_interpOffDuration)
+        {
+            m_motionBlur.intensity.value =  Mathf.Lerp(fromIntensity, 0f, elapsedTime / m_interpOffDuration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        m_motionBlur.active = false;
+        yield return null;
+    }
+
 
 
     public void SetVisible(bool isVisible, float duration){

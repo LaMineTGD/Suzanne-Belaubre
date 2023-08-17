@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.41829854, g: 0.4653259, b: 0.4243434, a: 1}
+  m_IndirectSpecularColor: {r: 0.2061874, g: 0.20643583, b: 0.24450782, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -157,6 +157,7 @@ MonoBehaviour:
   m_SkyFogManager: {fileID: 1216320611}
   m_LineVFXManager: {fileID: 1201499417}
   m_PostProcessVolumeManager: {fileID: 965866303}
+  m_ITrackManager: {fileID: 1888274009}
   m_TrackList:
   - _SceneName: Aube
     _Altitude: 0
@@ -179,7 +180,7 @@ MonoBehaviour:
   - _SceneName: BonnesDesillusions
     _Altitude: -1
     _Type: 0
-    _Start_Transition_duration: 5
+    _Start_Transition_duration: 1
     _Temperature: 1
     _Location: 0
     _Tempo: 1.86
@@ -195,7 +196,7 @@ MonoBehaviour:
   - _SceneName: Seum
     _Altitude: -2
     _Type: 0
-    _Start_Transition_duration: 0
+    _Start_Transition_duration: 5
     _Temperature: 1
     _Location: 0
     _Tempo: 0.55
@@ -735,7 +736,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b965961259b425e4785b74e08e0dfeb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_colorInterpDuration: 100
 --- !u!1 &1425285365
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 
 public class ShowManager : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class ShowManager : MonoBehaviour
     [SerializeField] private SkyFogManager m_SkyFogManager;
     [SerializeField] private LineVFXManager m_LineVFXManager;
     [SerializeField] private PostProcessVolumeManager m_PostProcessVolumeManager;
+    [SerializeField] private ITrackManager m_ITrackManager;
 
     [Serializable]
     public struct TrackList
@@ -40,13 +42,12 @@ public class ShowManager : MonoBehaviour
     [NonReorderable] public TrackList[] m_TrackList;
 
     private TrackTailorMadeManager currentTailorManager;
-
     private int m_TrackPlaying = -1;
-
     private bool firstTrack;
-
     private bool isTransitionning = false;
     private Coroutine currentTransition;
+    private Volume _previousTailorSkyVolume;
+    private Volume _previousTailorPostProcessVolume;
 
     private void Awake()
     {
@@ -62,7 +63,6 @@ public class ShowManager : MonoBehaviour
 
     void Start()
     {
-        //m_MainCamera = Camera.main;
         firstTrack = true;
         currentTailorManager = null;
         StartNextTrack();
@@ -71,7 +71,6 @@ public class ShowManager : MonoBehaviour
     private void StartNextTrack()
     {
         LoadNextTrack();
-        //ApplyTrackBasicEffects();
     }
 
     private IEnumerator DeleteSceneWithDelay(float duration, string sceneName)
@@ -93,8 +92,10 @@ public class ShowManager : MonoBehaviour
         int lastTrack = (m_TrackList.Length + m_TrackPlaying - 1) % m_TrackList.Length;
         int currentTrack = (m_TrackList.Length + m_TrackPlaying) % m_TrackList.Length;
         int nextTrack = (currentTrack + 1) % m_TrackList.Length;
-        SceneManager.LoadScene(m_TrackList[nextTrack]._SceneName, LoadSceneMode.Additive);
+        
+        // SceneManager.LoadScene(m_TrackList[nextTrack]._SceneName, LoadSceneMode.Additive);
         float duration = m_TrackList[nextTrack]._Start_Transition_duration;
+
         if (firstTrack)
         {
             duration = 0.0f;
@@ -106,15 +107,26 @@ public class ShowManager : MonoBehaviour
             isTransitionning = false;
         }
         if (!firstTrack)
+        {
             currentTransition = StartCoroutine(DeleteSceneWithDelay(duration, m_TrackList[currentTrack]._SceneName));
+        }
+
         if (m_TrackList[nextTrack]._Type == TrackType.TailorMade && (m_TrackList[currentTrack]._Type == TrackType.Default || firstTrack))
             SetDefaultVisible(false, duration);
         else if (m_TrackList[currentTrack]._Type == TrackType.TailorMade)
         {
             currentTailorManager.SetTransitionToVisibleOff(duration);
+
             if (m_TrackList[nextTrack]._Type == TrackType.Default)
-                SetDefaultVisible(true, duration);
+            {
+                _previousTailorSkyVolume = currentTailorManager.GetTailorMadeSkyVolume();
+                _previousTailorPostProcessVolume = currentTailorManager.GetTailorMadePostProcessVolume();
+                // SetDefaultVisible(true, duration);
+                SetDefaultVisible(true, 0f);
+            }
         }
+        SceneManager.LoadScene(m_TrackList[nextTrack]._SceneName, LoadSceneMode.Additive);
+
         firstTrack = false;
         m_TrackPlaying = nextTrack;
     }
@@ -163,6 +175,24 @@ public class ShowManager : MonoBehaviour
     public void SetCurrentTailorTrack(TrackTailorMadeManager manager)
     {
         currentTailorManager = manager;
+    }
+
+    public bool IsPreviousTrackTailorMade()
+    {
+        if (m_TrackPlaying == -1 || m_TrackPlaying ==0)
+        {
+            return false;
+        } 
+        else
+        {
+            return m_TrackList[m_TrackPlaying-1]._Type == TrackType.TailorMade;
+        }
+    }
+
+    public Volume[] GetPreviousTailorVolumes()
+    {
+        Volume[] result = new Volume[2] {_previousTailorSkyVolume, _previousTailorPostProcessVolume};
+        return result;
     }
 
 }

@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.VFX;
@@ -9,6 +7,7 @@ public class TrackTailorMadeManager : ITrackManager
     [SerializeField] protected Volume m_SkyFogVolume;
     [SerializeField] protected Volume m_PostProcessVolume;
     [SerializeField] protected VisualEffect m_VFX;
+    [SerializeField] protected Light m_Light;
 
     protected float base_rate_value = 0;
 
@@ -46,6 +45,7 @@ public class TrackTailorMadeManager : ITrackManager
         SkyTransition(false, duration);
         PostProcessTransition(false, duration);
         VFXTransition(false, duration);
+        LightOffTransition(duration);
     }
 
     protected void SkyTransition(bool isVisible, float duration)
@@ -64,5 +64,23 @@ public class TrackTailorMadeManager : ITrackManager
     {
         if (m_VFX != null)
             StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(isVisible, rate_name, base_rate_value, m_VFX, duration));
+    }
+
+    protected void LightOffTransition(float duration)
+    {
+        if(m_Light != null)
+        {
+            StartCoroutine(Utils.Utils.InterpolatLightOff(m_Light, duration));
+        }
+    }
+
+    public Volume GetTailorMadeSkyVolume()
+    {
+        return m_SkyFogVolume;
+    }
+
+    public Volume GetTailorMadePostProcessVolume()
+    {
+        return m_PostProcessVolume;
     }
 }

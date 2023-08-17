@@ -7,6 +7,14 @@ using UnityEngine.VFX;
 
 namespace Utils
 {
+    public enum TailoredPostProcess
+    {
+        Vignette,
+        Bloom,
+        Tonemapping,
+        MotionBlur
+    }
+
     class Utils
     {
         public static IEnumerator InterpolatVolumeVisibility(bool isVisible, Volume volume, float duration)
@@ -63,6 +71,24 @@ namespace Utils
             }
             vfx.enabled = ToMax;
             yield return null;
+        }
+        public static IEnumerator InterpolatLightOff(Light light, float duration)
+        {
+            light.enabled = true;
+            float elapsedTime = 0f;
+            float tpm = 0f;
+            float fromIntensity = light.intensity;
+
+            while (elapsedTime < duration)
+            {
+                tpm = elapsedTime / duration;
+                light.intensity = Mathf.Lerp(fromIntensity, 0f, tpm);
+
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+            yield return null;
+            light.enabled = false;
         }
     }
 }

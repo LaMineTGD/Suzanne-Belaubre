@@ -560,10 +560,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_rotationStep: 15
   m_altitudeLerpDuration: 100
+  m_FOVLerpDuration: 100
   m_trackName: 2
   m_SkyFogVolume: {fileID: 1823032830}
   m_PostProcessVolume: {fileID: 331782807}
   m_VFX: {fileID: 262510764}
+  m_Light: {fileID: 2013295682}
 --- !u!1 &1563284817
 GameObject:
   m_ObjectHideFlags: 0
