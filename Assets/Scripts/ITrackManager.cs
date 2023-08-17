@@ -206,6 +206,50 @@ public class ITrackManager : MonoBehaviour
     {
         ShowManager.m_Instance.GetLineVFXManager().EffilageEffect(effilageSpeed);
     }
+
+    #endregion
+
+    #region LineVFX setters
+    protected void SetLineVFXColorOverLifetime(Gradient gradient)
+    {
+        ShowManager.m_Instance.GetLineVFXManager().SetColorOverLifetime(gradient);
+    }
+
+    protected void SetLineVFXRate(float rate)
+    {
+        ShowManager.m_Instance.GetLineVFXManager().SetRate(rate);
+    }
+
+    protected void SetLineVFXRadius(float lineRadius)
+    {
+        ShowManager.m_Instance.GetLineVFXManager().SetLineRadius(lineRadius);
+    }
+
+    protected void SetLineVFXParticleSpeed(float particleSpeed)
+    {
+        ShowManager.m_Instance.GetLineVFXManager().SetParticleSpeed(particleSpeed);
+    }
+
+    protected void SetLineVFXLifeTime(Vector2 lifetime)
+    {
+        ShowManager.m_Instance.GetLineVFXManager().SetLifeTime(lifetime);
+    }
+
+    protected void SetLineVFXAspectValue1(Vector2 value1)
+    {
+        ShowManager.m_Instance.GetLineVFXManager().SetLineAspectValue1(value1);
+    }
+
+    protected void SetLineVFXAspectValue2(Vector2 value2)
+    {
+        ShowManager.m_Instance.GetLineVFXManager().SetLineAspectValue2(value2);
+
+    }
+
+    protected void SetLineVFXAspectCircle(Vector2 circle)
+    {
+        ShowManager.m_Instance.GetLineVFXManager().SetLineAspectCircle(circle);
+    }
     #endregion
 
     #region Transition Effects
