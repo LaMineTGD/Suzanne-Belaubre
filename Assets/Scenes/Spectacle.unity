@@ -165,7 +165,6 @@ MonoBehaviour:
     _Start_Transition_duration: 0
     _Temperature: 2
     _Location: 1
-    _Tempo: 0
     _MainColorList:
     - {r: 1, g: 0, b: 0.8379879, a: 0}
     - {r: 1, g: 0.40889087, b: 0, a: 0}
@@ -183,7 +182,6 @@ MonoBehaviour:
     _Start_Transition_duration: 1
     _Temperature: 1
     _Location: 0
-    _Tempo: 1.86
     _MainColorList:
     - {r: 0.21226418, g: 0.21684395, b: 1, a: 0}
     _SecondaryColorList:
@@ -199,7 +197,6 @@ MonoBehaviour:
     _Start_Transition_duration: 5
     _Temperature: 1
     _Location: 0
-    _Tempo: 0.55
     _MainColorList:
     - {r: 0, g: 0.4528302, b: 0.0580697, a: 0}
     - {r: 0.5745813, g: 0.8773585, b: 0.33521718, a: 0}
@@ -214,7 +211,6 @@ MonoBehaviour:
     _Start_Transition_duration: 0
     _Temperature: 0
     _Location: 0
-    _Tempo: 0
     _MainColorList:
     - {r: 1, g: 0, b: 0.9071803, a: 0}
     - {r: 1, g: 0, b: 0.06054926, a: 0}
@@ -231,7 +227,6 @@ MonoBehaviour:
     _Start_Transition_duration: 0
     _Temperature: 0
     _Location: 0
-    _Tempo: 0
     _MainColorList:
     - {r: 1, g: 0, b: 0.05882353, a: 0}
     - {r: 1, g: 0.60784316, b: 0, a: 0}
@@ -242,11 +237,10 @@ MonoBehaviour:
     _FourthColorList: []
   - _SceneName: Commencement
     _Altitude: 0
-    _Type: 0
+    _Type: 1
     _Start_Transition_duration: 0
     _Temperature: 0
     _Location: 0
-    _Tempo: 0
     _MainColorList:
     - {r: 1, g: 0, b: 0.05882353, a: 0}
     _SecondaryColorList:
@@ -261,7 +255,6 @@ MonoBehaviour:
     _Start_Transition_duration: 0
     _Temperature: 0
     _Location: 1
-    _Tempo: 0
     _MainColorList:
     - {r: 1, g: 0.94509804, b: 0, a: 0}
     - {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 0}
@@ -274,7 +267,6 @@ MonoBehaviour:
     _Start_Transition_duration: 0
     _Temperature: 0
     _Location: 1
-    _Tempo: 0
     _MainColorList:
     - {r: 1, g: 0.94509804, b: 0, a: 0}
     - {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 0}
@@ -289,7 +281,6 @@ MonoBehaviour:
     _Start_Transition_duration: 4
     _Temperature: 2
     _Location: 0
-    _Tempo: 0
     _MainColorList:
     - {r: 1, g: 0, b: 0.8753972, a: 0}
     - {r: 0.60969925, g: 0, b: 1, a: 0}
@@ -305,7 +296,6 @@ MonoBehaviour:
     _Start_Transition_duration: 4
     _Temperature: 1
     _Location: 4
-    _Tempo: 0
     _MainColorList:
     - {r: 0.0049114227, g: 0, b: 1, a: 0}
     - {r: 0, g: 0.6792453, b: 0.15410367, a: 0}
@@ -321,7 +311,6 @@ MonoBehaviour:
     _Start_Transition_duration: 4
     _Temperature: 2
     _Location: 4
-    _Tempo: 0
     _MainColorList:
     - {r: 0, g: 0.6784314, b: 0.15294118, a: 0}
     - {r: 1, g: 0.94509804, b: 0, a: 0}
