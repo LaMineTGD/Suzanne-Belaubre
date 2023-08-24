@@ -72,6 +72,7 @@ namespace Utils
             vfx.enabled = ToMax;
             yield return null;
         }
+
         public static IEnumerator InterpolatLightOff(Light light, float duration)
         {
             light.enabled = true;

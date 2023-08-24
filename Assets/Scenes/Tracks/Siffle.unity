@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.2601702, g: 0.3588093, b: 0.60250074, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -199,14 +199,23 @@ VisualEffect:
   m_PropertySheet:
     m_Float:
       m_Array:
-      - m_Value: 1000
+      - m_Value: 5000
         m_Name: wind_speed
         m_Overridden: 1
       - m_Value: 0.3
         m_Name: tree_radius
         m_Overridden: 1
-      - m_Value: 10
+      - m_Value: 3
         m_Name: Rate
+        m_Overridden: 1
+      - m_Value: 0.85
+        m_Name: Grow_speed
+        m_Overridden: 1
+      - m_Value: 7.5
+        m_Name: minimum_lifetime
+        m_Overridden: 1
+      - m_Value: 9.5
+        m_Name: maximum_lifetime
         m_Overridden: 1
     m_Vector2f:
       m_Array: []
@@ -292,10 +301,46 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_rotationStep: 15
   m_altitudeLerpDuration: 100
-  m_track: {fileID: 8300000, guid: 19c17d7c5fdbe334988d56c95519fae2, type: 3}
+  m_FOVLerpDuration: 100
+  m_trackName: 0
   m_SkyFogVolume: {fileID: 1456417839}
   m_PostProcessVolume: {fileID: 2007376990}
   m_VFX: {fileID: 621161059}
+  m_Light: {fileID: 0}
+  evolutionCrescendoCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 3.9914713
+      outSlope: 3.9914713
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.08990145
+      outWeight: 0.07142857
+    - serializedVersion: 3
+      time: 0.15095781
+      value: 1
+      inSlope: -0.008742727
+      outSlope: -0.008742727
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.10025989
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -2.0470612
+      outSlope: -2.0470612
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.044062775
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  crescendoDuration: 4
 --- !u!1 &994807458
 GameObject:
   m_ObjectHideFlags: 0
@@ -529,6 +574,7 @@ GameObject:
   - component: {fileID: 1014122535}
   - component: {fileID: 1014122534}
   - component: {fileID: 1014122533}
+  - component: {fileID: 1014122536}
   m_Layer: 0
   m_Name: TimelineEditor
   m_TagString: Untagged
@@ -546,7 +592,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 19c17d7c5fdbe334988d56c95519fae2, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
@@ -670,6 +716,75 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1014122536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1014122532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: e87c7e66ec121dc48923e2a25a1ac444, type: 2}
+    - {fileID: 11400000, guid: 2541c78577992a54eb7de8515b39d2e0, type: 2}
+    - {fileID: 11400000, guid: 11556d4b64cd5ae41aeec8bcfa2921eb, type: 2}
+    - {fileID: 11400000, guid: 82c1d4a3a29d5a44a9326558c36c7600, type: 2}
+    - {fileID: 11400000, guid: 48e9e5db3c8a49d4e93ee75037ea136b, type: 2}
+    - {fileID: 11400000, guid: f7750e240a733644e95c3b7a55bf7e19, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 707637778}
+          m_TargetAssemblyTypeName: SiffleManager, Assembly-CSharp
+          m_MethodName: PercuStart
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 707637778}
+          m_TargetAssemblyTypeName: SiffleManager, Assembly-CSharp
+          m_MethodName: ChantStart
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 707637778}
+          m_TargetAssemblyTypeName: SiffleManager, Assembly-CSharp
+          m_MethodName: Crescendo_1
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls: []
+    - m_PersistentCalls:
+        m_Calls: []
+    - m_PersistentCalls:
+        m_Calls: []
 --- !u!1 &1456417837
 GameObject:
   m_ObjectHideFlags: 0
