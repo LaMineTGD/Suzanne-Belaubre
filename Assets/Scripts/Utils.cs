@@ -69,7 +69,7 @@ namespace Utils
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
-            vfx.enabled = ToMax;
+            vfx.enabled = ToMax || min_value > 0;
             yield return null;
         }
 
