@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.2061874, g: 0.20643583, b: 0.24450782, a: 1}
+  m_IndirectSpecularColor: {r: 0.41829854, g: 0.4653259, b: 0.4243434, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -563,6 +563,9 @@ VisualEffect:
         m_Overridden: 1
       - m_Value: 0.1
         m_Name: LineRadius
+        m_Overridden: 1
+      - m_Value: 67534
+        m_Name: Rate
         m_Overridden: 1
     m_Vector2f:
       m_Array:
@@ -1170,10 +1173,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 247aad212e0a2c146a9284b684f7798c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_rotationStep: 15
-  m_altitudeLerpDuration: 100
-  m_FOVLerpDuration: 100
-  m_trackName: 0
 --- !u!4 &1888274010
 Transform:
   m_ObjectHideFlags: 0

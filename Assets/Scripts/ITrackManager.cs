@@ -8,12 +8,10 @@ public class ITrackManager : MonoBehaviour
 {
     protected int m_rotationStep = 15;
     protected float m_altitudeLerpDuration = 100f;
-    protected float m_FOVLerpDuration = 100f;
 
     protected IEnumerator m_altitudeCoroutine;
     protected IEnumerator m_cameraFOVCoroutine;
     protected Camera m_MainCamera;
-    private float m_InitFOVLerpDuration = 3f;
     private float baseCameraFOV = 60;
     private bool _isCameraDirty = false;
 
@@ -35,6 +33,8 @@ public class ITrackManager : MonoBehaviour
             SetSkyColor(GetDefaultSkyColor());
             SetLineVFXColor(GetDefaultLineVFXColor());
             SetLocation();
+            StartCoroutine(SetLineVFXDefaultValues());
+            StartCoroutine(ResetCameraFOVCoroutine(2f));
         }
         else
         {
@@ -51,8 +51,39 @@ public class ITrackManager : MonoBehaviour
     //Below are all the methods used in the default effects
     #region Default Effects
 
+    private IEnumerator SetLineVFXDefaultValues()
+    {
+        float elapsedTime = 0f;
+        float duration = 3f;
+
+        float currentRate = GetLineVFXRate();
+        float currentRadius = GetLineVFXRadius();
+        Vector2 currentValue1 = GetLineAspectValue1();
+
+        float radius;
+        float rate;
+        Vector2 value1;
+
+        while (elapsedTime < duration)
+        {
+            radius = Mathf.SmoothStep(currentRadius, GetLineVFXDefaultRadius(), elapsedTime / duration);
+            rate = Mathf.SmoothStep(currentRate, GetLineVFXDefaultRate(), elapsedTime / duration);
+            value1 = Vector2.Lerp(currentValue1, GetLineVFXDefaultValue1(), elapsedTime / duration);
+
+            SetLineVFXRadius(radius);
+            SetLineVFXRate(rate);
+            SetLineVFXAspectValue1(value1);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        yield return null;
+    }
+
     //Reset the Camera FOC to its initial value if the next track is Tailor Made 
-    protected virtual void ResetCameraFOV()
+    protected virtual void ResetCameraFOV(float duration = 3f)
     {
         if(_isCameraDirty && ShowManager.m_Instance.GetCurrentTrack()._Type == ShowManager.TrackType.TailorMade)
         {
@@ -61,18 +92,18 @@ public class ITrackManager : MonoBehaviour
                 StopCoroutine(m_cameraFOVCoroutine);
             }
 
-            StartCoroutine(ResetCameraFOVCoroutine());
+            StartCoroutine(ResetCameraFOVCoroutine(duration));
             _isCameraDirty = false;
         }
     }
 
-    protected IEnumerator ResetCameraFOVCoroutine()
+    protected IEnumerator ResetCameraFOVCoroutine(float duration)
     {
         float elapsedTime = 0f;
         float currentCameraFOV = m_MainCamera.fieldOfView;
-        while (elapsedTime < m_InitFOVLerpDuration)
+        while (elapsedTime < duration)
         {
-            m_MainCamera.fieldOfView = Mathf.SmoothStep(currentCameraFOV, baseCameraFOV, elapsedTime / m_InitFOVLerpDuration);
+            m_MainCamera.fieldOfView = Mathf.SmoothStep(currentCameraFOV, baseCameraFOV, elapsedTime / duration);
 
             elapsedTime += Time.deltaTime;
 
@@ -113,25 +144,25 @@ public class ITrackManager : MonoBehaviour
     }
 
     //Zoom the camera out accross the different Default tracks, giving an overview of the LineVFX
-    protected virtual void ZoomOutLineVFX(float targetFOV = 100f)
+    protected virtual void ChangeFOVLineVFX(float targetFOV = 100f, float duration = 100f)
     {
         if (m_cameraFOVCoroutine != null)
         {
             StopCoroutine(m_cameraFOVCoroutine);
         }
 
-        m_cameraFOVCoroutine = ZoomOutLineVFXCoroutine(targetFOV);
+        m_cameraFOVCoroutine = ZoomLineVFXCoroutine(targetFOV, duration);
         StartCoroutine(m_cameraFOVCoroutine);
         _isCameraDirty = true;
     }
 
-    private IEnumerator ZoomOutLineVFXCoroutine(float targetFOV)
+    private IEnumerator ZoomLineVFXCoroutine(float targetFOV, float duration)
     {
         float elapsedTime = 0f;
         float currentCameraFOV = m_MainCamera.fieldOfView;
-        while (elapsedTime < m_FOVLerpDuration)
+        while (elapsedTime < duration)
         {
-            m_MainCamera.fieldOfView = Mathf.SmoothStep(currentCameraFOV, targetFOV, elapsedTime / m_FOVLerpDuration);
+            m_MainCamera.fieldOfView = Mathf.SmoothStep(currentCameraFOV, targetFOV, elapsedTime / duration);
 
             elapsedTime += Time.deltaTime;
 
@@ -199,7 +230,7 @@ public class ITrackManager : MonoBehaviour
     }
 
     //Make the Line VFX rotate at a given speed
-    public void RotateLineVFX(float effilageSpeed)
+    public void RotateLineVFX(float effilageSpeed = 1f)
     {
         ShowManager.m_Instance.GetLineVFXManager().EffilageEffect(effilageSpeed);
     }
@@ -260,9 +291,29 @@ public class ITrackManager : MonoBehaviour
         return ShowManager.m_Instance.GetLineVFXManager().GetDefaultRate();
     }
 
+    protected float GetLineVFXDefaultRadius()
+    {
+        return ShowManager.m_Instance.GetLineVFXManager().GetDefaultRadius();
+    }
+
+    protected Vector2 GetLineVFXDefaultValue1()
+    {
+        return ShowManager.m_Instance.GetLineVFXManager().GetLineAspectDefaultValue1();
+    }
+
     protected float GetLineVFXRate()
     {
         return ShowManager.m_Instance.GetLineVFXManager().GetRate();
+    }
+
+    protected float GetLineVFXRadius()
+    {
+        return ShowManager.m_Instance.GetLineVFXManager().GetRadius();
+    }
+
+    protected Vector2 GetLineAspectValue1()
+    {
+        return ShowManager.m_Instance.GetLineVFXManager().GetLineAspectValue1();
     }
 
     #endregion

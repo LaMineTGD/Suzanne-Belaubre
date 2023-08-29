@@ -13,18 +13,22 @@ public class LineVFXManager : MonoBehaviour
     private const string circle_name = "Circle";
     private const string particle_speed_name = "Particule_Speed";
 
+    private const float DEFAULT_RATE_VALUE = 67534;
+    private const float DEFAULT_RADIUS_VALUE = .1f;
+    private const float DEFAULT_VALUE1_X = 2f;
+    private const float DEFAULT_VALUE1_Y = 30f;
+
     [SerializeField] private float m_ColorLerpDuration = 5f;
     [SerializeField] private float m_PulseLerpDuration = 0.1f;
-    [SerializeField] protected float base_rate_value = 67534;
-    [SerializeField] private float m_EffilageLerpDuration = 10000f;
-    [SerializeField] private Vector2 base_value1= new (2f, 30f);
+    [SerializeField] protected float base_rate_value = DEFAULT_RATE_VALUE;
+    [SerializeField] private float m_EffilageLerpDuration = 1000f;
+    [SerializeField] private Vector2 base_value1= new (DEFAULT_VALUE1_X, DEFAULT_VALUE1_Y);
 
 
     private VisualEffect m_LineVFX;
     private IEnumerator m_ColorCoroutine;
     private IEnumerator m_PulseEffectCoroutine;
     private IEnumerator m_EffilageEffectCoroutine;
-    private float baseLineRadius;
     private Vector2 movingValue1;
 
 
@@ -35,10 +39,15 @@ public class LineVFXManager : MonoBehaviour
 
     private void Start()
     {
-        baseLineRadius = m_LineVFX.GetFloat(line_radius_name);
-        SetLineAspectValue1(base_value1);
-        SetRate(base_rate_value);
+        InitValues();
         movingValue1 = base_value1;
+    }
+
+    private void InitValues()
+    {
+        SetRate(DEFAULT_RATE_VALUE);
+        SetLineRadius(DEFAULT_RADIUS_VALUE);
+        SetLineAspectValue1(base_value1);
     }
 
     public void SetColorOverLifetime(Color color)
@@ -89,45 +98,58 @@ public class LineVFXManager : MonoBehaviour
         StartCoroutine(m_EffilageEffectCoroutine);
     }
 
+    public void EndEffilageEffect()
+    {
+        if (m_EffilageEffectCoroutine != null)
+        {
+            StopCoroutine(m_EffilageEffectCoroutine);
+        }
+    }
+
     private IEnumerator EffilageEffectCoroutine(float speed)
     {
         float elapsedTime = 0f;
         Vector2 targetValue1 = new (30f, 2f);
 
-        while(elapsedTime < m_EffilageLerpDuration)
+        Vector2 currentValue1 = m_LineVFX.GetVector2(value1_name);
+        if((currentValue1 - targetValue1).x < Mathf.Epsilon && (currentValue1 - targetValue1).y < Mathf.Epsilon)
         {
-            movingValue1 = Vector2.Lerp(base_value1, targetValue1, elapsedTime / (m_EffilageLerpDuration * speed));
+            //if traget value was already reached, rotate back to the other side
+            targetValue1 = new(2f, 30f);
+        }
+
+        while((elapsedTime * speed) < m_EffilageLerpDuration)
+        {
+            movingValue1 = Vector2.Lerp(base_value1, targetValue1, (elapsedTime * speed) / m_EffilageLerpDuration);
             SetLineAspectValue1(movingValue1);
 
             elapsedTime += Time.deltaTime;
 
             yield return null;
         }
-
         yield return null;
     }
 
-    public void PulseEffect()
+    public void PulseEffect(float targetRadius = .15f)
     {
         if (m_PulseEffectCoroutine != null)
         {
             StopCoroutine(m_PulseEffectCoroutine);
-            SetLineRadius(baseLineRadius);
+            SetLineRadius(DEFAULT_RADIUS_VALUE);
         }
 
-        m_PulseEffectCoroutine = PulseEffectCoroutine();
+        m_PulseEffectCoroutine = PulseEffectCoroutine(targetRadius);
         StartCoroutine(m_PulseEffectCoroutine);
     }
 
-    private IEnumerator PulseEffectCoroutine()
+    private IEnumerator PulseEffectCoroutine(float targetLineRadius)
     {
         float elapsedTime = 0f;
-        float targetLineRadius = 0.15f;
         float movingLineRadius;
 
         while(elapsedTime < m_PulseLerpDuration)
         {
-            movingLineRadius = Mathf.SmoothStep(baseLineRadius, targetLineRadius, elapsedTime / m_PulseLerpDuration);
+            movingLineRadius = Mathf.SmoothStep(DEFAULT_RADIUS_VALUE, targetLineRadius, elapsedTime / m_PulseLerpDuration);
             SetLineRadius(movingLineRadius);
 
             elapsedTime += Time.deltaTime;
@@ -137,14 +159,14 @@ public class LineVFXManager : MonoBehaviour
 
         while(elapsedTime > 0)
         {
-            movingLineRadius = Mathf.SmoothStep(baseLineRadius, targetLineRadius, elapsedTime / m_PulseLerpDuration);
+            //Lerp going backwards
+            movingLineRadius = Mathf.SmoothStep(DEFAULT_RADIUS_VALUE, targetLineRadius, elapsedTime / m_PulseLerpDuration);
             SetLineRadius(movingLineRadius);
 
             elapsedTime -= Time.deltaTime;
 
             yield return null;
         }
-
         yield return null;
     }
 
@@ -158,6 +180,16 @@ public class LineVFXManager : MonoBehaviour
         m_LineVFX.SetFloat(rate_name, rate);
     }
 
+    public float GetDefaultRate()
+    {
+        return DEFAULT_RATE_VALUE;
+    }
+
+    public float GetRate()
+    {
+        return m_LineVFX.GetFloat(rate_name);
+    }
+
     public void SetLineRadius(float lineRadius)
     {
         if(lineRadius > 1 || lineRadius < 0)
@@ -168,6 +200,16 @@ public class LineVFXManager : MonoBehaviour
         {
             m_LineVFX.SetFloat(line_radius_name, lineRadius);
         }
+    }
+
+    public float GetRadius()
+    {
+        return m_LineVFX.GetFloat(line_radius_name);
+    }
+
+    public float GetDefaultRadius()
+    {
+        return DEFAULT_RADIUS_VALUE;
     }
 
     public void SetParticleSpeed(float particleSpeed)
@@ -183,6 +225,16 @@ public class LineVFXManager : MonoBehaviour
     public void SetLineAspectValue1(Vector2 value1)
     {
         m_LineVFX.SetVector2(value1_name, value1);
+    }
+
+    public Vector2 GetLineAspectValue1()
+    {
+        return m_LineVFX.GetVector2(value1_name);
+    }
+
+    public Vector2 GetLineAspectDefaultValue1()
+    {
+        return base_value1;
     }
 
     public void SetLineAspectValue2(Vector2 value2)
