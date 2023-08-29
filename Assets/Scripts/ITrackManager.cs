@@ -6,10 +6,9 @@ using UnityEngine.Rendering.HighDefinition;
 
 public class ITrackManager : MonoBehaviour
 {
-    [SerializeField] protected int m_rotationStep = 30;
-    [SerializeField] protected float m_altitudeLerpDuration = 100f;
-    [SerializeField] protected float m_FOVLerpDuration = 100f;
-    [SerializeField] protected Tracks.TracksEnum m_trackName;
+    protected int m_rotationStep = 15;
+    protected float m_altitudeLerpDuration = 100f;
+    protected float m_FOVLerpDuration = 100f;
 
     protected IEnumerator m_altitudeCoroutine;
     protected IEnumerator m_cameraFOVCoroutine;
