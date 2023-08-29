@@ -35,7 +35,6 @@ public class ITrackManager : MonoBehaviour
             SetSkyColor(GetDefaultSkyColor());
             SetLineVFXColor(GetDefaultLineVFXColor());
             SetLocation();
-            ZoomOutLineVFX();
         }
         else
         {
@@ -114,25 +113,24 @@ public class ITrackManager : MonoBehaviour
     }
 
     //Zoom the camera out accross the different Default tracks, giving an overview of the LineVFX
-    protected virtual void ZoomOutLineVFX()
+    protected virtual void ZoomOutLineVFX(float targetFOV = 100f)
     {
         if (m_cameraFOVCoroutine != null)
         {
             StopCoroutine(m_cameraFOVCoroutine);
         }
 
-        m_cameraFOVCoroutine = ZoomOutLineVFXCoroutine();
+        m_cameraFOVCoroutine = ZoomOutLineVFXCoroutine(targetFOV);
         StartCoroutine(m_cameraFOVCoroutine);
         _isCameraDirty = true;
     }
 
-    private IEnumerator ZoomOutLineVFXCoroutine()
+    private IEnumerator ZoomOutLineVFXCoroutine(float targetFOV)
     {
         float elapsedTime = 0f;
         float currentCameraFOV = m_MainCamera.fieldOfView;
         while (elapsedTime < m_FOVLerpDuration)
         {
-            var targetFOV = 100f;
             m_MainCamera.fieldOfView = Mathf.SmoothStep(currentCameraFOV, targetFOV, elapsedTime / m_FOVLerpDuration);
 
             elapsedTime += Time.deltaTime;
@@ -206,6 +204,11 @@ public class ITrackManager : MonoBehaviour
         ShowManager.m_Instance.GetLineVFXManager().EffilageEffect(effilageSpeed);
     }
 
+    public void EndRotationLineVFX()
+    {
+        ShowManager.m_Instance.GetLineVFXManager().EndEffilageEffect();
+    }
+
     #endregion
 
     #region LineVFX setters
@@ -251,6 +254,19 @@ public class ITrackManager : MonoBehaviour
     }
     #endregion
 
+    #region LineVFX getters
+    protected float GetLineVFXDefaultRate()
+    {
+        return ShowManager.m_Instance.GetLineVFXManager().GetDefaultRate();
+    }
+
+    protected float GetLineVFXRate()
+    {
+        return ShowManager.m_Instance.GetLineVFXManager().GetRate();
+    }
+
+    #endregion
+
     #region Transition Effects
 
     protected virtual void ApplyTransitionEffects()
@@ -261,7 +277,6 @@ public class ITrackManager : MonoBehaviour
 
         SetAltitude();
         SetLocation();
-        ZoomOutLineVFX();
         SetLineVFXColor(GetDefaultLineVFXColor());
         TransitionSkyVolume(GetDefaultSkyColor());
         TransitionPostProcess();
