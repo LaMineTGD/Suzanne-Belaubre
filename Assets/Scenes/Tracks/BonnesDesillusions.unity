@@ -167,10 +167,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09c053e508a6dbd4e8ede47bd96b32ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_rotationStep: 15
-  m_altitudeLerpDuration: 100
-  m_FOVLerpDuration: 100
-  m_trackName: 3
 --- !u!1 &608742013
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,6 +178,7 @@ GameObject:
   - component: {fileID: 608742016}
   - component: {fileID: 608742015}
   - component: {fileID: 608742014}
+  - component: {fileID: 608742017}
   m_Layer: 0
   m_Name: TimelineEditor
   m_TagString: Untagged
@@ -319,3 +316,183 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &608742017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 608742013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e52de21a22b6dd44c9cc19f810c65059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Events:
+    m_Signals:
+    - {fileID: 11400000, guid: e87c7e66ec121dc48923e2a25a1ac444, type: 2}
+    - {fileID: 11400000, guid: 2541c78577992a54eb7de8515b39d2e0, type: 2}
+    - {fileID: 11400000, guid: abaced0f960bc9a47ae2d874544b85a9, type: 2}
+    - {fileID: 11400000, guid: 618307d115a809e43a5458f719b83317, type: 2}
+    - {fileID: 11400000, guid: 09dd7c4c437f72a448865c02f27dbc19, type: 2}
+    - {fileID: 11400000, guid: 50595e2022d8def4f853353f44bc9395, type: 2}
+    - {fileID: 11400000, guid: 465eb4bd842b64442b4a4a8c7b5d9a3d, type: 2}
+    - {fileID: 11400000, guid: 48e9e5db3c8a49d4e93ee75037ea136b, type: 2}
+    - {fileID: 11400000, guid: f7750e240a733644e95c3b7a55bf7e19, type: 2}
+    - {fileID: 11400000, guid: 11556d4b64cd5ae41aeec8bcfa2921eb, type: 2}
+    - {fileID: 11400000, guid: a037aedfb891ec24baaf49839d52f1f3, type: 2}
+    m_Events:
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 492293305}
+          m_TargetAssemblyTypeName: BonnesDesillusionsManager, Assembly-CSharp
+          m_MethodName: OnPercuStart
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 492293305}
+          m_TargetAssemblyTypeName: BonnesDesillusionsManager, Assembly-CSharp
+          m_MethodName: OnChantStart
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 492293305}
+          m_TargetAssemblyTypeName: BonnesDesillusionsManager, Assembly-CSharp
+          m_MethodName: OnDebutDuo
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 492293305}
+          m_TargetAssemblyTypeName: BonnesDesillusionsManager, Assembly-CSharp
+          m_MethodName: OnDebutNanana
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 492293305}
+          m_TargetAssemblyTypeName: BonnesDesillusionsManager, Assembly-CSharp
+          m_MethodName: OnFinNanana
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 492293305}
+          m_TargetAssemblyTypeName: BonnesDesillusionsManager, Assembly-CSharp
+          m_MethodName: OnCorne
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 492293305}
+          m_TargetAssemblyTypeName: BonnesDesillusionsManager, Assembly-CSharp
+          m_MethodName: OnCorneRevers
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 492293305}
+          m_TargetAssemblyTypeName: BonnesDesillusionsManager, Assembly-CSharp
+          m_MethodName: OnFinChant
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 492293305}
+          m_TargetAssemblyTypeName: BonnesDesillusionsManager, Assembly-CSharp
+          m_MethodName: OnCrescendoFin
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 492293305}
+          m_TargetAssemblyTypeName: BonnesDesillusionsManager, Assembly-CSharp
+          m_MethodName: OnCrescendo1
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 492293305}
+          m_TargetAssemblyTypeName: BonnesDesillusionsManager, Assembly-CSharp
+          m_MethodName: OnCrescendo2
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
