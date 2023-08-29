@@ -21,10 +21,14 @@ public class SiffleManager : TrackTailorMadeManager
     [SerializeField] AnimationCurve evolutionCrescendoCurve;
     [SerializeField] float crescendoDuration;
     [SerializeField] float diminuendoDuration;
-    [SerializeField] protected VisualEffect m_VFX2;
-    [SerializeField] protected VisualEffect m_VFX3;
-    [SerializeField] protected VisualEffect m_VFX4;
-    [SerializeField] protected VisualEffect m_VFX5;
+    [SerializeField] protected VisualEffect m_Three2;
+    [SerializeField] protected VisualEffect m_Three3;
+    [SerializeField] protected VisualEffect m_Three4;
+    [SerializeField] protected VisualEffect m_Three5;
+
+    [SerializeField] protected VisualEffect m_Wind;
+    [SerializeField] protected VisualEffect m_Wind2;
+    [SerializeField] protected VisualEffect m_Wind3;
 
     int chantStartCount;
 
@@ -162,7 +166,7 @@ public class SiffleManager : TrackTailorMadeManager
 
     public void PercuStart()
     {
-
+        StartCoroutine(LaunchWind(m_Wind, 5.0f));
     }
 
     public void ChantStart()
@@ -172,8 +176,8 @@ public class SiffleManager : TrackTailorMadeManager
             m_VFX.SendEvent("Grow");
         else if (chantStartCount == 1)
         {
-            m_VFX2.SendEvent("Grow");
-            m_VFX3.SendEvent("Grow");
+            m_Three2.SendEvent("Grow");
+            m_Three3.SendEvent("Grow");
         }
         chantStartCount++;
     }
@@ -190,8 +194,8 @@ public class SiffleManager : TrackTailorMadeManager
         Debug.Log("Diminuendo");
         StartCoroutine(InterpolatSat(defaultCurve, greyCurve, diminuendoDuration));
         StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(true, "wind_speed", 100000, m_VFX, diminuendoDuration, 5000));
-        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(true, "wind_speed", 100000, m_VFX2, diminuendoDuration, 5000));
-        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(true, "wind_speed", 100000, m_VFX3, diminuendoDuration, 5000));
+        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(true, "wind_speed", 100000, m_Three2, diminuendoDuration, 5000));
+        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(true, "wind_speed", 100000, m_Three3, diminuendoDuration, 5000));
     }
 
     public void Crescendo_f()
@@ -199,10 +203,20 @@ public class SiffleManager : TrackTailorMadeManager
         Debug.Log("Crescendo_f");
         StartCoroutine(InterpolatSat(greyCurve, defaultCurve, 0.5f));
         StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(false, "wind_speed", 100000, m_VFX, 1f, 5000));
-        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(false, "wind_speed", 100000, m_VFX2, 1f, 5000));
-        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(false, "wind_speed", 100000, m_VFX3, 1f, 5000));
-        m_VFX4.SendEvent("Grow");
-        m_VFX5.SendEvent("Grow");
+        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(false, "wind_speed", 100000, m_Three2, 1f, 5000));
+        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(false, "wind_speed", 100000, m_Three3, 1f, 5000));
+        m_Three4.SendEvent("Grow");
+        m_Three5.SendEvent("Grow");
+    }
+
+    public void FinChant()
+    {
+        StartCoroutine(LaunchWind(m_Wind2, 5.0f));
+    }
+
+    public void FinChant2()
+    {
+        StartCoroutine(LaunchWind(m_Wind3, 5.0f));
     }
 
     public IEnumerator InterpolatWithProgressionCurve(TextureCurveParameter volume, TextureCurve begin, TextureCurve end, float duration)
@@ -234,6 +248,20 @@ public class SiffleManager : TrackTailorMadeManager
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+        yield return null;
+    }
+
+    public IEnumerator LaunchWind(VisualEffect begin, float duration)
+    {
+        float elapsedTime = 0f;
+        begin.SendEvent("OnWind");
+        while (elapsedTime < duration)
+        {
+            float time = elapsedTime / duration;
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        begin.SendEvent("StopWind");
         yield return null;
     }
 }
