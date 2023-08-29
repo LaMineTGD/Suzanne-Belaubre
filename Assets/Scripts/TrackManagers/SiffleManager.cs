@@ -11,10 +11,12 @@ public class SiffleManager : TrackTailorMadeManager
 {
     TextureCurveParameter huevsHue;
     TextureCurveParameter hueVsSat;
+    TextureCurveParameter master;
     Vector2 bound = Vector2.up;
     TextureCurve defaultCurve;
+    TextureCurve defaultMasterCurve;
+    TextureCurve lightMasterCurve;
     TextureCurve colorCurve;
-
     TextureCurve greyCurve;
     [SerializeField] AnimationCurve evolutionCrescendoCurve;
     [SerializeField] float crescendoDuration;
@@ -42,10 +44,38 @@ public class SiffleManager : TrackTailorMadeManager
         defaultCurve = new TextureCurve(keys, 0.5f, true, bound);
     }
 
+    private void defaultMasterCurveCreation()
+    {
+        Vector2 bound = Vector2.up;
+        Keyframe key1 = new Keyframe(0f, 0f, 0f, 1f);
+        Keyframe key2 = new Keyframe(0.85f, 0.85f, 1f, 1f);
+        Keyframe key3 = new Keyframe(1f, 1f, 1f, 0f);
+        Keyframe[] keys = new Keyframe[3];
+        keys[0] = key1;
+        keys[1] = key2;
+        keys[2] = key3;
+
+        defaultMasterCurve = new TextureCurve(keys, 0.5f, false, bound);
+    }
+
+    private void lightMasterCurveCreation()
+    {
+        Vector2 bound = Vector2.up;
+        Keyframe key1 = new Keyframe(0f, 0f, 0f, 1f);
+        Keyframe key2 = new Keyframe(0.85f, 1f, 0f, 0f);
+        Keyframe key3 = new Keyframe(1f, 1f, 0f, 0f);
+        Keyframe[] keys = new Keyframe[3];
+        keys[0] = key1;
+        keys[1] = key2;
+        keys[2] = key3;
+
+        lightMasterCurve = new TextureCurve(keys, 0.5f, false, bound);
+    }
+
     private void colorCurveCreation()
     {
         Keyframe key1 = new Keyframe(0.2237762f, 0.5f, -1.201681f, -1.201681f);
-        Keyframe key2 = new Keyframe(0.5850816f, 0.18f, 0, 0); //240
+        Keyframe key2 = new Keyframe(0.5850816f, 0.24f, 0, 0); //240
 
         Keyframe[] keys = new Keyframe[2];
         keys[0] = key1;
@@ -119,22 +149,12 @@ public class SiffleManager : TrackTailorMadeManager
 
             greyCurveCreation();
 
+            defaultMasterCurveCreation();
+            lightMasterCurveCreation();
+
             huevsHue = colorCurves.hueVsHue;
             hueVsSat = colorCurves.hueVsSat;
-            // Debug.Log("inTangent :" + huevshue.value[0].inTangent.ToString());
-            // Debug.Log("inWeight :" + huevshue.value[0].inWeight.ToString());
-            // Debug.Log("outTangent :" + huevshue.value[0].outTangent.ToString());
-            // Debug.Log("outWeight :" + huevshue.value[0].outWeight.ToString());
-            // Debug.Log("Time :" + huevshue.value[0].time);
-            // Debug.Log("Value :" + huevshue.value[0].value);
-
-            // Debug.Log("inTangent :" + huevshue.value[1].inTangent.ToString());
-            // Debug.Log("inWeight :" + huevshue.value[1].inWeight.ToString());
-            // Debug.Log("outTangent :" + huevshue.value[1].outTangent.ToString());
-            // Debug.Log("outWeight :" + huevshue.value[1].outWeight.ToString());
-            // Debug.Log("Time :" + huevshue.value[1].time);
-            // Debug.Log("Value :" + huevshue.value[1].value);
-
+            master = colorCurves.master;
 
             huevsHue.Interp(defaultCurve, colorCurve, 0.0f);
         }
@@ -161,30 +181,31 @@ public class SiffleManager : TrackTailorMadeManager
     public void Crescendo_1()
     {
         Debug.Log("Crescendo_1");
-        StartCoroutine(InterpolatHue(defaultCurve, colorCurve, crescendoDuration));
+        StartCoroutine(InterpolatWithProgressionCurve(huevsHue, defaultCurve, colorCurve, crescendoDuration));
+        StartCoroutine(InterpolatWithProgressionCurve(master, defaultMasterCurve, lightMasterCurve, crescendoDuration));
     }
 
     public void Diminuendo()
     {
         Debug.Log("Diminuendo");
         StartCoroutine(InterpolatSat(defaultCurve, greyCurve, diminuendoDuration));
-        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(true, "wind_speed", 50000, m_VFX, diminuendoDuration, 5000));
-        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(true, "wind_speed", 50000, m_VFX2, diminuendoDuration, 5000));
-        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(true, "wind_speed", 50000, m_VFX3, diminuendoDuration, 5000));
+        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(true, "wind_speed", 100000, m_VFX, diminuendoDuration, 5000));
+        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(true, "wind_speed", 100000, m_VFX2, diminuendoDuration, 5000));
+        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(true, "wind_speed", 100000, m_VFX3, diminuendoDuration, 5000));
     }
 
     public void Crescendo_f()
     {
         Debug.Log("Crescendo_f");
         StartCoroutine(InterpolatSat(greyCurve, defaultCurve, 0.5f));
-        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(false, "wind_speed", 50000, m_VFX, 1f, 5000));
-        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(false, "wind_speed", 50000, m_VFX2, 1f, 5000));
-        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(false, "wind_speed", 50000, m_VFX3, 1f, 5000));
+        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(false, "wind_speed", 100000, m_VFX, 1f, 5000));
+        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(false, "wind_speed", 100000, m_VFX2, 1f, 5000));
+        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(false, "wind_speed", 100000, m_VFX3, 1f, 5000));
         m_VFX4.SendEvent("Grow");
         m_VFX5.SendEvent("Grow");
     }
 
-    public IEnumerator InterpolatHue(TextureCurve begin, TextureCurve end, float duration)
+    public IEnumerator InterpolatWithProgressionCurve(TextureCurveParameter volume, TextureCurve begin, TextureCurve end, float duration)
     {
         float elapsedTime = 0f;
         float tmp = 0f;
@@ -193,12 +214,14 @@ public class SiffleManager : TrackTailorMadeManager
         {
             tmp = elapsedTime / duration;
             float time = evolutionCrescendoCurve.Evaluate(tmp);
-            huevsHue.Override(ComputeIntermediateTextureCurve(begin, end, time));
+            volume.Override(ComputeIntermediateTextureCurve(begin, end, time));
             elapsedTime += Time.deltaTime;
             yield return null;
         }
         yield return null;
     }
+
+
 
     public IEnumerator InterpolatSat(TextureCurve begin, TextureCurve end, float duration)
     {
