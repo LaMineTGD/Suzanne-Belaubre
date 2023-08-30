@@ -5,4 +5,10 @@ public class AliceAliceManager : ITrackManager
         base.Start();
         base.ApplyDefaultEffects();
     }
+
+    public void OnPercuStart()
+    {
+        
+    }
 }
+
