@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.41829854, g: 0.4653259, b: 0.4243434, a: 1}
+  m_IndirectSpecularColor: {r: 0.27614978, g: 0.17231561, b: 0.25931886, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -569,13 +569,13 @@ VisualEffect:
         m_Overridden: 1
     m_Vector2f:
       m_Array:
-      - m_Value: {x: -0.39, y: 5.02}
+      - m_Value: {x: -0.39, y: 5.03}
         m_Name: Value_1
         m_Overridden: 1
-      - m_Value: {x: -1.97, y: 1.78}
+      - m_Value: {x: -2.33, y: 1.66}
         m_Name: Value_2
         m_Overridden: 1
-      - m_Value: {x: 0, y: 1000}
+      - m_Value: {x: 1.46, y: 1000.5}
         m_Name: Circle
         m_Overridden: 1
       - m_Value: {x: 1, y: 5}
