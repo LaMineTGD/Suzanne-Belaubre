@@ -14,23 +14,24 @@ public class LineVFXManager : MonoBehaviour
     private const string particle_speed_name = "Particule_Speed";
 
     private const float DEFAULT_RATE_VALUE = 67534;
-    private const float DEFAULT_RADIUS_VALUE = .1f;
-    private const float DEFAULT_VALUE1_X = 2f;
-    private const float DEFAULT_VALUE1_Y = 30f;
+    private const float DEFAULT_RADIUS_VALUE = .15f;
+    private const float DEFAULT_VALUE1_X = -0.39f;
+    private const float DEFAULT_VALUE1_Y = 5.03f;
+    private const float CIRCLE_X = 1.46f;
+    private const float CIRCLE_Y = 1000.5f;
 
     [SerializeField] private float m_ColorLerpDuration = 5f;
     [SerializeField] private float m_PulseLerpDuration = 0.1f;
     [SerializeField] protected float base_rate_value = DEFAULT_RATE_VALUE;
     [SerializeField] private float m_EffilageLerpDuration = 1000f;
-    [SerializeField] private Vector2 base_value1= new (DEFAULT_VALUE1_X, DEFAULT_VALUE1_Y);
-
+    private Vector2 base_value1= new (DEFAULT_VALUE1_X, DEFAULT_VALUE1_Y);
+    private Vector2 base_circle = new(CIRCLE_X, CIRCLE_Y);
 
     private VisualEffect m_LineVFX;
     private IEnumerator m_ColorCoroutine;
     private IEnumerator m_PulseEffectCoroutine;
     private IEnumerator m_EffilageEffectCoroutine;
     private Vector2 movingValue1;
-
 
     private void Awake()
     {
@@ -48,6 +49,7 @@ public class LineVFXManager : MonoBehaviour
         SetRate(DEFAULT_RATE_VALUE);
         SetLineRadius(DEFAULT_RADIUS_VALUE);
         SetLineAspectValue1(base_value1);
+        SetLineAspectCircle(base_circle);
     }
 
     public void SetColorOverLifetime(Color color)
@@ -130,7 +132,7 @@ public class LineVFXManager : MonoBehaviour
         yield return null;
     }
 
-    public void PulseEffect(float targetRadius = .15f)
+    public void PulseEffect(float intensity)
     {
         if (m_PulseEffectCoroutine != null)
         {
@@ -138,18 +140,20 @@ public class LineVFXManager : MonoBehaviour
             SetLineRadius(DEFAULT_RADIUS_VALUE);
         }
 
-        m_PulseEffectCoroutine = PulseEffectCoroutine(targetRadius);
+        m_PulseEffectCoroutine = PulseEffectCoroutine(intensity);
         StartCoroutine(m_PulseEffectCoroutine);
     }
 
-    private IEnumerator PulseEffectCoroutine(float targetLineRadius)
+    private IEnumerator PulseEffectCoroutine(float intensity)
     {
         float elapsedTime = 0f;
         float movingLineRadius;
+        float targetLineRadius = GetRadius() * intensity;
+        float currentLineRadius = GetRadius();
 
         while(elapsedTime < m_PulseLerpDuration)
         {
-            movingLineRadius = Mathf.SmoothStep(DEFAULT_RADIUS_VALUE, targetLineRadius, elapsedTime / m_PulseLerpDuration);
+            movingLineRadius = Mathf.SmoothStep(currentLineRadius, targetLineRadius, elapsedTime / m_PulseLerpDuration);
             SetLineRadius(movingLineRadius);
 
             elapsedTime += Time.deltaTime;
@@ -160,7 +164,7 @@ public class LineVFXManager : MonoBehaviour
         while(elapsedTime > 0)
         {
             //Lerp going backwards
-            movingLineRadius = Mathf.SmoothStep(DEFAULT_RADIUS_VALUE, targetLineRadius, elapsedTime / m_PulseLerpDuration);
+            movingLineRadius = Mathf.SmoothStep(currentLineRadius, targetLineRadius, elapsedTime / m_PulseLerpDuration);
             SetLineRadius(movingLineRadius);
 
             elapsedTime -= Time.deltaTime;
@@ -170,6 +174,7 @@ public class LineVFXManager : MonoBehaviour
         yield return null;
     }
 
+    #region Setters
     public void SetColorOverLifetime(Gradient gradient)
     {
         m_LineVFX.SetGradient(COLOR_OVER_LIFETIME_PROPERTY, gradient);
@@ -178,16 +183,6 @@ public class LineVFXManager : MonoBehaviour
     public void SetRate(float rate)
     {
         m_LineVFX.SetFloat(rate_name, rate);
-    }
-
-    public float GetDefaultRate()
-    {
-        return DEFAULT_RATE_VALUE;
-    }
-
-    public float GetRate()
-    {
-        return m_LineVFX.GetFloat(rate_name);
     }
 
     public void SetLineRadius(float lineRadius)
@@ -200,16 +195,6 @@ public class LineVFXManager : MonoBehaviour
         {
             m_LineVFX.SetFloat(line_radius_name, lineRadius);
         }
-    }
-
-    public float GetRadius()
-    {
-        return m_LineVFX.GetFloat(line_radius_name);
-    }
-
-    public float GetDefaultRadius()
-    {
-        return DEFAULT_RADIUS_VALUE;
     }
 
     public void SetParticleSpeed(float particleSpeed)
@@ -227,16 +212,6 @@ public class LineVFXManager : MonoBehaviour
         m_LineVFX.SetVector2(value1_name, value1);
     }
 
-    public Vector2 GetLineAspectValue1()
-    {
-        return m_LineVFX.GetVector2(value1_name);
-    }
-
-    public Vector2 GetLineAspectDefaultValue1()
-    {
-        return base_value1;
-    }
-
     public void SetLineAspectValue2(Vector2 value2)
     {
         m_LineVFX.SetVector2(value2_name, value2);
@@ -247,4 +222,48 @@ public class LineVFXManager : MonoBehaviour
     {
         m_LineVFX.SetVector2(circle_name, circle);
     }
+    #endregion
+
+    #region Getters
+    public float GetDefaultRate()
+    {
+        return DEFAULT_RATE_VALUE;
+    }
+
+    public float GetRate()
+    {
+        return m_LineVFX.GetFloat(rate_name);
+    }
+
+    public float GetRadius()
+    {
+        return m_LineVFX.GetFloat(line_radius_name);
+    }
+
+    public float GetDefaultRadius()
+    {
+        return DEFAULT_RADIUS_VALUE;
+    }
+
+    public Vector2 GetLineAspectValue1()
+    {
+        return m_LineVFX.GetVector2(value1_name);
+    }
+
+    public Vector2 GetLineAspectDefaultValue1()
+    {
+        return base_value1;
+    }
+
+    public Vector2 GetLineAspectDefaultCircle()
+    {
+        return base_circle;
+    }
+
+    public Vector2 GetLineAspectCircle()
+    {
+        return m_LineVFX.GetVector2(circle_name);
+    }
+
+    #endregion
 }

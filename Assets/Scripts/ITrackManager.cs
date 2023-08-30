@@ -59,20 +59,24 @@ public class ITrackManager : MonoBehaviour
         float currentRate = GetLineVFXRate();
         float currentRadius = GetLineVFXRadius();
         Vector2 currentValue1 = GetLineAspectValue1();
+        Vector2 currentCircle = GetLineVFXCircle();
 
         float radius;
         float rate;
         Vector2 value1;
+        Vector2 circle;
 
         while (elapsedTime < duration)
         {
             radius = Mathf.SmoothStep(currentRadius, GetLineVFXDefaultRadius(), elapsedTime / duration);
             rate = Mathf.SmoothStep(currentRate, GetLineVFXDefaultRate(), elapsedTime / duration);
             value1 = Vector2.Lerp(currentValue1, GetLineVFXDefaultValue1(), elapsedTime / duration);
+            circle = Vector2.Lerp(currentCircle, GetLineVFXDefaultCircle(), elapsedTime / duration);
 
             SetLineVFXRadius(radius);
             SetLineVFXRate(rate);
             SetLineVFXAspectValue1(value1);
+            SetLineVFXAspectCircle(circle);
 
             elapsedTime += Time.deltaTime;
 
@@ -224,9 +228,9 @@ public class ITrackManager : MonoBehaviour
     }
     
     //Make the VFX line pulse
-    public void PulseLineVFX()
+    public void PulseLineVFX(float intensity = 1.5f)
     {
-        ShowManager.m_Instance.GetLineVFXManager().PulseEffect();
+        ShowManager.m_Instance.GetLineVFXManager().PulseEffect(intensity);
     }
 
     //Make the Line VFX rotate at a given speed
@@ -316,6 +320,66 @@ public class ITrackManager : MonoBehaviour
         return ShowManager.m_Instance.GetLineVFXManager().GetLineAspectValue1();
     }
 
+    protected Vector2 GetLineVFXCircle()
+    {
+        return ShowManager.m_Instance.GetLineVFXManager().GetLineAspectCircle();
+    }
+
+    protected Vector2 GetLineVFXDefaultCircle()
+    {
+        return ShowManager.m_Instance.GetLineVFXManager().GetLineAspectDefaultCircle();
+    }
+
+    #endregion
+
+    #region LineVFX parameters' coroutines
+    protected IEnumerator ChangeLineVFXRateCoroutine(float startRate, float targetRate, float duration)
+    {
+        float elapsedTime = 0f;
+        float rate;
+        while (elapsedTime < duration)
+        {
+            rate = Mathf.SmoothStep(startRate, targetRate, elapsedTime / duration);
+            SetLineVFXRate(rate);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+        yield return null;
+    }
+
+    protected IEnumerator ChangeLineVFXRadiusCoroutine(float startRadius, float targetRadius, float duration)
+    {
+        float elapsedTime = 0f;
+        float radius;
+        while (elapsedTime < duration)
+        {
+            radius = Mathf.SmoothStep(startRadius, targetRadius, elapsedTime / duration);
+            SetLineVFXRadius(radius);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+        yield return null;
+    }
+
+    protected IEnumerator ChangeLineVFXCircleCoroutine(Vector2 startCircle, Vector2 targetCircle, float duration)
+    {
+        float elapsedTime = 0f;
+        Vector2 circle;
+        while (elapsedTime < duration)
+        {
+            circle = Vector2.Lerp(startCircle, targetCircle, elapsedTime / duration);
+            SetLineVFXAspectCircle(circle);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+        yield return null;
+    }
     #endregion
 
     #region Transition Effects
