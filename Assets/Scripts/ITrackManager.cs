@@ -14,6 +14,10 @@ public class ITrackManager : MonoBehaviour
     protected Camera m_MainCamera;
     private float baseCameraFOV = 60;
     private bool _isCameraDirty = false;
+    private float m_RotationLerpDuration = 1000f;
+    private float m_PulseLerpDuration = 0.1f;
+    private IEnumerator m_EffilageEffectCoroutine;
+    private IEnumerator m_PulseEffectCoroutine;
 
     //Transition variables
     private Volume _activeTailorMadeSky;
@@ -181,44 +185,10 @@ public class ITrackManager : MonoBehaviour
         ShowManager.m_Instance.GetSkyFogManager().SetSkyColor(SkyFogManager.SkyLevel.Middle, color);
     }
 
-    private Color GetDefaultSkyColor()
-    {
-        Color color = Color.black;
-        if (ShowManager.m_Instance.GetCurrentTrack()._MainColorList != null && ShowManager.m_Instance.GetCurrentTrack()._MainColorList.Count != 0)
-        {
-            //sets the middle color of the sky to a darker version of the first main color
-            color = ShowManager.m_Instance.GetCurrentTrack()._MainColorList[0];
-
-            //reduce intensity by 2
-            float intensity = -2f;
-            for (int i = 0; i < 3; i++)
-            {
-                color[i] *= (float)Math.Pow(2f, intensity);
-            }
-        }
-
-        return color;
-    }
-
     //Set the color of the LineVFX perticles 
     protected virtual void SetLineVFXColor(Color color)
     {
         ShowManager.m_Instance.GetLineVFXManager().SetColorOverLifetime(color);
-    }
-
-    private Color GetDefaultLineVFXColor()
-    {
-        Color color = Color.magenta;
-        if (ShowManager.m_Instance.GetCurrentTrack()._MainColorList != null && ShowManager.m_Instance.GetCurrentTrack()._MainColorList.Count > 1)
-        {
-            color = ShowManager.m_Instance.GetCurrentTrack()._MainColorList[1];
-        }
-        else if (ShowManager.m_Instance.GetCurrentTrack()._SecondaryColorList != null && ShowManager.m_Instance.GetCurrentTrack()._SecondaryColorList.Count != 0)
-        {
-            color = ShowManager.m_Instance.GetCurrentTrack()._SecondaryColorList[0];
-        }
-
-        return color;
     }
 
     //Adjust the vignette effect depending on the Location parameter in ShowManager
@@ -228,20 +198,24 @@ public class ITrackManager : MonoBehaviour
     }
     
     //Make the VFX line pulse
-    public void PulseLineVFX(float intensity = 1.5f)
+
+    protected void RotateLineVFX(float speed = 1f)
     {
-        ShowManager.m_Instance.GetLineVFXManager().PulseEffect(intensity);
+        if (m_EffilageEffectCoroutine != null)
+        {
+            StopCoroutine(m_EffilageEffectCoroutine);
+        }
+
+        m_EffilageEffectCoroutine = RotationEffectCoroutine(speed);
+        StartCoroutine(m_EffilageEffectCoroutine);
     }
 
-    //Make the Line VFX rotate at a given speed
-    public void RotateLineVFX(float effilageSpeed = 1f)
+    protected void EndRotationLineVFX()
     {
-        ShowManager.m_Instance.GetLineVFXManager().EffilageEffect(effilageSpeed);
-    }
-
-    public void EndRotationLineVFX()
-    {
-        ShowManager.m_Instance.GetLineVFXManager().EndEffilageEffect();
+        if (m_EffilageEffectCoroutine != null)
+        {
+            StopCoroutine(m_EffilageEffectCoroutine);
+        }
     }
 
     #endregion
@@ -290,6 +264,40 @@ public class ITrackManager : MonoBehaviour
     #endregion
 
     #region LineVFX getters
+    private Color GetDefaultLineVFXColor()
+    {
+        Color color = Color.magenta;
+        if (ShowManager.m_Instance.GetCurrentTrack()._MainColorList != null && ShowManager.m_Instance.GetCurrentTrack()._MainColorList.Count > 1)
+        {
+            color = ShowManager.m_Instance.GetCurrentTrack()._MainColorList[1];
+        }
+        else if (ShowManager.m_Instance.GetCurrentTrack()._SecondaryColorList != null && ShowManager.m_Instance.GetCurrentTrack()._SecondaryColorList.Count != 0)
+        {
+            color = ShowManager.m_Instance.GetCurrentTrack()._SecondaryColorList[0];
+        }
+
+        return color;
+    }
+    
+    private Color GetDefaultSkyColor()
+    {
+        Color color = Color.black;
+        if (ShowManager.m_Instance.GetCurrentTrack()._MainColorList != null && ShowManager.m_Instance.GetCurrentTrack()._MainColorList.Count != 0)
+        {
+            //sets the middle color of the sky to a darker version of the first main color
+            color = ShowManager.m_Instance.GetCurrentTrack()._MainColorList[0];
+
+            //reduce intensity by 2
+            float intensity = -2f;
+            for (int i = 0; i < 3; i++)
+            {
+                color[i] *= (float)Math.Pow(2f, intensity);
+            }
+        }
+
+        return color;
+    }
+
     protected float GetLineVFXDefaultRate()
     {
         return ShowManager.m_Instance.GetLineVFXManager().GetDefaultRate();
@@ -375,6 +383,73 @@ public class ITrackManager : MonoBehaviour
             SetLineVFXAspectCircle(circle);
 
             elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+        yield return null;
+    }
+
+    private IEnumerator RotationEffectCoroutine(float speed)
+    {
+        float elapsedTime = 0f;
+        Vector2 movingValue1 = GetLineVFXDefaultValue1();
+        Vector2 targetValue1 = new (30f, 2f);
+        Vector2 currentValue1 = GetLineAspectValue1();
+        Vector2 baseValue1 = GetLineVFXDefaultValue1();
+        if((currentValue1 - targetValue1).x < Mathf.Epsilon && (currentValue1 - targetValue1).y < Mathf.Epsilon)
+        {
+            //if traget value was already reached, rotate back to the other side
+            targetValue1 = new(2f, 30f);
+        }
+
+        while((elapsedTime * speed) < m_RotationLerpDuration)
+        {
+            movingValue1 = Vector2.Lerp(baseValue1, targetValue1, (elapsedTime * speed) / m_RotationLerpDuration);
+            SetLineVFXAspectValue1(movingValue1);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+        yield return null;
+    }
+
+    protected void PulseLineVFX(float intensity = 1.5f)
+    {
+        if (m_PulseEffectCoroutine != null)
+        {
+            StopCoroutine(m_PulseEffectCoroutine);
+            SetLineVFXRadius(GetLineVFXDefaultRadius());
+        }
+
+        m_PulseEffectCoroutine = PulseEffectCoroutine(intensity);
+        StartCoroutine(m_PulseEffectCoroutine);
+    }
+
+    private IEnumerator PulseEffectCoroutine(float intensity)
+    {
+        float elapsedTime = 0f;
+        float movingLineRadius;
+        float targetLineRadius = GetLineVFXRadius() * intensity;
+        float currentLineRadius = GetLineVFXRadius();
+
+        while(elapsedTime < m_PulseLerpDuration)
+        {
+            movingLineRadius = Mathf.SmoothStep(currentLineRadius, targetLineRadius, elapsedTime / m_PulseLerpDuration);
+            SetLineVFXRadius(movingLineRadius);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        while(elapsedTime > 0)
+        {
+            //Lerp going backwards
+            movingLineRadius = Mathf.SmoothStep(currentLineRadius, targetLineRadius, elapsedTime / m_PulseLerpDuration);
+            SetLineVFXRadius(movingLineRadius);
+
+            elapsedTime -= Time.deltaTime;
 
             yield return null;
         }

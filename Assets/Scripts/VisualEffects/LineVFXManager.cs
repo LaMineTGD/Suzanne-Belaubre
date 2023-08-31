@@ -21,17 +21,11 @@ public class LineVFXManager : MonoBehaviour
     private const float CIRCLE_Y = 1000.5f;
 
     [SerializeField] private float m_ColorLerpDuration = 5f;
-    [SerializeField] private float m_PulseLerpDuration = 0.1f;
     [SerializeField] protected float base_rate_value = DEFAULT_RATE_VALUE;
-    [SerializeField] private float m_EffilageLerpDuration = 1000f;
     private Vector2 base_value1= new (DEFAULT_VALUE1_X, DEFAULT_VALUE1_Y);
     private Vector2 base_circle = new(CIRCLE_X, CIRCLE_Y);
-
     private VisualEffect m_LineVFX;
     private IEnumerator m_ColorCoroutine;
-    private IEnumerator m_PulseEffectCoroutine;
-    private IEnumerator m_EffilageEffectCoroutine;
-    private Vector2 movingValue1;
 
     private void Awake()
     {
@@ -41,7 +35,6 @@ public class LineVFXManager : MonoBehaviour
     private void Start()
     {
         InitValues();
-        movingValue1 = base_value1;
     }
 
     private void InitValues()
@@ -87,91 +80,6 @@ public class LineVFXManager : MonoBehaviour
     public void SetVisible(bool isVisible, float duration)
     {
         StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(isVisible, rate_name, base_rate_value, m_LineVFX, duration));
-    }
-
-    public void EffilageEffect(float speed)
-    {
-        if (m_EffilageEffectCoroutine != null)
-        {
-            StopCoroutine(m_EffilageEffectCoroutine);
-        }
-
-        m_EffilageEffectCoroutine = EffilageEffectCoroutine(speed);
-        StartCoroutine(m_EffilageEffectCoroutine);
-    }
-
-    public void EndEffilageEffect()
-    {
-        if (m_EffilageEffectCoroutine != null)
-        {
-            StopCoroutine(m_EffilageEffectCoroutine);
-        }
-    }
-
-    private IEnumerator EffilageEffectCoroutine(float speed)
-    {
-        float elapsedTime = 0f;
-        Vector2 targetValue1 = new (30f, 2f);
-
-        Vector2 currentValue1 = m_LineVFX.GetVector2(value1_name);
-        if((currentValue1 - targetValue1).x < Mathf.Epsilon && (currentValue1 - targetValue1).y < Mathf.Epsilon)
-        {
-            //if traget value was already reached, rotate back to the other side
-            targetValue1 = new(2f, 30f);
-        }
-
-        while((elapsedTime * speed) < m_EffilageLerpDuration)
-        {
-            movingValue1 = Vector2.Lerp(base_value1, targetValue1, (elapsedTime * speed) / m_EffilageLerpDuration);
-            SetLineAspectValue1(movingValue1);
-
-            elapsedTime += Time.deltaTime;
-
-            yield return null;
-        }
-        yield return null;
-    }
-
-    public void PulseEffect(float intensity)
-    {
-        if (m_PulseEffectCoroutine != null)
-        {
-            StopCoroutine(m_PulseEffectCoroutine);
-            SetLineRadius(DEFAULT_RADIUS_VALUE);
-        }
-
-        m_PulseEffectCoroutine = PulseEffectCoroutine(intensity);
-        StartCoroutine(m_PulseEffectCoroutine);
-    }
-
-    private IEnumerator PulseEffectCoroutine(float intensity)
-    {
-        float elapsedTime = 0f;
-        float movingLineRadius;
-        float targetLineRadius = GetRadius() * intensity;
-        float currentLineRadius = GetRadius();
-
-        while(elapsedTime < m_PulseLerpDuration)
-        {
-            movingLineRadius = Mathf.SmoothStep(currentLineRadius, targetLineRadius, elapsedTime / m_PulseLerpDuration);
-            SetLineRadius(movingLineRadius);
-
-            elapsedTime += Time.deltaTime;
-
-            yield return null;
-        }
-
-        while(elapsedTime > 0)
-        {
-            //Lerp going backwards
-            movingLineRadius = Mathf.SmoothStep(currentLineRadius, targetLineRadius, elapsedTime / m_PulseLerpDuration);
-            SetLineRadius(movingLineRadius);
-
-            elapsedTime -= Time.deltaTime;
-
-            yield return null;
-        }
-        yield return null;
     }
 
     #region Setters
