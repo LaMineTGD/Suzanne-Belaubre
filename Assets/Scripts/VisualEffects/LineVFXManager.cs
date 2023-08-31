@@ -15,14 +15,18 @@ public class LineVFXManager : MonoBehaviour
 
     private const float DEFAULT_RATE_VALUE = 67534;
     private const float DEFAULT_RADIUS_VALUE = .15f;
+    private const float DEFAULT_PARTICLE_SPEED = 0.52f;
     private const float DEFAULT_VALUE1_X = -0.39f;
     private const float DEFAULT_VALUE1_Y = 5.03f;
+    private const float DEFAULT_VALUE2_X = -2.33f;
+    private const float DEFAULT_VALUE2_Y = 1.66f;
     private const float CIRCLE_X = 1.46f;
     private const float CIRCLE_Y = 1000.5f;
 
-    [SerializeField] private float m_ColorLerpDuration = 5f;
-    [SerializeField] protected float base_rate_value = DEFAULT_RATE_VALUE;
+    private float m_ColorLerpDuration = 5f;
+    protected float base_rate_value = DEFAULT_RATE_VALUE;
     private Vector2 base_value1= new (DEFAULT_VALUE1_X, DEFAULT_VALUE1_Y);
+    private Vector2 base_value2= new (DEFAULT_VALUE2_X, DEFAULT_VALUE2_Y);
     private Vector2 base_circle = new(CIRCLE_X, CIRCLE_Y);
     private VisualEffect m_LineVFX;
     private IEnumerator m_ColorCoroutine;
@@ -41,7 +45,9 @@ public class LineVFXManager : MonoBehaviour
     {
         SetRate(DEFAULT_RATE_VALUE);
         SetLineRadius(DEFAULT_RADIUS_VALUE);
+        SetParticleSpeed(DEFAULT_PARTICLE_SPEED);
         SetLineAspectValue1(base_value1);
+        SetLineAspectValue2(base_value2);
         SetLineAspectCircle(base_circle);
     }
 
@@ -143,6 +149,16 @@ public class LineVFXManager : MonoBehaviour
         return m_LineVFX.GetFloat(rate_name);
     }
 
+    public float GetDefaultParticleSpeed()
+    {
+        return DEFAULT_PARTICLE_SPEED;
+    }
+
+    public float GetParticleSpeed()
+    {
+        return m_LineVFX.GetFloat(particle_speed_name);
+    }
+
     public float GetRadius()
     {
         return m_LineVFX.GetFloat(line_radius_name);
@@ -161,6 +177,16 @@ public class LineVFXManager : MonoBehaviour
     public Vector2 GetLineAspectDefaultValue1()
     {
         return base_value1;
+    }
+
+    public Vector2 GetLineAspectValue2()
+    {
+        return m_LineVFX.GetVector2(value2_name);
+    }
+
+    public Vector2 GetLineAspectDefaultValue2()
+    {
+        return base_value2;
     }
 
     public Vector2 GetLineAspectDefaultCircle()

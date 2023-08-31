@@ -62,24 +62,32 @@ public class ITrackManager : MonoBehaviour
 
         float currentRate = GetLineVFXRate();
         float currentRadius = GetLineVFXRadius();
+        float currentParticleSpeed = GetLineVFXParticleSpeed();
         Vector2 currentValue1 = GetLineAspectValue1();
+        Vector2 currentValue2 = GetLineAspectValue2();
         Vector2 currentCircle = GetLineVFXCircle();
 
         float radius;
         float rate;
+        float particleSpeed;
         Vector2 value1;
+        Vector2 value2;
         Vector2 circle;
 
         while (elapsedTime < duration)
         {
             radius = Mathf.SmoothStep(currentRadius, GetLineVFXDefaultRadius(), elapsedTime / duration);
             rate = Mathf.SmoothStep(currentRate, GetLineVFXDefaultRate(), elapsedTime / duration);
+            particleSpeed = Mathf.SmoothStep(currentParticleSpeed, GetLineVFXDefaultParticleSpeed(), elapsedTime / duration);
             value1 = Vector2.Lerp(currentValue1, GetLineVFXDefaultValue1(), elapsedTime / duration);
+            value2 = Vector2.Lerp(currentValue2, GetLineVFXDefaultValue2(), elapsedTime / duration);
             circle = Vector2.Lerp(currentCircle, GetLineVFXDefaultCircle(), elapsedTime / duration);
 
             SetLineVFXRadius(radius);
             SetLineVFXRate(rate);
+            SetLineVFXParticleSpeed(particleSpeed);
             SetLineVFXAspectValue1(value1);
+            SetLineVFXAspectValue2(value2);
             SetLineVFXAspectCircle(circle);
 
             elapsedTime += Time.deltaTime;
@@ -308,14 +316,29 @@ public class ITrackManager : MonoBehaviour
         return ShowManager.m_Instance.GetLineVFXManager().GetDefaultRadius();
     }
 
+    protected float GetLineVFXDefaultParticleSpeed()
+    {
+        return ShowManager.m_Instance.GetLineVFXManager().GetDefaultParticleSpeed();
+    }
+
     protected Vector2 GetLineVFXDefaultValue1()
     {
         return ShowManager.m_Instance.GetLineVFXManager().GetLineAspectDefaultValue1();
     }
 
+    protected Vector2 GetLineVFXDefaultValue2()
+    {
+        return ShowManager.m_Instance.GetLineVFXManager().GetLineAspectDefaultValue2();
+    }
+
     protected float GetLineVFXRate()
     {
         return ShowManager.m_Instance.GetLineVFXManager().GetRate();
+    }
+
+    protected float GetLineVFXParticleSpeed()
+    {
+        return ShowManager.m_Instance.GetLineVFXManager().GetParticleSpeed();
     }
 
     protected float GetLineVFXRadius()
@@ -326,6 +349,11 @@ public class ITrackManager : MonoBehaviour
     protected Vector2 GetLineAspectValue1()
     {
         return ShowManager.m_Instance.GetLineVFXManager().GetLineAspectValue1();
+    }
+
+    protected Vector2 GetLineAspectValue2()
+    {
+        return ShowManager.m_Instance.GetLineVFXManager().GetLineAspectValue2();
     }
 
     protected Vector2 GetLineVFXCircle()
@@ -373,6 +401,22 @@ public class ITrackManager : MonoBehaviour
         yield return null;
     }
 
+    protected IEnumerator ChangeLineVFXParticleSpeedCoroutine(float startParticleSpeed, float targetParticleSpeed, float duration)
+    {
+        float elapsedTime = 0f;
+        float particleSpeed;
+        while (elapsedTime < duration)
+        {
+            particleSpeed = Mathf.SmoothStep(startParticleSpeed, targetParticleSpeed, elapsedTime / duration);
+            SetLineVFXParticleSpeed(particleSpeed);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+        yield return null;
+    }
+
     protected IEnumerator ChangeLineVFXCircleCoroutine(Vector2 startCircle, Vector2 targetCircle, float duration)
     {
         float elapsedTime = 0f;
@@ -389,13 +433,48 @@ public class ITrackManager : MonoBehaviour
         yield return null;
     }
 
+    protected IEnumerator ChangeLineVFXValue1Coroutine(Vector2 targetValue1, float speed = 1f)
+    {
+        float elapsedTime = 0f;
+        Vector2 movingValue1;
+        Vector2 currentValue1 = GetLineAspectValue1();
+
+        while((elapsedTime * speed) < m_RotationLerpDuration)
+        {
+            movingValue1 = Vector2.Lerp(currentValue1, targetValue1, (elapsedTime * speed) / m_RotationLerpDuration);
+            SetLineVFXAspectValue1(movingValue1);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+        yield return null;
+    }
+
+    protected IEnumerator ChangeLineVFXValue2Coroutine(Vector2 targetValue2, float speed = 1f)
+    {
+        float elapsedTime = 0f;
+        Vector2 movingValue2;
+        Vector2 currentValue2 = GetLineAspectValue2();
+
+        while((elapsedTime * speed) < m_RotationLerpDuration)
+        {
+            movingValue2 = Vector2.Lerp(currentValue2, targetValue2, (elapsedTime * speed) / m_RotationLerpDuration);
+            SetLineVFXAspectValue2(movingValue2);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+        yield return null;
+    }
+
     private IEnumerator RotationEffectCoroutine(float speed)
     {
         float elapsedTime = 0f;
-        Vector2 movingValue1 = GetLineVFXDefaultValue1();
+        Vector2 movingValue1;
         Vector2 targetValue1 = new (30f, 2f);
         Vector2 currentValue1 = GetLineAspectValue1();
-        Vector2 baseValue1 = GetLineVFXDefaultValue1();
         if((currentValue1 - targetValue1).x < Mathf.Epsilon && (currentValue1 - targetValue1).y < Mathf.Epsilon)
         {
             //if traget value was already reached, rotate back to the other side
@@ -404,7 +483,7 @@ public class ITrackManager : MonoBehaviour
 
         while((elapsedTime * speed) < m_RotationLerpDuration)
         {
-            movingValue1 = Vector2.Lerp(baseValue1, targetValue1, (elapsedTime * speed) / m_RotationLerpDuration);
+            movingValue1 = Vector2.Lerp(currentValue1, targetValue1, (elapsedTime * speed) / m_RotationLerpDuration);
             SetLineVFXAspectValue1(movingValue1);
 
             elapsedTime += Time.deltaTime;
