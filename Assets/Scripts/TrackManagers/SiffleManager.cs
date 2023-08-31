@@ -13,13 +13,20 @@ public class SiffleManager : TrackTailorMadeManager
     TextureCurveParameter hueVsSat;
     TextureCurveParameter master;
     Vector2 bound = Vector2.up;
+
+    bool debutDeuxiemeHarmonique = false;
+
     TextureCurve defaultCurve;
     TextureCurve defaultMasterCurve;
     TextureCurve lightMasterCurve;
-    TextureCurve colorCurve;
+    TextureCurve colorCurveGreen;
+    TextureCurve colorCurveOrange;
     TextureCurve greyCurve;
     [SerializeField] AnimationCurve evolutionCrescendoCurve;
+    [SerializeField] AnimationCurve evolution2CrescendoCurve;
     [SerializeField] float crescendoDuration;
+    [SerializeField] float treeMaxRotationSpeed;
+
     [SerializeField] float diminuendoDuration;
     [SerializeField] protected VisualEffect m_Three2;
     [SerializeField] protected VisualEffect m_Three3;
@@ -76,7 +83,7 @@ public class SiffleManager : TrackTailorMadeManager
         lightMasterCurve = new TextureCurve(keys, 0.5f, false, bound);
     }
 
-    private void colorCurveCreation()
+    private void colorGreenCurveCreation()
     {
         Keyframe key1 = new Keyframe(0.2237762f, 0.5f, -1.201681f, -1.201681f);
         Keyframe key2 = new Keyframe(0.5850816f, 0.24f, 0, 0); //240
@@ -84,8 +91,32 @@ public class SiffleManager : TrackTailorMadeManager
         Keyframe[] keys = new Keyframe[2];
         keys[0] = key1;
         keys[1] = key2;
-        colorCurve = new TextureCurve(keys, 0.5f, true, bound);
+        colorCurveGreen = new TextureCurve(keys, 0.5f, true, bound);
     }
+
+    private void colorPurpleCurveCreation()
+    {
+        Keyframe key1 = new Keyframe(0.191f, 0.8756f, 0f, 0f);
+        Keyframe key2 = new Keyframe(0.4033019f, 0.7761194f, -0.9897181f, -0.9897181f);
+        Keyframe key3 = new Keyframe(0.6603774f, 0.5472637f, -0.7670738f, 0.7670738f); //240
+
+        Keyframe[] keys = new Keyframe[3];
+        keys[0] = key1;
+        keys[1] = key2;
+        keys[2] = key3;
+        colorCurveOrange = new TextureCurve(keys, 0.5f, true, bound);
+    }
+
+    // private void colorOrangeCurveCreation()
+    // {
+    //     Keyframe key1 = new Keyframe(0.2237762f, 0.5f, 0.05145023f, 0.05145023f);
+    //     Keyframe key2 = new Keyframe(0.5850816f, 0.925f, 0, 0); //240
+
+    //     Keyframe[] keys = new Keyframe[2];
+    //     keys[0] = key1;
+    //     keys[1] = key2;
+    //     colorCurveOrange = new TextureCurve(keys, 0.5f, true, bound);
+    // }
 
     private void greyCurveCreation()
     {
@@ -145,11 +176,13 @@ public class SiffleManager : TrackTailorMadeManager
         base.Start();
         base.ApplyDefaultEffects();
         chantStartCount = 0;
+
         if (m_PostProcessVolume.profile.TryGet<ColorCurves>(out ColorCurves colorCurves))
         {
             defaultCurveCreation();
 
-            colorCurveCreation();
+            colorGreenCurveCreation();
+            colorPurpleCurveCreation();
 
             greyCurveCreation();
 
@@ -160,7 +193,28 @@ public class SiffleManager : TrackTailorMadeManager
             hueVsSat = colorCurves.hueVsSat;
             master = colorCurves.master;
 
-            huevsHue.Interp(defaultCurve, colorCurve, 0.0f);
+            // Debug.Log("inTangent :" + huevsHue.value[0].inTangent.ToString());
+            // Debug.Log("inWeight :" + huevsHue.value[0].inWeight.ToString());
+            // Debug.Log("outTangent :" + huevsHue.value[0].outTangent.ToString());
+            // Debug.Log("outWeight :" + huevsHue.value[0].outWeight.ToString());
+            // Debug.Log("Time :" + huevsHue.value[0].time);
+            // Debug.Log("Value :" + huevsHue.value[0].value);
+
+            // Debug.Log("inTangent :" + huevsHue.value[1].inTangent.ToString());
+            // Debug.Log("inWeight :" + huevsHue.value[1].inWeight.ToString());
+            // Debug.Log("outTangent :" + huevsHue.value[1].outTangent.ToString());
+            // Debug.Log("outWeight :" + huevsHue.value[1].outWeight.ToString());
+            // Debug.Log("Time :" + huevsHue.value[1].time);
+            // Debug.Log("Value :" + huevsHue.value[1].value);
+
+            // Debug.Log("inTangent :" + huevsHue.value[2].inTangent.ToString());
+            // Debug.Log("inWeight :" + huevsHue.value[2].inWeight.ToString());
+            // Debug.Log("outTangent :" + huevsHue.value[2].outTangent.ToString());
+            // Debug.Log("outWeight :" + huevsHue.value[2].outWeight.ToString());
+            // Debug.Log("Time :" + huevsHue.value[2].time);
+            // Debug.Log("Value :" + huevsHue.value[2].value);
+
+            huevsHue.Interp(defaultCurve, colorCurveGreen, 0.0f);
         }
     }
 
@@ -185,14 +239,23 @@ public class SiffleManager : TrackTailorMadeManager
     public void Crescendo_1()
     {
         Debug.Log("Crescendo_1");
-        StartCoroutine(InterpolatWithProgressionCurve(huevsHue, defaultCurve, colorCurve, crescendoDuration));
-        StartCoroutine(InterpolatWithProgressionCurve(master, defaultMasterCurve, lightMasterCurve, crescendoDuration));
+
+        TextureCurve colorCurve = debutDeuxiemeHarmonique ? colorCurveOrange : colorCurveGreen;
+        AnimationCurve timeCurve = debutDeuxiemeHarmonique ? evolution2CrescendoCurve : evolutionCrescendoCurve;
+        StartCoroutine(InterpolatWithProgressionCurve(huevsHue, defaultCurve, colorCurve, crescendoDuration, timeCurve));
+        StartCoroutine(InterpolatWithProgressionCurve(master, defaultMasterCurve, lightMasterCurve, crescendoDuration, timeCurve));
+        StartCoroutine(InterpolatWithProgressionCurve(m_VFX, 5000, treeMaxRotationSpeed, crescendoDuration));
+        StartCoroutine(InterpolatWithProgressionCurve(m_Three2, 5000, treeMaxRotationSpeed, crescendoDuration));
+        StartCoroutine(InterpolatWithProgressionCurve(m_Three3, 5000, treeMaxRotationSpeed, crescendoDuration));
+        StartCoroutine(InterpolatWithProgressionCurve(m_Three4, 5000, treeMaxRotationSpeed, crescendoDuration));
+        StartCoroutine(InterpolatWithProgressionCurve(m_Three5, 5000, treeMaxRotationSpeed, crescendoDuration));
     }
 
     public void Diminuendo()
     {
         Debug.Log("Diminuendo");
         StartCoroutine(InterpolatSat(defaultCurve, greyCurve, diminuendoDuration));
+        StartCoroutine(InterpolatWithProgressionCurve(master, defaultMasterCurve, lightMasterCurve, crescendoDuration, evolutionCrescendoCurve));
         StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(true, "wind_speed", 100000, m_VFX, diminuendoDuration, 5000));
         StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(true, "wind_speed", 100000, m_Three2, diminuendoDuration, 5000));
         StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(true, "wind_speed", 100000, m_Three3, diminuendoDuration, 5000));
@@ -209,6 +272,11 @@ public class SiffleManager : TrackTailorMadeManager
         m_Three5.SendEvent("Grow");
     }
 
+    public void DebutDeuxiemeHarmonique()
+    {
+        debutDeuxiemeHarmonique = !debutDeuxiemeHarmonique;
+    }
+
     public void FinChant()
     {
         StartCoroutine(LaunchWind(m_Wind2, 5.0f));
@@ -219,7 +287,7 @@ public class SiffleManager : TrackTailorMadeManager
         StartCoroutine(LaunchWind(m_Wind3, 5.0f));
     }
 
-    public IEnumerator InterpolatWithProgressionCurve(TextureCurveParameter volume, TextureCurve begin, TextureCurve end, float duration)
+    public IEnumerator InterpolatWithProgressionCurve(TextureCurveParameter volume, TextureCurve begin, TextureCurve end, float duration, AnimationCurve timeCurve)
     {
         float elapsedTime = 0f;
         float tmp = 0f;
@@ -229,6 +297,23 @@ public class SiffleManager : TrackTailorMadeManager
             tmp = elapsedTime / duration;
             float time = evolutionCrescendoCurve.Evaluate(tmp);
             volume.Override(ComputeIntermediateTextureCurve(begin, end, time));
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        yield return null;
+    }
+
+    public IEnumerator InterpolatWithProgressionCurve(VisualEffect visualEffect, float begin, float end, float duration)
+    {
+        float elapsedTime = 0f;
+        float tmp = 0f;
+
+        while (elapsedTime < duration)
+        {
+            tmp = elapsedTime / duration;
+            float time = evolutionCrescendoCurve.Evaluate(tmp);
+            float res = time * (end - begin) + begin;
+            visualEffect.SetFloat("wind_speed", res);
             elapsedTime += Time.deltaTime;
             yield return null;
         }

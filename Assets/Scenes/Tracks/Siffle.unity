@@ -660,7 +660,50 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  evolution2CrescendoCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.057023622
+      inSlope: 0
+      outSlope: 62.92638
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.036495715
+      value: 1.0000641
+      inSlope: 4.8783803
+      outSlope: -0.00047305375
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.9434418
+      value: 0.9996351
+      inSlope: -0.06924624
+      outSlope: -0.06924624
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.06492363
+      outWeight: 0.23397478
+    - serializedVersion: 3
+      time: 1.0009766
+      value: 0.05555878
+      inSlope: -16.4088
+      outSlope: 0
+      tangentMode: 69
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   crescendoDuration: 8
+  treeMaxRotationSpeed: 200
   diminuendoDuration: 40
   m_Three2: {fileID: 517040743}
   m_Three3: {fileID: 1799181369}
@@ -933,7 +976,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &994807459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1311,6 +1354,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 48e9e5db3c8a49d4e93ee75037ea136b, type: 2}
     - {fileID: 11400000, guid: f7750e240a733644e95c3b7a55bf7e19, type: 2}
     - {fileID: 11400000, guid: 55fcaf517ecd2f04f8e1b5d05e1638b4, type: 2}
+    - {fileID: 11400000, guid: b917e35d775a4f94095eb4571e92bca3, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -1401,6 +1445,20 @@ MonoBehaviour:
         - m_Target: {fileID: 707637778}
           m_TargetAssemblyTypeName: SiffleManager, Assembly-CSharp
           m_MethodName: FinChant2
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 707637778}
+          m_TargetAssemblyTypeName: SiffleManager, Assembly-CSharp
+          m_MethodName: DebutDeuxiemeHarmonique
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
