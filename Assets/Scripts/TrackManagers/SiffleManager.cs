@@ -6,6 +6,8 @@ using UnityEngine.Rendering.HighDefinition;
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using extOSC;
+
 
 public class SiffleManager : TrackTailorMadeManager
 {
@@ -36,7 +38,6 @@ public class SiffleManager : TrackTailorMadeManager
     [SerializeField] protected VisualEffect m_Wind;
     [SerializeField] protected VisualEffect m_Wind2;
     [SerializeField] protected VisualEffect m_Wind3;
-
     int chantStartCount;
 
     private void defaultCurveCreation()
@@ -176,7 +177,7 @@ public class SiffleManager : TrackTailorMadeManager
         base.Start();
         base.ApplyDefaultEffects();
         chantStartCount = 0;
-
+        generateOSCReceveier();
         if (m_PostProcessVolume.profile.TryGet<ColorCurves>(out ColorCurves colorCurves))
         {
             defaultCurveCreation();
@@ -218,12 +219,36 @@ public class SiffleManager : TrackTailorMadeManager
         }
     }
 
+    private void generateOSCReceveier()
+    {
+        ShowManager.m_Instance.OSCReceiver.Bind("/percu_start", PercuStart);
+        ShowManager.m_Instance.OSCReceiver.Bind("/Chant_start", ChantStart);
+        ShowManager.m_Instance.OSCReceiver.Bind("/crescendo_1", Crescendo_1);
+        ShowManager.m_Instance.OSCReceiver.Bind("/diminuendo", Diminuendo);
+        ShowManager.m_Instance.OSCReceiver.Bind("/crescendo_f", Crescendo_f);
+        ShowManager.m_Instance.OSCReceiver.Bind("/debut_deuxieme_harmo", DebutDeuxiemeHarmonique);
+        ShowManager.m_Instance.OSCReceiver.Bind("/fin_chant", FinChant);
+        ShowManager.m_Instance.OSCReceiver.Bind("/fin_chant_2", FinChant2);
+    }
+
+
     public void PercuStart()
+    {
+        PercuStart(null);
+    }
+
+    public void PercuStart(OSCMessage message)
     {
         StartCoroutine(LaunchWind(m_Wind, 5.0f));
     }
 
+
     public void ChantStart()
+    {
+        ChantStart(null);
+    }
+
+    public void ChantStart(OSCMessage message)
     {
         Debug.Log("ChantStart");
         if (chantStartCount == 0)
@@ -236,7 +261,13 @@ public class SiffleManager : TrackTailorMadeManager
         chantStartCount++;
     }
 
+
     public void Crescendo_1()
+    {
+        Crescendo_1(null);
+    }
+
+    public void Crescendo_1(OSCMessage message)
     {
         Debug.Log("Crescendo_1");
 
@@ -250,8 +281,11 @@ public class SiffleManager : TrackTailorMadeManager
         StartCoroutine(InterpolatWithProgressionCurve(m_Three4, 5000, treeMaxRotationSpeed, crescendoDuration));
         StartCoroutine(InterpolatWithProgressionCurve(m_Three5, 5000, treeMaxRotationSpeed, crescendoDuration));
     }
-
     public void Diminuendo()
+    {
+        Diminuendo(null);
+    }
+    public void Diminuendo(OSCMessage message)
     {
         Debug.Log("Diminuendo");
         StartCoroutine(InterpolatSat(defaultCurve, greyCurve, diminuendoDuration));
@@ -262,6 +296,11 @@ public class SiffleManager : TrackTailorMadeManager
     }
 
     public void Crescendo_f()
+    {
+        Crescendo_f(null);
+    }
+
+    public void Crescendo_f(OSCMessage message)
     {
         Debug.Log("Crescendo_f");
         StartCoroutine(InterpolatSat(greyCurve, defaultCurve, 0.5f));
@@ -274,15 +313,30 @@ public class SiffleManager : TrackTailorMadeManager
 
     public void DebutDeuxiemeHarmonique()
     {
+        DebutDeuxiemeHarmonique(null);
+    }
+
+    public void DebutDeuxiemeHarmonique(OSCMessage message)
+    {
         debutDeuxiemeHarmonique = !debutDeuxiemeHarmonique;
     }
 
     public void FinChant()
     {
+        FinChant(null);
+    }
+
+    public void FinChant(OSCMessage message)
+    {
         StartCoroutine(LaunchWind(m_Wind2, 5.0f));
     }
 
     public void FinChant2()
+    {
+        FinChant2(null);
+    }
+
+    public void FinChant2(OSCMessage message)
     {
         StartCoroutine(LaunchWind(m_Wind3, 5.0f));
     }
