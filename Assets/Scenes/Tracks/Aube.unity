@@ -202,14 +202,17 @@ VisualEffect:
       - m_Value: 1
         m_Name: Rate
         m_Overridden: 1
-      - m_Value: 10
+      - m_Value: 1
         m_Name: Side_Rate
         m_Overridden: 1
-      - m_Value: 0.5
+      - m_Value: 1
         m_Name: Delay
         m_Overridden: 1
       - m_Value: 0.04
         m_Name: Speed
+        m_Overridden: 1
+      - m_Value: 1
+        m_Name: Delay_Side
         m_Overridden: 1
     m_Vector2f:
       m_Array:
@@ -572,7 +575,7 @@ MonoBehaviour:
   m_VFX: {fileID: 262510764}
   m_Light: {fileID: 2013295682}
   lightTransform: {fileID: 2013295683}
-  endTransform: {fileID: 0}
+  endTransform: {fileID: 1980111256}
 --- !u!1 &1563284817
 GameObject:
   m_ObjectHideFlags: 0

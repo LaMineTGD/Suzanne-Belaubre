@@ -53,7 +53,7 @@ public class AubeManager : TrackTailorMadeManager
     }
     public void AubeSeLeve(OSCMessage message)
     {
-        StartCoroutine(LaunchDawn(lightTransform, endTransform, 30f));
+        StartCoroutine(LaunchDawn(lightTransform, endTransform, 45f));
         Debug.Log("AubeSeLeve");
     }
     public void DebutTransition()
@@ -66,14 +66,17 @@ public class AubeManager : TrackTailorMadeManager
     }
 
 
-    public IEnumerator LaunchDawn(Transform begin, Transform end, float duration)
+    public IEnumerator LaunchDawn(Transform begin, Transform target, float duration)
     {
+        Debug.Log("Test");
         float elapsedTime = 0f;
+        Quaternion start = begin.rotation;
+        Quaternion end = target.rotation;
         while (elapsedTime < duration)
         {
             float time = elapsedTime / duration;
             elapsedTime += Time.deltaTime;
-            begin.rotation = Quaternion.Lerp(begin.rotation, end.rotation, time);
+            begin.rotation = Quaternion.Lerp(start, end, time);
             yield return null;
         }
         yield return null;
