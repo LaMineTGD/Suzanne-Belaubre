@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.VFX;
+using extOSC;
 
 public class AmiImaginaireManager : TrackTailorMadeManager
 {
@@ -21,8 +22,19 @@ public class AmiImaginaireManager : TrackTailorMadeManager
     {
         Debug.Log("Start:" + Time.time);
         start_time = Time.time;
+        generateOSCReceveier();
         base.Start();
         base.ApplyDefaultEffects();
+    }
+
+    private void generateOSCReceveier()
+    {
+        ShowManager.m_Instance.OSCReceiver.Bind("/goute_eau", WaterDropSignal);
+        ShowManager.m_Instance.OSCReceiver.Bind("/End", End);
+        ShowManager.m_Instance.OSCReceiver.Bind("/crescendo_1", Crescendo_1);
+        ShowManager.m_Instance.OSCReceiver.Bind("/crescendo_2", Crescendo_2);
+        ShowManager.m_Instance.OSCReceiver.Bind("/diminuendo", Diminuendo);
+        ShowManager.m_Instance.OSCReceiver.Bind("/crescendo_f", Crescendo_f);
     }
 
     private void ChangeDropLocation(Vector2 location, int drop)
@@ -32,6 +44,11 @@ public class AmiImaginaireManager : TrackTailorMadeManager
     }
 
     public void WaterDropSignal()
+    {
+        WaterDropSignal(null);
+    }
+
+    public void WaterDropSignal(OSCMessage message)
     {
         float signalTime = Time.time - start_time - 1.0f;
         Debug.Log("WaterDropSignal :" + signalTime);
@@ -46,11 +63,21 @@ public class AmiImaginaireManager : TrackTailorMadeManager
 
     public void Crescendo_1()
     {
+        Crescendo_1(null);
+    }
+
+    public void Crescendo_1(OSCMessage message)
+    {
         Debug.Log("Crescendo_1");
         m_VFX.SetFloat(SDF_RATIO, 0.55f);
     }
 
     public void Crescendo_2()
+    {
+        Crescendo_2(null);
+    }
+
+    public void Crescendo_2(OSCMessage message)
     {
         Debug.Log("Crescendo_2");
         m_VFX.SetFloat(SDF_RATIO, 0.35f);
@@ -58,12 +85,22 @@ public class AmiImaginaireManager : TrackTailorMadeManager
 
     public void Crescendo_f()
     {
+        Crescendo_f(null);
+    }
+
+    public void Crescendo_f(OSCMessage message)
+    {
         Debug.Log("Crescendo_f");
         isFinal = true;
         m_VFX.SetFloat(SDF_RATIO, 0f);
     }
 
     public void Diminuendo()
+    {
+        Diminuendo(null);
+    }
+
+    public void Diminuendo(OSCMessage message)
     {
         Debug.Log("Diminuendo");
         if (isFinal)
@@ -73,6 +110,11 @@ public class AmiImaginaireManager : TrackTailorMadeManager
     }
 
     public void End()
+    {
+        End(null);
+    }
+
+    public void End(OSCMessage message)
     {
         m_VFX.SetFloat(rate_name, 0f);
         Debug.Log("End");
