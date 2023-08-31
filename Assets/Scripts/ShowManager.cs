@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
+using extOSC;
 
 public class ShowManager : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class ShowManager : MonoBehaviour
     public enum Location { Interior, Exterior, Both, InBetween, Neither };
     public enum Temperature { Warm, Cool, Both };
     public enum TrackType { Default, TailorMade };
-
+    [SerializeField] public OSCReceiver OSCReceiver;
     [Header("References")]
     [SerializeField] private SkyFogManager m_SkyFogManager;
     [SerializeField] private LineVFXManager m_LineVFXManager;
@@ -65,7 +66,11 @@ public class ShowManager : MonoBehaviour
         firstTrack = true;
         currentTailorManager = null;
         StartNextTrack();
+
+        OSCReceiver.Connect();
+        Debug.Log("OSCR :" + OSCReceiver.IsStarted);
     }
+
 
     private void StartNextTrack()
     {
@@ -91,7 +96,7 @@ public class ShowManager : MonoBehaviour
         int lastTrack = (m_TrackList.Length + m_TrackPlaying - 1) % m_TrackList.Length;
         int currentTrack = (m_TrackList.Length + m_TrackPlaying) % m_TrackList.Length;
         int nextTrack = (currentTrack + 1) % m_TrackList.Length;
-        
+
         // SceneManager.LoadScene(m_TrackList[nextTrack]._SceneName, LoadSceneMode.Additive);
         float duration = m_TrackList[nextTrack]._Start_Transition_duration;
 
@@ -178,19 +183,19 @@ public class ShowManager : MonoBehaviour
 
     public bool IsPreviousTrackTailorMade()
     {
-        if (m_TrackPlaying == -1 || m_TrackPlaying ==0)
+        if (m_TrackPlaying == -1 || m_TrackPlaying == 0)
         {
             return false;
-        } 
+        }
         else
         {
-            return m_TrackList[m_TrackPlaying-1]._Type == TrackType.TailorMade;
+            return m_TrackList[m_TrackPlaying - 1]._Type == TrackType.TailorMade;
         }
     }
 
     public Volume[] GetPreviousTailorVolumes()
     {
-        Volume[] result = new Volume[2] {_previousTailorSkyVolume, _previousTailorPostProcessVolume};
+        Volume[] result = new Volume[2] { _previousTailorSkyVolume, _previousTailorPostProcessVolume };
         return result;
     }
 
