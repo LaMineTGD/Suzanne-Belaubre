@@ -144,9 +144,13 @@ public class ITrackManager : MonoBehaviour
     private IEnumerator SetAltitudeCoroutine()
     {
         float elapsedTime = 0f;
+        Vector3 targetVector = Vector3.zero;
         while (elapsedTime < m_altitudeLerpDuration)
         {
-            var targetVector = new Vector3((float)(ShowManager.m_Instance.GetCurrentTrack()._Altitude * m_rotationStep), 0f, 0f);
+            if (ShowManager.m_Instance.GetCurrentTrack()._Type == ShowManager.TrackType.Default)
+            {
+                targetVector = new Vector3((float)(ShowManager.m_Instance.GetCurrentTrack()._Altitude * m_rotationStep), 0f, 0f);
+            }
             Quaternion targetRotation = Quaternion.Euler(targetVector);
             Quaternion initialRotation = m_MainCamera.transform.rotation;
             m_MainCamera.transform.rotation = Quaternion.Lerp(initialRotation, targetRotation, elapsedTime / m_altitudeLerpDuration);
