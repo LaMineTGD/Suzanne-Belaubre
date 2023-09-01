@@ -270,7 +270,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &316283462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -572,6 +572,7 @@ MonoBehaviour:
   m_VFX: {fileID: 262510764}
   m_Light: {fileID: 2013295682}
   lightTransform: {fileID: 2013295683}
+  endTransform: {fileID: 0}
 --- !u!1 &1563284817
 GameObject:
   m_ObjectHideFlags: 0
