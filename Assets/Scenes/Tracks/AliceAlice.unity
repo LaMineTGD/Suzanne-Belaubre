@@ -297,11 +297,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: b9413c22a52d14f488896452402d158e, type: 2}
     - {fileID: 11400000, guid: 08b932660da5d494bb703be2142659dd, type: 2}
     - {fileID: 11400000, guid: c1c786d582add9a438a6c1b2e9af0c5f, type: 2}
-    - {fileID: 11400000, guid: 19034cb933873254c9eafac32ef298ef, type: 2}
-    - {fileID: 11400000, guid: 9b0c8ba10f01e2b48b03dd2d6b83ee8e, type: 2}
-    - {fileID: 11400000, guid: ab5bc74ed5bbcf1498b7c43c31bd14f1, type: 2}
-    - {fileID: 11400000, guid: c2af98993b3240e4a918fa2cf08a982e, type: 2}
-    - {fileID: 11400000, guid: b47dc3a075cc73448a9bc728e09d857d, type: 2}
+    - {fileID: 11400000, guid: c417e96683e1054428b6c68a01abfdcd, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -461,63 +457,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1389022978}
           m_TargetAssemblyTypeName: AliceAliceManager, Assembly-CSharp
-          m_MethodName: OnTududu2
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 1
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1389022978}
-          m_TargetAssemblyTypeName: AliceAliceManager, Assembly-CSharp
-          m_MethodName: OnTududu3
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 1
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1389022978}
-          m_TargetAssemblyTypeName: AliceAliceManager, Assembly-CSharp
-          m_MethodName: OnTududu4
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 1
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1389022978}
-          m_TargetAssemblyTypeName: AliceAliceManager, Assembly-CSharp
-          m_MethodName: OnTududu5
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 1
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1389022978}
-          m_TargetAssemblyTypeName: AliceAliceManager, Assembly-CSharp
-          m_MethodName: OnTududu6
+          m_MethodName: OnBegin
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

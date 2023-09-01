@@ -1,106 +1,328 @@
 using System.Collections;
+using extOSC;
 using UnityEngine;
 
 public class AliceAliceManager : ITrackManager
 {
     private IEnumerator _changeRateCoroutine;
     private IEnumerator _changeCircleCoroutine;
+    private IEnumerator _changeValue2Coroutine;
+    private IEnumerator _changeParticleSpeedCoroutine;
+    private IEnumerator _changeRadiusCoroutine;
+    private IEnumerator _changeLineVFXPositionCoroutine;
+    private IEnumerator _tududuCoroutine;
+
+    private bool _isRefrainStarted = false;
 
     protected override void Start()
     {
         base.Start();
         base.ApplyDefaultEffects();
+        generateOSCReceveier();
+    }
+
+    private void generateOSCReceveier()
+    {
+        ShowManager.m_Instance.OSCReceiver.Bind("/Begin", OnBegin);
+        ShowManager.m_Instance.OSCReceiver.Bind("/percu_start", OnPercuStart);
+        ShowManager.m_Instance.OSCReceiver.Bind("/Chant_start", OnChantStart);
+        ShowManager.m_Instance.OSCReceiver.Bind("/Alice_Prologue", OnPrologue);
+        ShowManager.m_Instance.OSCReceiver.Bind("/RefrainDebut", OnRefrainDebut);
+        ShowManager.m_Instance.OSCReceiver.Bind("/RefrainFin", OnRefrainFin);
+        ShowManager.m_Instance.OSCReceiver.Bind("/Alice_FadeOut", OnFadeOut);
+        ShowManager.m_Instance.OSCReceiver.Bind("/Alice_TududuDebut", OnTududuDebut);
+        ShowManager.m_Instance.OSCReceiver.Bind("/Alice_TududuFin", OnTududuFin);
+        ShowManager.m_Instance.OSCReceiver.Bind("/End", OnEnd);
+    }
+
+    public void OnBegin()
+    {
+        OnBegin(null);
+    }
+
+    public void OnBegin(OSCMessage message)
+    {
+        //Make the line disappear
+        HideLine();
+
+        //Change the sky color
+        var currentTrackData = ShowManager.m_Instance.GetCurrentTrack();
+        SetSkyColor(currentTrackData._MainColorList[0], currentTrackData._MainColorList[1], currentTrackData._MainColorList[2]);
+
+        //Reduce LineVFX to min circle
+        Vector2 startCircle = new Vector2(1f, 2f);
+        SetLineVFXAspectCircle(startCircle);
+    }
+
+    private void HideLine()
+    {
+        SetLineVFXRadius(0f);
+    }
+
+    private void ShowLine()
+    {
+        if(_changeRadiusCoroutine != null)
+        {
+            StopCoroutine(_changeRadiusCoroutine);
+        }
+        SetLineVFXRadius(0.05f);
+    }
+
+    private void FadeOutLine()
+    {
+        if(_changeRadiusCoroutine != null)
+        {
+            StopCoroutine(_changeRadiusCoroutine);
+        }
+
+        float startRadius = 0.05f;
+        float targetRadius = 0.01f;
+        float radiusDuration = 1f;
+        _changeRadiusCoroutine = ChangeLineVFXRadiusCoroutine(startRadius, targetRadius, radiusDuration);
+        StartCoroutine(_changeRadiusCoroutine);
     }
 
     public void OnPercuStart()
+    {
+        OnPercuStart(null);
+    }
+
+    public void OnPercuStart(OSCMessage message)
     {
         
     }
 
     public void OnTududuDebut()
     {
-        PulseLineVFX(1.2f);
+        OnTududuDebut(null);
     }
 
-    public void OnTududu2()
+    public void OnTududuDebut(OSCMessage message)
     {
-        PulseLineVFX(1.2f);
+        if(_tududuCoroutine != null)
+        {
+            StopCoroutine(_tududuCoroutine);
+        }
+
+        _tududuCoroutine = TududuCoroutine();
+        StartCoroutine(_tududuCoroutine);
     }
 
-    public void OnTududu3()
+    private IEnumerator TududuCoroutine()
     {
-        PulseLineVFX(1.2f);
-    }
+        Vector2 startCircle = GetLineVFXCircle();
+        Vector2 targetCircle = startCircle + Vector2.up * 0.1f;
+        SetLineVFXAspectCircle(targetCircle);
 
-    public void OnTududu4()
-    {
-        PulseLineVFX(1.2f);
-    }
+        if(!_isRefrainStarted)
+        {
+            ShowLine();
+            FadeOutLine();
+        }
+        yield return new WaitForSeconds(0.2f);
 
-    public void OnTududu5()
-    {
-        PulseLineVFX(1.2f);
-    }
-
-    public void OnTududu6()
-    {
-        PulseLineVFX(1.2f);
+        OnTududuDebut();
     }
 
     public void OnTududuFin()
     {
+        OnTududuFin(null);
+    }
 
+    public void OnTududuFin(OSCMessage message)
+    {
+        if(_tududuCoroutine != null)
+        {
+            StopCoroutine(_tududuCoroutine);
+        }
     }
 
     public void OnPrologue()
     {
+        OnPrologue(null);
+    }
+
+
+    public void OnPrologue(OSCMessage message)
+    {
+
+    }
+
+    public void OnRefrainDebut()
+    {
+        OnRefrainDebut(null);
+    }
+
+    public void OnRefrainDebut(OSCMessage message)
+    {
+        _isRefrainStarted = true;
+        float targetFOV = 150f;
+        float lerpDuration = 15;
+
+        ChangeFOVLineVFX(targetFOV, lerpDuration);
+
+        if(_changeRadiusCoroutine != null)
+        {
+            StopCoroutine(_changeRadiusCoroutine);
+        }
+        float startRadius = GetLineVFXRadius();
+        float targetRadius = 0.2f;
+        float radiusDuration = 15f;
+        _changeRadiusCoroutine = ChangeLineVFXRadiusCoroutine(startRadius, targetRadius, radiusDuration);
+        StartCoroutine(_changeRadiusCoroutine);
+
+        if(_changeLineVFXPositionCoroutine != null)
+        {
+            StopCoroutine(_changeLineVFXPositionCoroutine);
+        }
+
+        Vector3 startPosition = Vector3.zero;
+        Vector3 targetPosition = new Vector3(0f, 0f, 3f);
+        float positionDuration = 30f;
+        _changeLineVFXPositionCoroutine = ChangeLineVFXPositionCoroutine(startPosition, targetPosition, positionDuration);
+        StartCoroutine(_changeLineVFXPositionCoroutine);  
+
+        if(_changeParticleSpeedCoroutine != null)
+        {
+            StopCoroutine(_changeParticleSpeedCoroutine);
+        }
+        float startPartSpeed = GetLineVFXParticleSpeed();
+        float targetPartSpeed = 2.5f;
+        float partSpeedDuration = 2f;
+        _changeParticleSpeedCoroutine = ChangeLineVFXParticleSpeedCoroutine(startPartSpeed, targetPartSpeed, partSpeedDuration);
+        StartCoroutine(_changeParticleSpeedCoroutine);
+
+        if(_changeValue2Coroutine != null)
+        {
+            StopCoroutine(_changeValue2Coroutine);
+        }
+        Vector2 startValue2 = GetLineAspectValue2();
+        Vector2 targetValue2 = startValue2 + Vector2.up * 4f;
+        float value2Duration = 20f;
+        _changeValue2Coroutine = ChangeLineVFXValue2Coroutine(targetValue2, value2Duration);
+        StartCoroutine(_changeValue2Coroutine);
+    }
+
+    private IEnumerator ChangeLineVFXPositionCoroutine(Vector3 startPosition, Vector3 targetPosition, float duration)
+    {
+        float elapsedTime = 0f;
+        Vector3 position;
+        while (elapsedTime < duration)
+        {
+            position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
+            SetLineVFXPosition(position);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+        yield return null;
+    }
+
+    public void OnRefrainFin()
+    {
+        OnRefrainFin(null);
+    }
+
+
+    public void OnRefrainFin(OSCMessage message)
+    {
+        if(_changeLineVFXPositionCoroutine != null)
+        {
+            StopCoroutine(_changeLineVFXPositionCoroutine);
+        }
+
+        Vector3 startPosition = GetLineVFXPosition();
+        Vector3 targetPosition = Vector3.zero;
+        float positionDuration = 8f;
+        _changeLineVFXPositionCoroutine = ChangeLineVFXPositionCoroutine(startPosition, targetPosition, positionDuration);
+        StartCoroutine(_changeLineVFXPositionCoroutine);    
+
+        float targetFOV = 60f;
+        float lerpDuration = 8f;
+
+        ChangeFOVLineVFX(targetFOV, lerpDuration);
+
+        if(_changeRadiusCoroutine != null)
+        {
+            StopCoroutine(_changeRadiusCoroutine);
+        }
+        float startRadius = GetLineVFXRadius();
+        float targetRadius = 0.1f;
+        float radiusDuration = 3f;
+        _changeRadiusCoroutine = ChangeLineVFXRadiusCoroutine(startRadius, targetRadius, radiusDuration);
+        StartCoroutine(_changeRadiusCoroutine);
+
+        if(_changeParticleSpeedCoroutine != null)
+        {
+            StopCoroutine(_changeParticleSpeedCoroutine);
+        }
+        float startPartSpeed = GetLineVFXParticleSpeed();
+        float targetPartSpeed = 2.5f;
+        float partSpeedDuration = 2f;
+        _changeParticleSpeedCoroutine = ChangeLineVFXParticleSpeedCoroutine(startPartSpeed, targetPartSpeed, partSpeedDuration);
+        StartCoroutine(_changeParticleSpeedCoroutine);
+
+        if(_changeValue2Coroutine != null)
+        {
+            StopCoroutine(_changeValue2Coroutine);
+        }
+    }
+
+    public void OnChantStart()
+    {
+        OnChantStart(null);
+    }
+    
+    public void OnChantStart(OSCMessage message)
+    {
+        float rotationSpeed = 1f;
+        RotateLineVFX(rotationSpeed);
+
         if(_changeCircleCoroutine != null)
         {
             StopCoroutine(_changeCircleCoroutine);
         }
 
-        Vector2 startCircle = GetLineVFXDefaultCircle();
-        Vector2 targetCircle = new(500f, 2f);
-        float duration = 15000f;
-        _changeCircleCoroutine = ChangeLineVFXCircleCoroutine(startCircle, targetCircle, duration);
+        Vector2 startCircle = GetLineVFXCircle();
+        Vector2 targetCircle = GetLineVFXDefaultCircle();
+        float circleDuration = 300f;
+        _changeCircleCoroutine = ChangeLineVFXCircleCoroutine(startCircle, targetCircle, circleDuration);
         StartCoroutine(_changeCircleCoroutine);
     }
 
-    public void OnRefrainDebut()
-    {
-        float targetFOV = 150f;
-        float lerpDuration = 5;
-
-        ChangeFOVLineVFX(targetFOV, lerpDuration);
-    }
-
-    public void OnRefrainFin()
-    {
-        float targetFOV = 60f;
-        float lerpDuration = 8f;
-
-        ChangeFOVLineVFX(targetFOV, lerpDuration);
-    }
-    
-    public void OnChantStart()
-    {
-        float rotationSpeed = 1f;
-        RotateLineVFX(rotationSpeed);
-    }
-    
     public void OnProphetDebut()
+    {
+        OnProphetDebut(null);
+    }
+
+    
+    public void OnProphetDebut(OSCMessage message)
     {
         
     }
 
-    
     public void OnProphetFin()
+    {
+        OnProphetFin(null);
+    }
+    
+    public void OnProphetFin(OSCMessage message)
     {
         
     }
 
     public void OnFadeOut()
     {
+        OnFadeOut(null);
+    }
+
+
+    public void OnFadeOut(OSCMessage message)
+    {
+        float fadeOutDuration = 10f;
+
+        //Reduce emission rate
         if(_changeRateCoroutine != null)
         {
             StopCoroutine(_changeRateCoroutine);
@@ -108,12 +330,37 @@ public class AliceAliceManager : ITrackManager
 
         float startRate = GetLineVFXDefaultRate();
         float targetRate = 5000;
-        float duration = 5f;
-        _changeRateCoroutine = ChangeLineVFXRateCoroutine(startRate, targetRate, duration);
+        _changeRateCoroutine = ChangeLineVFXRateCoroutine(startRate, targetRate, fadeOutDuration);
         StartCoroutine(_changeRateCoroutine);
+
+        //Decrease ParticleSpeed to C'est Rien begin value 
+        if(_changeParticleSpeedCoroutine != null)
+        {
+            StopCoroutine(_changeParticleSpeedCoroutine);
+        }
+
+        float startParticleSpeed = GetLineVFXParticleSpeed();
+        float targetParticleSpeed = 18;
+        _changeParticleSpeedCoroutine = ChangeLineVFXParticleSpeedCoroutine(startParticleSpeed, targetParticleSpeed, fadeOutDuration);
+        StartCoroutine(_changeParticleSpeedCoroutine);
+
+        //Zoom camera in to C'est Rien start value
+        if(_changeRateCoroutine != null)
+        {
+            StopCoroutine(_changeRateCoroutine);
+        }
+
+        float targetFOV = 8f;
+        ChangeFOVLineVFX(targetFOV, fadeOutDuration);
     }
     
     public void OnEnd()
+    {
+        OnEnd(null);
+    }
+
+
+    public void OnEnd(OSCMessage message)
     {
         
     }

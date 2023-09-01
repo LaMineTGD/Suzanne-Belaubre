@@ -30,6 +30,17 @@ public class SkyFogManager : MonoBehaviour
         }
     }
 
+    public void SetSkyColor(Color bottomColor, Color middleColor, Color topColor)
+    {
+        if(m_InterpCoroutine != null)
+        {
+            StopCoroutine(m_InterpCoroutine);
+        }
+
+        m_InterpCoroutine = InterpolateSkyColor(bottomColor, middleColor, topColor);
+        StartCoroutine(m_InterpCoroutine);
+    }
+
     public void SetSkyColor(SkyLevel level, Color color)
     {
         if(m_InterpCoroutine != null)
@@ -39,6 +50,33 @@ public class SkyFogManager : MonoBehaviour
 
         m_InterpCoroutine = InterpolateSkyColor(level, color);
         StartCoroutine(m_InterpCoroutine);
+    }
+
+    private IEnumerator InterpolateSkyColor(Color bottomColor, Color middleColor, Color topColor)
+    {
+        float elapsedTime = 0f;
+        while(elapsedTime < m_colorInterpDuration)
+        {
+
+            m_GradientSky.bottom.overrideState = true;
+            Color fromBotColor = m_GradientSky.bottom.value;
+            m_GradientSky.bottom.Interp(fromBotColor, bottomColor, elapsedTime / m_colorInterpDuration);
+                    
+            m_GradientSky.middle.overrideState = true;
+            Color fromMidColor = m_GradientSky.middle.value;
+            m_GradientSky.middle.Interp(fromMidColor, middleColor, elapsedTime / m_colorInterpDuration);
+                    
+            m_GradientSky.top.overrideState = true;
+            Color fromTopColor = m_GradientSky.top.value;
+            m_GradientSky.top.Interp(fromTopColor, topColor, elapsedTime / m_colorInterpDuration);
+    
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        yield return null;
     }
 
     private IEnumerator InterpolateSkyColor(SkyLevel level, Color toColor)

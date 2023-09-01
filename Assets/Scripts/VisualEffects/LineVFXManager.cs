@@ -89,6 +89,12 @@ public class LineVFXManager : MonoBehaviour
     }
 
     #region Setters
+
+    public void SetLineVFXPosition(Vector3 targetPosition)
+    {
+        m_LineVFX.transform.position = targetPosition;
+    }
+
     public void SetColorOverLifetime(Gradient gradient)
     {
         m_LineVFX.SetGradient(COLOR_OVER_LIFETIME_PROPERTY, gradient);

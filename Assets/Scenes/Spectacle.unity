@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.52038836, g: 0.41688687, b: 0.50364774, a: 1}
+  m_IndirectSpecularColor: {r: 0.52255636, g: 0.14431481, b: 0.110948, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -173,7 +173,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &733124274
 GameObject:
@@ -229,7 +229,7 @@ MonoBehaviour:
     _ThirdColorList: []
     _FourthColorList: []
   - _SceneName: BonnesDesillusions
-    _Altitude: -1
+    _Altitude: 0
     _Type: 1
     _Start_Transition_duration: 1
     _Temperature: 1
@@ -244,7 +244,7 @@ MonoBehaviour:
     _FourthColorList:
     - {r: 1, g: 0.9451673, b: 0, a: 0}
   - _SceneName: Seum
-    _Altitude: -2
+    _Altitude: 0
     _Type: 0
     _Start_Transition_duration: 5
     _Temperature: 1
@@ -258,18 +258,19 @@ MonoBehaviour:
     _ThirdColorList: []
     _FourthColorList: []
   - _SceneName: AliceAlice
-    _Altitude: -2
+    _Altitude: 0
     _Type: 0
     _Start_Transition_duration: 0
     _Temperature: 0
     _Location: 0
     _MainColorList:
-    - {r: 1, g: 0, b: 0.9071803, a: 0}
-    - {r: 1, g: 0, b: 0.06054926, a: 0}
+    - {r: 1, g: 0, b: 0.11764706, a: 1}
+    - {r: 0.2509804, g: 0, b: 0.20784314, a: 1}
+    - {r: 1, g: 0.6901961, b: 0, a: 1}
     _SecondaryColorList:
-    - {r: 1, g: 0.60600626, b: 0, a: 0}
-    - {r: 1, g: 0.94509804, b: 0, a: 0}
-    - {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 0}
+    - {r: 1, g: 0.6901961, b: 0, a: 1}
+    - {r: 1, g: 0.94509804, b: 0, a: 1}
+    - {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 1}
     _ThirdColorList:
     - {r: 0.6009035, g: 0, b: 1, a: 0}
     _FourthColorList: []
@@ -385,7 +386,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &733124277
 MonoBehaviour:
@@ -466,7 +467,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &965866303
 MonoBehaviour:
@@ -528,7 +529,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1201499413
 GameObject:
@@ -698,8 +699,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1425285368}
-  m_RootOrder: -1
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 85.3, y: 0, z: 0}
 --- !u!114 &1201499417
 MonoBehaviour:
@@ -761,7 +762,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1216320611
 MonoBehaviour:
@@ -864,10 +865,9 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 1201499416}
+  m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1425285369
 MonoBehaviour:
@@ -1069,7 +1069,7 @@ PrefabInstance:
     - target: {fileID: 2137073876200462131, guid: 89cbdfe65bec4eb4eae904f405e42089,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2137073876200462131, guid: 89cbdfe65bec4eb4eae904f405e42089,
         type: 3}
@@ -1233,5 +1233,5 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

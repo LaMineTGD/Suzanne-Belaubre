@@ -33,17 +33,17 @@ public class ITrackManager : MonoBehaviour
         if(!ShowManager.m_Instance.IsPreviousTrackTailorMade())
         {
             //These methods are called if there is no transition from a TailorMade scene required 
-            SetAltitude();
-            SetSkyColor(GetDefaultSkyColor());
+            //SetAltitude();
+            //SetSkyColor(GetDefaultSkyColor());
             SetLineVFXColor(GetDefaultLineVFXColor());
             SetLocation();
-            StartCoroutine(SetLineVFXDefaultValues());
-            StartCoroutine(ResetCameraFOVCoroutine(2f));
+            //StartCoroutine(SetLineVFXDefaultValues());
+            //StartCoroutine(ResetCameraFOVCoroutine(2f));
         }
         else
         {
             //This method is called if the previous scene is a TailorMade script
-            ApplyTransitionEffects();
+            //ApplyTransitionEffects();
         }
     }
 
@@ -54,6 +54,10 @@ public class ITrackManager : MonoBehaviour
 
     //Below are all the methods used in the default effects
     #region Default Effects
+    protected Camera GetCamera()
+    {
+        return m_MainCamera;
+    } 
 
     private IEnumerator SetLineVFXDefaultValues()
     {
@@ -147,10 +151,8 @@ public class ITrackManager : MonoBehaviour
         Vector3 targetVector = Vector3.zero;
         while (elapsedTime < m_altitudeLerpDuration)
         {
-            if (ShowManager.m_Instance.GetCurrentTrack()._Type == ShowManager.TrackType.Default)
-            {
-                targetVector = new Vector3((float)(ShowManager.m_Instance.GetCurrentTrack()._Altitude * m_rotationStep), 0f, 0f);
-            }
+            targetVector = new Vector3((float)(ShowManager.m_Instance.GetCurrentTrack()._Altitude * m_rotationStep), 0f, 0f);
+            
             Quaternion targetRotation = Quaternion.Euler(targetVector);
             Quaternion initialRotation = m_MainCamera.transform.rotation;
             m_MainCamera.transform.rotation = Quaternion.Lerp(initialRotation, targetRotation, elapsedTime / m_altitudeLerpDuration);
@@ -192,9 +194,13 @@ public class ITrackManager : MonoBehaviour
     }
 
     //Change the color of the Gradient sky depending on a color defined in ShowManager for the track
-    protected virtual void SetSkyColor(Color color)
+    // protected virtual void SetSkyColor(Color middleColor)
+    // {
+    //     SetSkyColor(middleColor, middleColor, middleColor);
+    // }
+    protected virtual void SetSkyColor(Color bottomColor, Color middleColor, Color topColor)
     {
-        ShowManager.m_Instance.GetSkyFogManager().SetSkyColor(SkyFogManager.SkyLevel.Middle, color);
+        ShowManager.m_Instance.GetSkyFogManager().SetSkyColor(bottomColor, middleColor, topColor);
     }
 
     //Set the color of the LineVFX perticles 
@@ -229,7 +235,6 @@ public class ITrackManager : MonoBehaviour
             StopCoroutine(m_EffilageEffectCoroutine);
         }
     }
-
     #endregion
 
     #region LineVFX setters
@@ -273,9 +278,19 @@ public class ITrackManager : MonoBehaviour
     {
         ShowManager.m_Instance.GetLineVFXManager().SetLineAspectCircle(circle);
     }
+
+    public void SetLineVFXPosition(Vector3 targetPosition)
+    {
+        ShowManager.m_Instance.GetLineVFXManager().SetLineVFXPosition(targetPosition);
+    }
     #endregion
 
     #region LineVFX getters
+    protected Vector3 GetLineVFXPosition()
+    {
+        return ShowManager.m_Instance.GetLineVFXManager().transform.position;
+    }
+
     private Color GetDefaultLineVFXColor()
     {
         Color color = Color.magenta;
@@ -557,6 +572,11 @@ public class ITrackManager : MonoBehaviour
 
     protected virtual void TransitionSkyVolume(Color color)
     {
+        if (_activeTailorMadeSky == null)
+        {
+            return;
+        }
+
         VolumeProfile activeSkyProfile = _activeTailorMadeSky.sharedProfile;
         Color activeSkyColor;
         if (activeSkyProfile.TryGet<VisualEnvironment>(out var activeVisualEnvironment))
@@ -579,6 +599,10 @@ public class ITrackManager : MonoBehaviour
 
     protected virtual void TransitionPostProcess()
     {
+        if(_activeTailorMadePostProcess == null)
+        {
+            return;
+        }
         ShowManager.m_Instance.GetPostProcessVolumeManager().TransitionTailorMadePostProcess(_activeTailorMadePostProcess);
     }
 
