@@ -28,6 +28,7 @@ public class AubeManager : TrackTailorMadeManager
     public void DeuxiemeVagueHarmonique(OSCMessage message)
     {
         m_VFX.SendEvent("FirstLine");
+        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(false, "Delay", 3f, m_VFX, 50f, 0.05f));
         Debug.Log("DeuxiemeVagueHarmonique");
     }
     public void DebutPercussion()
@@ -37,6 +38,7 @@ public class AubeManager : TrackTailorMadeManager
     public void DebutPercussion(OSCMessage message)
     {
         m_VFX.SendEvent("SecondLine");
+        StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(false, "Delay_Side", 3f, m_VFX, 50f, 0.05f));
         Debug.Log("DebutPercussion");
     }
     public void ChantContreSens()
