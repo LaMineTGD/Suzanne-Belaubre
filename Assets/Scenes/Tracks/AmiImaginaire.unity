@@ -631,6 +631,9 @@ MonoBehaviour:
   transBotColor: {r: 0, g: 0.019607844, b: 0.11372549, a: 1}
   _gradientSkyVolume: {fileID: 571452014}
   _postproVolume: {fileID: 2034275270}
+  skyBotColor: {r: 0, g: 0, b: 0, a: 1}
+  skyMidColor: {r: 0, g: 0, b: 0, a: 1}
+  skyTopColor: {r: 0, g: 0, b: 0, a: 1}
 --- !u!114 &1389022979
 MonoBehaviour:
   m_ObjectHideFlags: 0

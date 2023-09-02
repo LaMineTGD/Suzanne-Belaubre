@@ -13,6 +13,9 @@ public class AmiImaginaireManager : TrackTailorMadeManager
     [SerializeField] private Color transBotColor;
     [SerializeField] private Volume _gradientSkyVolume;
     [SerializeField] private Volume _postproVolume;
+    [SerializeField] private Color skyBotColor;
+    [SerializeField] private Color skyMidColor;
+    [SerializeField] private Color skyTopColor;
 
     private const string DROP_SIGNAL = "DropSignalTime"; // Nom de la propriété exposée pour le rayon de la sphère de conformité.
 
@@ -277,6 +280,15 @@ public class AmiImaginaireManager : TrackTailorMadeManager
         _bloom.scatter.overrideState = true;
         _bloom.scatter.value = 0.2f;
         _bloom.tint.overrideState = true;
+
+        _gradientSky.bottom.overrideState = true;
+        _gradientSky.bottom.value = skyBotColor;
+                    
+        _gradientSky.middle.overrideState = true;
+        _gradientSky.middle.value = skyMidColor;
+                    
+        _gradientSky.top.overrideState = true;
+        _gradientSky.top.value = skyTopColor;
     }
 
 
