@@ -150,11 +150,11 @@ public class ShowManager : MonoBehaviour
     {
         if (_Value.isPressed)
         {
-            //StartNextTrack();
-            if(GetCurrentTrack()._SceneName == "Aube")
-            {
-                TransitionAube.Invoke();
-            }
+            StartNextTrack();
+            // if(GetCurrentTrack()._SceneName == "Aube")
+            // {
+            //     TransitionAube.Invoke();
+            // }
         }
     }
 
