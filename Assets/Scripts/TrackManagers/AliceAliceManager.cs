@@ -47,7 +47,9 @@ public class AliceAliceManager : ITrackManager
 
         //Change the sky color
         var currentTrackData = ShowManager.m_Instance.GetCurrentTrack();
-        SetSkyColor(currentTrackData._MainColorList[0], currentTrackData._MainColorList[1], currentTrackData._MainColorList[2]);
+        SetSkyColor(currentTrackData._MainColorList[0],
+         currentTrackData._MainColorList[1],
+         currentTrackData._MainColorList[2]);
 
         //Reduce LineVFX to min circle
         Vector2 startCircle = new Vector2(1f, 2f);

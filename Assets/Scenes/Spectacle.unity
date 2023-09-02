@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.0809071, g: 0, b: 0.00475868, a: 1}
+  m_IndirectSpecularColor: {r: 0.78092587, g: 0.47647482, b: 0.15663879, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -302,11 +302,15 @@ MonoBehaviour:
     _Temperature: 0
     _Location: 1
     _MainColorList:
-    - {r: 1, g: 0.94509804, b: 0, a: 0}
-    - {r: 0.94509804, g: 0.94509804, b: 0.94509804, a: 0}
-    _SecondaryColorList: []
-    _ThirdColorList: []
-    _FourthColorList: []
+    - {r: 1, g: 0.46842104, b: 0, a: 1}
+    - {r: 1, g: 0.53403145, b: 0, a: 1}
+    - {r: 1, g: 1, b: 1, a: 1}
+    _SecondaryColorList:
+    - {r: 1, g: 1, b: 1, a: 1}
+    _ThirdColorList:
+    - {r: 1, g: 1, b: 1, a: 1}
+    _FourthColorList:
+    - {r: 1, g: 1, b: 1, a: 1}
   - _SceneName: LesVoiesDorees
     _Altitude: 0
     _Type: 0
@@ -875,7 +879,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clearColorMode: 0
-  backgroundColorHDR: {r: 1, g: 1, b: 1, a: 1}
+  backgroundColorHDR: {r: 1, g: 1, b: 1, a: 0}
   clearDepth: 1
   volumeLayerMask:
     serializedVersion: 2

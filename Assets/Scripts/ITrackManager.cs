@@ -29,7 +29,9 @@ public class ITrackManager : MonoBehaviour
         m_MainCamera = Camera.main;
 
         lineVFXManager = ShowManager.m_Instance.GetLineVFXManager();
-        if(ShowManager.m_Instance.GetCurrentTrack()._SceneName == "BonnesDesillusions" || ShowManager.m_Instance.GetCurrentTrack()._SceneName == "Commencement")
+        if(ShowManager.m_Instance.GetCurrentTrack()._SceneName == "BonnesDesillusions" 
+        || ShowManager.m_Instance.GetCurrentTrack()._SceneName == "Commencement"
+        || ShowManager.m_Instance.GetCurrentTrack()._SceneName == "LesAlarmes")
         {
             lineVFXManager.StopLineVFX();
         }
@@ -42,6 +44,8 @@ public class ITrackManager : MonoBehaviour
         {
             StartCoroutine(ResetCameraFOVCoroutine(10f));
         }
+
+        DisableGrainPP();
     }
 
     protected void Transition()
@@ -57,7 +61,7 @@ public class ITrackManager : MonoBehaviour
             //SetAltitude();
             //SetSkyColor(GetDefaultSkyColor());
             SetLineVFXColor(GetDefaultLineVFXColor());
-            SetLocation();
+            //SetLocation();
             //StartCoroutine(SetLineVFXDefaultValues());
             //StartCoroutine(ResetCameraFOVCoroutine(2f));
         }
@@ -256,6 +260,25 @@ public class ITrackManager : MonoBehaviour
             StopCoroutine(m_EffilageEffectCoroutine);
         }
     }
+
+    protected void EnableGrainPP()
+    {
+        VolumeProfile PPVolumeProfile = ShowManager.m_Instance.GetPostProcessVolumeManager().GetComponent<Volume>().sharedProfile;
+        if (PPVolumeProfile.TryGet<FilmGrain>(out var filmGrain))
+        {
+            filmGrain.active = true;
+        }
+    }
+
+    protected void DisableGrainPP()
+    {
+        VolumeProfile PPVolumeProfile = ShowManager.m_Instance.GetPostProcessVolumeManager().GetComponent<Volume>().sharedProfile;
+        if (PPVolumeProfile.TryGet<FilmGrain>(out var filmGrain))
+        {
+            filmGrain.active = false;
+        }
+    }
+
     #endregion
 
     #region LineVFX setters
