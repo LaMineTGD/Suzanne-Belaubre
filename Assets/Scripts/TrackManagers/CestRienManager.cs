@@ -8,6 +8,7 @@ public class CestRienManager : ITrackManager
     private IEnumerator _changeCircleCoroutine;
     private IEnumerator _changeValue2Coroutine;
     private IEnumerator _rotationRefrainCoroutine;
+    private IEnumerator _changeParticleSpeedCoroutine;
     private float m_RotationLerpDuration = 1000f;
     private WaitForSeconds _refrainWaitTime;
 
@@ -24,28 +25,42 @@ public class CestRienManager : ITrackManager
 
     public void OnBegin()
     {
+        float timeToChantStart = 30f;
 
+        //Reduce noise - from AliceAlice final particleSpeed, 
+        //get to the base particleSpeed at ChantStart
+        if(_changeParticleSpeedCoroutine != null)
+        {
+            StopCoroutine(_changeParticleSpeedCoroutine);
+        }
+
+        float startParticleSpeed = GetLineVFXParticleSpeed();
+        float targetParticleSpeed = GetLineVFXDefaultParticleSpeed();
+        _changeParticleSpeedCoroutine = ChangeLineVFXParticleSpeedCoroutine(startParticleSpeed, targetParticleSpeed, timeToChantStart);
+        StartCoroutine(_changeParticleSpeedCoroutine);
     }
 
     public void OnChantStart()
     {
-        float targetFOV = 178f;
-        float lerpDuration = 100f;
-
-        ChangeFOVLineVFX(targetFOV, lerpDuration);
+        //Zoom FOV out until Outro 
+        float targetFOV = 100f;
+        float timeToOutro = 200f;
+        ChangeFOVLineVFX(targetFOV, timeToOutro);
     }
 
     public void OnPercuStart()
     {
+        //Increase LineRadius until RefrainStart
+        float timeToRefrainStart = 30f;
+
         if(_changeRadiusCoroutine != null)
         {
             StopCoroutine(_changeRadiusCoroutine);
         }
 
-        float startRadius = GetLineVFXDefaultRadius();
-        float targetRadius = .5f;
-        float duration = 110f;
-        _changeRadiusCoroutine = ChangeLineVFXRadiusCoroutine(startRadius, targetRadius, duration);
+        float startRadius = GetLineVFXRadius();
+        float targetRadius = .425f;
+        _changeRadiusCoroutine = ChangeLineVFXRadiusCoroutine(startRadius, targetRadius, timeToRefrainStart);
         StartCoroutine(_changeRadiusCoroutine);
     }
 
@@ -113,7 +128,6 @@ public class CestRienManager : ITrackManager
 
         float targetFOV = 10f;
         float lerpDuration = 10f;
-
         ChangeFOVLineVFX(targetFOV, lerpDuration);
 
         float startRate = GetLineVFXDefaultRate();
@@ -125,7 +139,8 @@ public class CestRienManager : ITrackManager
 
     public void OnEnd()
     {
-
+        HideLineVFX();
+        Transition();
     }
 
     private IEnumerator RefrainCoroutine(Vector2 targetValue1, float speed = 1f)

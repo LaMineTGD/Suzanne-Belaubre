@@ -12,7 +12,7 @@ public class ITrackManager : MonoBehaviour
     protected IEnumerator m_altitudeCoroutine;
     protected IEnumerator m_cameraFOVCoroutine;
     protected Camera m_MainCamera;
-    private float baseCameraFOV = 60;
+    private float baseCameraFOV = 60f;
     private bool _isCameraDirty = false;
     private float m_RotationLerpDuration = 1000f;
     private float m_PulseLerpDuration = 0.1f;
@@ -26,8 +26,10 @@ public class ITrackManager : MonoBehaviour
 
     protected virtual void Start()
     {
+        m_MainCamera = Camera.main;
+
         lineVFXManager = ShowManager.m_Instance.GetLineVFXManager();
-        if(ShowManager.m_Instance.GetCurrentTrack()._SceneName == "BonnesDesillusions")
+        if(ShowManager.m_Instance.GetCurrentTrack()._SceneName == "BonnesDesillusions" || ShowManager.m_Instance.GetCurrentTrack()._SceneName == "Commencement")
         {
             lineVFXManager.StopLineVFX();
         }
@@ -35,7 +37,11 @@ public class ITrackManager : MonoBehaviour
         {
             lineVFXManager.PlayLineVFX();
         }
-        m_MainCamera = Camera.main;
+
+        if(ShowManager.m_Instance.GetCurrentTrack()._SceneName == "Commencement")
+        {
+            StartCoroutine(ResetCameraFOVCoroutine(10f));
+        }
     }
 
     protected void Transition()
@@ -297,6 +303,16 @@ public class ITrackManager : MonoBehaviour
     public void SetLineVFXPosition(Vector3 targetPosition)
     {
         lineVFXManager.SetLineVFXPosition(targetPosition);
+    }
+
+    public void HideLineVFX()
+    {
+        lineVFXManager.StopLineVFX();
+    }
+
+    public void ShowLineVFX()
+    {
+        lineVFXManager.PlayLineVFX();
     }
     #endregion
 

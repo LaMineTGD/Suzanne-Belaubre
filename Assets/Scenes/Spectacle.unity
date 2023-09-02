@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.52255636, g: 0.14431481, b: 0.110948, a: 1}
+  m_IndirectSpecularColor: {r: 0.0809071, g: 0, b: 0.00475868, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -238,7 +238,9 @@ MonoBehaviour:
     _Temperature: 1
     _Location: 0
     _MainColorList:
-    - {r: 0.21226418, g: 0.21684395, b: 1, a: 0}
+    - {r: 1, g: 0, b: 0.11764706, a: 1}
+    - {r: 0.2509804, g: 0, b: 0.20784314, a: 1}
+    - {r: 1, g: 0.6901961, b: 0, a: 1}
     _SecondaryColorList:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 1, g: 1, b: 1, a: 0}
@@ -279,12 +281,14 @@ MonoBehaviour:
     _FourthColorList: []
   - _SceneName: Commencement
     _Altitude: 0
-    _Type: 1
+    _Type: 0
     _Start_Transition_duration: 0
     _Temperature: 0
     _Location: 0
     _MainColorList:
-    - {r: 1, g: 0, b: 0.05882353, a: 0}
+    - {r: 0.38679248, g: 0, b: 0.02275252, a: 1}
+    - {r: 0, g: 0, b: 0, a: 1}
+    - {r: 0, g: 0, b: 0, a: 1}
     _SecondaryColorList:
     - {r: 0, g: 0, b: 0, a: 0}
     _ThirdColorList:
