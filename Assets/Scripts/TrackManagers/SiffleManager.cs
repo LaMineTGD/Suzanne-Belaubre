@@ -403,4 +403,9 @@ public class SiffleManager : TrackTailorMadeManager
         begin.SendEvent("StopWind");
         yield return null;
     }
+
+    public void OnEnd()
+    {
+        Transition();
+    }
 }

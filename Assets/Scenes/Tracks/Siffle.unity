@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.2601702, g: 0.3588093, b: 0.60250074, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -712,7 +712,6 @@ MonoBehaviour:
   m_Wind: {fileID: 1335026260}
   m_Wind2: {fileID: 679313833}
   m_Wind3: {fileID: 911252476}
-  m_OSCReceiver: {fileID: 0}
 --- !u!1 &911252474
 GameObject:
   m_ObjectHideFlags: 0
@@ -1356,6 +1355,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: f7750e240a733644e95c3b7a55bf7e19, type: 2}
     - {fileID: 11400000, guid: 55fcaf517ecd2f04f8e1b5d05e1638b4, type: 2}
     - {fileID: 11400000, guid: b917e35d775a4f94095eb4571e92bca3, type: 2}
+    - {fileID: 11400000, guid: b9413c22a52d14f488896452402d158e, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -1469,6 +1469,20 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 707637778}
+          m_TargetAssemblyTypeName: SiffleManager, Assembly-CSharp
+          m_MethodName: OnEnd
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
 --- !u!1 &1335026258
 GameObject:
   m_ObjectHideFlags: 0
