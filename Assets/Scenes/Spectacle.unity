@@ -246,20 +246,6 @@ MonoBehaviour:
     - {r: 0.49595356, g: 0, b: 1, a: 0}
     _FourthColorList:
     - {r: 1, g: 0.9451673, b: 0, a: 0}
-  - _SceneName: Seum
-    _Altitude: 0
-    _Type: 0
-    _Start_Transition_duration: 5
-    _Temperature: 1
-    _Location: 0
-    _MainColorList:
-    - {r: 0, g: 0.4528302, b: 0.0580697, a: 0}
-    - {r: 0.5745813, g: 0.8773585, b: 0.33521718, a: 0}
-    _SecondaryColorList:
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 1, g: 0.94509804, b: 0, a: 0}
-    _ThirdColorList: []
-    _FourthColorList: []
   - _SceneName: AliceAlice
     _Altitude: 0
     _Type: 0
