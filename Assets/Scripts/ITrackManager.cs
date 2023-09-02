@@ -22,9 +22,19 @@ public class ITrackManager : MonoBehaviour
     //Transition variables
     private Volume _activeTailorMadeSky;
     private Volume _activeTailorMadePostProcess;
+    private LineVFXManager lineVFXManager;
 
     protected virtual void Start()
     {
+        lineVFXManager = ShowManager.m_Instance.GetLineVFXManager();
+        if(ShowManager.m_Instance.GetCurrentTrack()._SceneName == "BonnesDesillusions")
+        {
+            lineVFXManager.StopLineVFX();
+        }
+        else
+        {
+            lineVFXManager.PlayLineVFX();
+        }
         m_MainCamera = Camera.main;
     }
 
@@ -211,7 +221,7 @@ public class ITrackManager : MonoBehaviour
     //Set the color of the LineVFX perticles 
     protected virtual void SetLineVFXColor(Color color)
     {
-        ShowManager.m_Instance.GetLineVFXManager().SetColorOverLifetime(color);
+        lineVFXManager.SetColorOverLifetime(color);
     }
 
     //Adjust the vignette effect depending on the Location parameter in ShowManager
@@ -245,55 +255,55 @@ public class ITrackManager : MonoBehaviour
     #region LineVFX setters
     protected void SetLineVFXColorOverLifetime(Gradient gradient)
     {
-        ShowManager.m_Instance.GetLineVFXManager().SetColorOverLifetime(gradient);
+        lineVFXManager.SetColorOverLifetime(gradient);
     }
 
     protected void SetLineVFXRate(float rate)
     {
-        ShowManager.m_Instance.GetLineVFXManager().SetRate(rate);
+        lineVFXManager.SetRate(rate);
     }
 
     protected void SetLineVFXRadius(float lineRadius)
     {
-        ShowManager.m_Instance.GetLineVFXManager().SetLineRadius(lineRadius);
+        lineVFXManager.SetLineRadius(lineRadius);
     }
 
     protected void SetLineVFXParticleSpeed(float particleSpeed)
     {
-        ShowManager.m_Instance.GetLineVFXManager().SetParticleSpeed(particleSpeed);
+        lineVFXManager.SetParticleSpeed(particleSpeed);
     }
 
     protected void SetLineVFXLifeTime(Vector2 lifetime)
     {
-        ShowManager.m_Instance.GetLineVFXManager().SetLifeTime(lifetime);
+        lineVFXManager.SetLifeTime(lifetime);
     }
 
     protected void SetLineVFXAspectValue1(Vector2 value1)
     {
-        ShowManager.m_Instance.GetLineVFXManager().SetLineAspectValue1(value1);
+        lineVFXManager.SetLineAspectValue1(value1);
     }
 
     protected void SetLineVFXAspectValue2(Vector2 value2)
     {
-        ShowManager.m_Instance.GetLineVFXManager().SetLineAspectValue2(value2);
+        lineVFXManager.SetLineAspectValue2(value2);
 
     }
 
     protected void SetLineVFXAspectCircle(Vector2 circle)
     {
-        ShowManager.m_Instance.GetLineVFXManager().SetLineAspectCircle(circle);
+        lineVFXManager.SetLineAspectCircle(circle);
     }
 
     public void SetLineVFXPosition(Vector3 targetPosition)
     {
-        ShowManager.m_Instance.GetLineVFXManager().SetLineVFXPosition(targetPosition);
+        lineVFXManager.SetLineVFXPosition(targetPosition);
     }
     #endregion
 
     #region LineVFX getters
     protected Vector3 GetLineVFXPosition()
     {
-        return ShowManager.m_Instance.GetLineVFXManager().transform.position;
+        return lineVFXManager.transform.position;
     }
 
     private Color GetDefaultLineVFXColor()
@@ -332,62 +342,62 @@ public class ITrackManager : MonoBehaviour
 
     protected float GetLineVFXDefaultRate()
     {
-        return ShowManager.m_Instance.GetLineVFXManager().GetDefaultRate();
+        return lineVFXManager.GetDefaultRate();
     }
 
     protected float GetLineVFXDefaultRadius()
     {
-        return ShowManager.m_Instance.GetLineVFXManager().GetDefaultRadius();
+        return lineVFXManager.GetDefaultRadius();
     }
 
     protected float GetLineVFXDefaultParticleSpeed()
     {
-        return ShowManager.m_Instance.GetLineVFXManager().GetDefaultParticleSpeed();
+        return lineVFXManager.GetDefaultParticleSpeed();
     }
 
     protected Vector2 GetLineVFXDefaultValue1()
     {
-        return ShowManager.m_Instance.GetLineVFXManager().GetLineAspectDefaultValue1();
+        return lineVFXManager.GetLineAspectDefaultValue1();
     }
 
     protected Vector2 GetLineVFXDefaultValue2()
     {
-        return ShowManager.m_Instance.GetLineVFXManager().GetLineAspectDefaultValue2();
+        return lineVFXManager.GetLineAspectDefaultValue2();
     }
 
     protected float GetLineVFXRate()
     {
-        return ShowManager.m_Instance.GetLineVFXManager().GetRate();
+        return lineVFXManager.GetRate();
     }
 
     protected float GetLineVFXParticleSpeed()
     {
-        return ShowManager.m_Instance.GetLineVFXManager().GetParticleSpeed();
+        return lineVFXManager.GetParticleSpeed();
     }
 
     protected float GetLineVFXRadius()
     {
-        return ShowManager.m_Instance.GetLineVFXManager().GetRadius();
+        return lineVFXManager.GetRadius();
     }
 
     protected Vector2 GetLineAspectValue1()
     {
-        return ShowManager.m_Instance.GetLineVFXManager().GetLineAspectValue1();
+        return lineVFXManager.GetLineAspectValue1();
     }
 
     protected Vector2 GetLineAspectValue2()
     {
-        return ShowManager.m_Instance.GetLineVFXManager().GetLineAspectValue2();
+        return lineVFXManager.GetLineAspectValue2();
     }
 
     protected Vector2 GetLineVFXCircle()
     {
-        return ShowManager.m_Instance.GetLineVFXManager().GetLineAspectCircle();
+        return lineVFXManager.GetLineAspectCircle();
     }
 
     protected Vector2 GetLineVFXDefaultCircle()
     {
-        return ShowManager.m_Instance.GetLineVFXManager().GetLineAspectDefaultCircle();
+        return lineVFXManager.GetLineAspectDefaultCircle();
     }
 
     #endregion

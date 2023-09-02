@@ -142,6 +142,16 @@ public class LineVFXManager : MonoBehaviour
     {
         m_LineVFX.SetVector2(circle_name, circle);
     }
+
+    public void StopLineVFX()
+    {
+        m_LineVFX.Stop();
+    }
+
+    public void PlayLineVFX()
+    {
+        m_LineVFX.Play();
+    }
     #endregion
 
     #region Getters
@@ -204,6 +214,5 @@ public class LineVFXManager : MonoBehaviour
     {
         return m_LineVFX.GetVector2(circle_name);
     }
-
     #endregion
 }

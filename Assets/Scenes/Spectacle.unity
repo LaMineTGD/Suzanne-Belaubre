@@ -205,6 +205,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbae7e1fe8da433438a083a1a89809b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TransitionAube:
+    m_PersistentCalls:
+      m_Calls: []
   OSCReceiver: {fileID: 603405258}
   m_SkyFogManager: {fileID: 1216320611}
   m_LineVFXManager: {fileID: 1201499417}
@@ -230,7 +233,7 @@ MonoBehaviour:
     _FourthColorList: []
   - _SceneName: BonnesDesillusions
     _Altitude: 0
-    _Type: 1
+    _Type: 0
     _Start_Transition_duration: 1
     _Temperature: 1
     _Location: 0

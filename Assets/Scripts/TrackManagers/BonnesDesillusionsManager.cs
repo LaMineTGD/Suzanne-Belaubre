@@ -1,4 +1,4 @@
-public class BonnesDesillusionsManager : TrackTailorMadeManager
+public class BonnesDesillusionsManager : ITrackManager
 {
     protected override void Start()
     {
