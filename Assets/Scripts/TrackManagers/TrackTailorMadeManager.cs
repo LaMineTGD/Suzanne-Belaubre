@@ -58,7 +58,8 @@ public class TrackTailorMadeManager : ITrackManager
     protected void PostProcessTransition(bool isVisible, float duration)
     {
         if (m_PostProcessVolume != null)
-            StartCoroutine(Utils.Utils.InterpolatVolumeVisibility(isVisible, m_PostProcessVolume, duration));
+            //StartCoroutine(Utils.Utils.InterpolatVolumeVisibility(isVisible, m_PostProcessVolume, duration));
+            m_PostProcessVolume.weight = 1;
     }
 
     protected void VFXTransition(bool isVisible, float duration)

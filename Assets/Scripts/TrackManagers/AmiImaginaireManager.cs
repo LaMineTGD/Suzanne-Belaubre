@@ -2,15 +2,29 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.VFX;
 using extOSC;
+using System.Collections;
+using UnityEngine.Rendering.HighDefinition;
+using UnityEngine.Rendering;
 
 public class AmiImaginaireManager : TrackTailorMadeManager
 {
+    [SerializeField] private Color transTopColor;
+    [SerializeField] private Color transMidColor;
+    [SerializeField] private Color transBotColor;
+    [SerializeField] private Volume _gradientSkyVolume;
+    [SerializeField] private Volume _postproVolume;
+
     private const string DROP_SIGNAL = "DropSignalTime"; // Nom de la propriété exposée pour le rayon de la sphère de conformité.
 
     private const string SDF_RATIO = "SDF_ratio"; // Nom de la propriété exposée pour le rayon de la sphère de conformité.
     private const string Drop = "drop_"; // Nom de la propriété exposée pour le rayon de la sphère de conformité.
     private float start_time = 0;
     private bool isFinal = false;
+    private GradientSky _gradientSky;
+    private Bloom _bloom;
+    private FilmGrain _filmGrain;
+    private ColorAdjustments _colorAdj;
+    private ColorCurves _colorCurves;
 
     public void Awake()
     {
@@ -25,6 +39,14 @@ public class AmiImaginaireManager : TrackTailorMadeManager
         generateOSCReceveier();
         base.Start();
         base.ApplyDefaultEffects();
+
+        VolumeProfile _gradientSkyProfile = _gradientSkyVolume.GetComponent<Volume>().sharedProfile;
+        
+        if(_gradientSkyProfile.TryGet<GradientSky>(out var gradientSky))
+        {
+            _gradientSky = gradientSky;
+        }
+        InitPostPro();
     }
 
     private void generateOSCReceveier()
@@ -117,7 +139,146 @@ public class AmiImaginaireManager : TrackTailorMadeManager
     public void End(OSCMessage message)
     {
         m_VFX.SetFloat(rate_name, 0f);
+        StartCoroutine(TransitionPostProcessToSiffle(5f));
+        StartCoroutine(TransitionToSiffleSky(5f));
         Debug.Log("End");
     }
+
+    public void OnTransition()
+    {
+        Transition();
+    }
+
+    private IEnumerator TransitionToSiffleSky(float duration)
+    {
+        float elapsedTime = 0f;
+
+        _gradientSky.skyIntensityMode.overrideState = true;
+        _gradientSky.skyIntensityMode.value = SkyIntensityMode.Exposure;
+
+        _gradientSky.updateMode.overrideState = true;
+        _gradientSky.updateMode.value = EnvironmentUpdateMode.OnChanged; 
+
+        while(elapsedTime < duration)
+        {
+
+            _gradientSky.bottom.overrideState = true;
+            Color fromBotColor = _gradientSky.bottom.value;
+            _gradientSky.bottom.Interp(fromBotColor, transBotColor, elapsedTime / duration);
+                    
+            _gradientSky.middle.overrideState = true;
+            Color fromMidColor = _gradientSky.middle.value;
+            _gradientSky.middle.Interp(fromMidColor, transMidColor, elapsedTime / duration);
+                    
+            _gradientSky.top.overrideState = true;
+            Color fromTopColor = _gradientSky.top.value;
+            _gradientSky.top.Interp(fromTopColor, transTopColor, elapsedTime / duration);
+
+            _gradientSky.gradientDiffusion.overrideState = true;
+            _gradientSky.gradientDiffusion.value = Mathf.Lerp(1f, 1.32f, duration);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+        yield return null;
+    }
+
+    private IEnumerator TransitionPostProcessToSiffle(float duration)
+    {
+        VolumeProfile ppVolumeProfile = _postproVolume.sharedProfile;
+        if(ppVolumeProfile.TryGet<Bloom>(out var bloom))
+        {
+            _bloom = bloom;
+        }
+
+        if(ppVolumeProfile.TryGet<FilmGrain>(out var filmGrain))
+        {
+            _filmGrain = filmGrain;
+        }
+
+        if(ppVolumeProfile.TryGet<ColorAdjustments>(out var colorAdj))
+        {
+            _colorAdj = colorAdj;
+        }
+
+        if(ppVolumeProfile.TryGet<ColorCurves>(out var colorCurves))
+        {
+            _colorCurves = colorCurves;
+        }
+
+        _colorCurves.active = true;
+
+        float elapsedTime = 0f;
+
+        while(elapsedTime < duration)
+        {
+            float time = elapsedTime / duration;
+            _colorAdj.postExposure.overrideState = true;
+            _colorAdj.postExposure.value = Mathf.Lerp(3f, 1f, time);
+            _colorAdj.contrast.overrideState = true;
+            _colorAdj.contrast.value = Mathf.Lerp(15f, 30f, time);
+
+            _filmGrain.intensity.overrideState = true;
+            _filmGrain.intensity.value = Mathf.Lerp(0.51f, 0.35f, time);
+            _filmGrain.response.overrideState = true;
+            _filmGrain.response.value = Mathf.Lerp(0.54f, 0.5f, time);
+
+            _bloom.intensity.overrideState = true;
+            _bloom.intensity.value = Mathf.Lerp(0.2f, 0.5f, time);
+            _bloom.scatter.overrideState = true;
+            _bloom.scatter.value = Mathf.Lerp(0.2f, 0.4f, time);
+            _bloom.tint.overrideState = true;
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+        yield return null;
+    }
+
+    private void InitPostPro()
+    {
+        VolumeProfile ppVolumeProfile = _postproVolume.sharedProfile;
+        if(ppVolumeProfile.TryGet<Bloom>(out var bloom))
+        {
+            _bloom = bloom;
+        }
+
+        if(ppVolumeProfile.TryGet<FilmGrain>(out var filmGrain))
+        {
+            _filmGrain = filmGrain;
+        }
+
+        if(ppVolumeProfile.TryGet<ColorAdjustments>(out var colorAdj))
+        {
+            _colorAdj = colorAdj;
+        }
+
+        if(ppVolumeProfile.TryGet<ColorCurves>(out var colorCurves))
+        {
+            _colorCurves = colorCurves;
+        }
+
+        _colorCurves.active = false;
+
+        _colorAdj.postExposure.overrideState = true;
+        _colorAdj.postExposure.value = 3f;
+        _colorAdj.contrast.overrideState = true;
+        _colorAdj.contrast.value = 15f;
+
+        _filmGrain.intensity.overrideState = true;
+        _filmGrain.intensity.value = 0.51f;
+        _filmGrain.response.overrideState = true;
+        _filmGrain.response.value = 0.54f;
+
+        _bloom.intensity.overrideState = true;
+        _bloom.intensity.value = 0.2f;
+        _bloom.scatter.overrideState = true;
+        _bloom.scatter.value = 0.2f;
+        _bloom.tint.overrideState = true;
+    }
+
+
 
 }
