@@ -13,10 +13,14 @@ public class LesAlarmesManager : ITrackManager
         BoostTones();
     }
 
+    public void OnTransition()
+    {
+        StartCoroutine(DisableGrainPPCoroutine());
+    }
+
 
     public void OnEnd()
     {
-        DisableGrainPP();
         Transition();
     }
 }

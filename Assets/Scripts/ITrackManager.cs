@@ -78,6 +78,11 @@ public class ITrackManager : MonoBehaviour
         ResetCameraFOV();
     }
 
+    private void OnDisable()
+    {
+        DisableGrainPP();
+    }
+
     //Below are all the methods used in the default effects
     #region Default Effects
     protected Camera GetCamera()
@@ -280,24 +285,36 @@ public class ITrackManager : MonoBehaviour
         }
     }
 
+    protected IEnumerator DisableGrainPPCoroutine()
+    {
+        VolumeProfile PPVolumeProfile = ShowManager.m_Instance.GetPostProcessVolumeManager().GetComponent<Volume>().sharedProfile;
+        if (PPVolumeProfile.TryGet<FilmGrain>(out var filmGrain))
+        {
+            filmGrain.intensity.overrideState = true;
+
+            float elapsedTime = 0f;
+            float duration = 2f;
+            while (elapsedTime < duration)
+            {
+                filmGrain.intensity.value = Mathf.Lerp(1f, 0f, elapsedTime / duration);
+
+                elapsedTime += Time.deltaTime;
+
+                yield return null;
+            }
+            filmGrain.active = false;
+            yield return null;
+        }
+    }
+
     protected void BoostTones()
     {
-        VolumeProfile skyVolumeProfile = ShowManager.m_Instance.GetSkyFogManager().GetComponent<Volume>().sharedProfile;
+        VolumeProfile skyVolumeProfile = ShowManager.m_Instance.GetPostProcessVolumeManager().GetComponent<Volume>().sharedProfile;
         if (skyVolumeProfile.TryGet<ShadowsMidtonesHighlights>(out var tones))
         {
             tones.shadows.overrideState = true;
             _toneSave = tones.shadows.value;
-            tones.shadows.value = new Vector4(5f, 5f, 5f, 5f);
-        }
-    }
-
-    protected void NormalTones()
-    {
-        VolumeProfile skyVolumeProfile = ShowManager.m_Instance.GetSkyFogManager().GetComponent<Volume>().sharedProfile;
-        if (skyVolumeProfile.TryGet<ShadowsMidtonesHighlights>(out var tones))
-        {
-            tones.shadows.overrideState = true;
-            tones.shadows.value = _toneSave;
+            tones.shadows.value = new Vector4(0.5f, 0.5f, 0.5f, 0.5f);
         }
     }
 
