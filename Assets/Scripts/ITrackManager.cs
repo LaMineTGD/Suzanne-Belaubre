@@ -23,6 +23,7 @@ public class ITrackManager : MonoBehaviour
     private Volume _activeTailorMadeSky;
     private Volume _activeTailorMadePostProcess;
     private LineVFXManager lineVFXManager;
+    private Vector4 _toneSave;
 
     protected virtual void Start()
     {
@@ -276,6 +277,27 @@ public class ITrackManager : MonoBehaviour
         if (PPVolumeProfile.TryGet<FilmGrain>(out var filmGrain))
         {
             filmGrain.active = false;
+        }
+    }
+
+    protected void BoostTones()
+    {
+        VolumeProfile skyVolumeProfile = ShowManager.m_Instance.GetSkyFogManager().GetComponent<Volume>().sharedProfile;
+        if (skyVolumeProfile.TryGet<ShadowsMidtonesHighlights>(out var tones))
+        {
+            tones.shadows.overrideState = true;
+            _toneSave = tones.shadows.value;
+            tones.shadows.value = new Vector4(5f, 5f, 5f, 5f);
+        }
+    }
+
+    protected void NormalTones()
+    {
+        VolumeProfile skyVolumeProfile = ShowManager.m_Instance.GetSkyFogManager().GetComponent<Volume>().sharedProfile;
+        if (skyVolumeProfile.TryGet<ShadowsMidtonesHighlights>(out var tones))
+        {
+            tones.shadows.overrideState = true;
+            tones.shadows.value = _toneSave;
         }
     }
 
