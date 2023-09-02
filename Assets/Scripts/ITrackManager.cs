@@ -28,6 +28,11 @@ public class ITrackManager : MonoBehaviour
         m_MainCamera = Camera.main;
     }
 
+    protected void Transition()
+    {
+        ShowManager.m_Instance.LoadNextTrack();
+    }
+
     protected virtual void ApplyDefaultEffects()
     {
         if(!ShowManager.m_Instance.IsPreviousTrackTailorMade())

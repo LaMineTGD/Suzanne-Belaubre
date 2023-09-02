@@ -1,13 +1,16 @@
 using System.Collections;
 using UnityEngine;
 using extOSC;
+using UnityEngine.Events;
 public class AubeManager : TrackTailorMadeManager
 {
     [SerializeField] private Transform lightTransform;
     [SerializeField] private Transform endTransform;
+
     protected override void Start()
     {
         base.Start();
+        ShowManager.m_Instance.TransitionAube.AddListener(OnTransitionAube);
         base.ApplyDefaultEffects();
         generateOSCReceveier();
     }
@@ -64,9 +67,23 @@ public class AubeManager : TrackTailorMadeManager
     }
     public void DebutTransition(OSCMessage message)
     {
-        Debug.Log("DebutTransition");
+        // Debug.Log("DebutTransition");
+        // StopCoroutine(LaunchDawn(lightTransform, endTransform, 45f));
+
+        // endTransform.Rotate(-90f, 0f, 0f);
+        // StartCoroutine(LaunchDawn(lightTransform, endTransform, 0.5f));
+        // Transition();
     }
 
+    private void OnTransitionAube()
+    {
+        Debug.Log("Transitioning from Aube to Bonnes Désillusions");
+        StopCoroutine(LaunchDawn(lightTransform, endTransform, 45f));
+
+        endTransform.Rotate(-90f, 0f, 0f);
+        StartCoroutine(LaunchDawn(lightTransform, endTransform, 0.5f));
+        Transition();
+    }
 
     public IEnumerator LaunchDawn(Transform begin, Transform target, float duration)
     {

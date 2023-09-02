@@ -6,10 +6,12 @@ using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using extOSC;
+using UnityEngine.Events;
 
 public class ShowManager : MonoBehaviour
 {
     [HideInInspector] public static ShowManager m_Instance;
+    [HideInInspector] public UnityEvent TransitionAube;
     public enum Location { Interior, Exterior, Both, InBetween, Neither };
     public enum Temperature { Warm, Cool, Both };
     public enum TrackType { Default, TailorMade };
@@ -91,14 +93,15 @@ public class ShowManager : MonoBehaviour
         yield return null;
     }
 
-    private void LoadNextTrack()
+    public void LoadNextTrack()
     {
         int lastTrack = (m_TrackList.Length + m_TrackPlaying - 1) % m_TrackList.Length;
         int currentTrack = (m_TrackList.Length + m_TrackPlaying) % m_TrackList.Length;
         int nextTrack = (currentTrack + 1) % m_TrackList.Length;
 
         // SceneManager.LoadScene(m_TrackList[nextTrack]._SceneName, LoadSceneMode.Additive);
-        float duration = m_TrackList[nextTrack]._Start_Transition_duration;
+        // float duration = m_TrackList[nextTrack]._Start_Transition_duration;
+        float duration = 0f;
 
         if (firstTrack)
         {
@@ -147,7 +150,11 @@ public class ShowManager : MonoBehaviour
     {
         if (_Value.isPressed)
         {
-            StartNextTrack();
+            //StartNextTrack();
+            if(GetCurrentTrack()._SceneName == "Aube")
+            {
+                TransitionAube.Invoke();
+            }
         }
     }
 
