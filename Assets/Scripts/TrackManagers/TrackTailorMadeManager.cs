@@ -51,7 +51,8 @@ public class TrackTailorMadeManager : ITrackManager
     protected void SkyTransition(bool isVisible, float duration)
     {
         if (m_SkyFogVolume != null)
-            StartCoroutine(Utils.Utils.InterpolatVolumeVisibility(isVisible, m_SkyFogVolume, duration));
+            //StartCoroutine(Utils.Utils.InterpolatVolumeVisibility(isVisible, m_SkyFogVolume, duration));
+            m_SkyFogVolume.weight = 1;
     }
 
     protected void PostProcessTransition(bool isVisible, float duration)
