@@ -32,7 +32,8 @@ public class ITrackManager : MonoBehaviour
         lineVFXManager = ShowManager.m_Instance.GetLineVFXManager();
         if(ShowManager.m_Instance.GetCurrentTrack()._SceneName == "BonnesDesillusions" 
         || ShowManager.m_Instance.GetCurrentTrack()._SceneName == "Commencement"
-        || ShowManager.m_Instance.GetCurrentTrack()._SceneName == "LesAlarmes")
+        || ShowManager.m_Instance.GetCurrentTrack()._SceneName == "LesAlarmes"
+        || ShowManager.m_Instance.GetCurrentTrack()._SceneName == "LeBruit")
         {
             lineVFXManager.StopLineVFX();
         }
