@@ -66,7 +66,7 @@ Material:
     m_Floats:
     - _BUILTIN_QueueControl: 1
     - _Directions: 7
-    - _FuzzyGrain: 200
+    - _FuzzyGrain: 80
     - _FuzzyIntensity: 0.3
     - _Noise_Scale: 1.5
     - _PixelizeFlag: 0
