@@ -3,6 +3,7 @@ using UnityEngine;
 public class StartForce : MonoBehaviour
 {
     public Vector3 startForce;
+    public float rotationSpeed = 0.01F;
 
     void Start() {
         Rigidbody rigidbody = GetComponent<Rigidbody>();
@@ -28,9 +29,8 @@ public class StartForce : MonoBehaviour
     }
 
     void Rotate () {
-        const float speed = 0.01F;
-        var perlinX = Time.time * speed;
-        var perlinY = 0.5F * (this.transform.position.x + this.transform.position.y) * speed;
+        var perlinX = Time.time * rotationSpeed;
+        var perlinY = 0.5F * (this.transform.position.x + this.transform.position.y) * rotationSpeed;
         var angle = 50.0F * (Mathf.PerlinNoise(perlinX, perlinY) - 0.5F);
         transform.Rotate(new Vector3(0, 0, angle));
     }
