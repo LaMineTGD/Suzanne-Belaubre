@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 40240745}
   - component: {fileID: 40240744}
   m_Layer: 0
-  m_Name: Sphere (2)
+  m_Name: Sphere Bille 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -326,7 +326,7 @@ GameObject:
   - component: {fileID: 435594146}
   - component: {fileID: 435594145}
   m_Layer: 0
-  m_Name: Sphere
+  m_Name: Sphere Bille 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -878,7 +878,7 @@ GameObject:
   - component: {fileID: 811979408}
   - component: {fileID: 811979407}
   m_Layer: 0
-  m_Name: Cube (3)
+  m_Name: Paroi 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -983,7 +983,7 @@ GameObject:
   - component: {fileID: 912410177}
   - component: {fileID: 912410176}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Paroi 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1195,7 +1195,7 @@ GameObject:
   - component: {fileID: 1123380945}
   - component: {fileID: 1123380944}
   m_Layer: 0
-  m_Name: Sphere (3)
+  m_Name: Sphere Bille 4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1340,7 +1340,7 @@ GameObject:
   - component: {fileID: 1306161812}
   - component: {fileID: 1306161811}
   m_Layer: 0
-  m_Name: Cube (1)
+  m_Name: Paroi 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1445,7 +1445,7 @@ GameObject:
   - component: {fileID: 1323552145}
   - component: {fileID: 1323552144}
   m_Layer: 0
-  m_Name: Cube (2)
+  m_Name: Paroi 3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1704,7 +1704,7 @@ GameObject:
   - component: {fileID: 1711445897}
   - component: {fileID: 1711445896}
   m_Layer: 0
-  m_Name: Sphere (4)
+  m_Name: Sphere Bille 5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1851,7 +1851,7 @@ GameObject:
   - component: {fileID: 1807394764}
   - component: {fileID: 1807394763}
   m_Layer: 0
-  m_Name: Sphere (1)
+  m_Name: Sphere Bille 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1997,7 +1997,7 @@ GameObject:
   - component: {fileID: 2018655466}
   - component: {fileID: 2018655465}
   m_Layer: 0
-  m_Name: Sphere (5)
+  m_Name: Sphere Orbit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
