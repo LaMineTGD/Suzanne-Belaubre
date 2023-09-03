@@ -12,6 +12,7 @@ public class StartForce : MonoBehaviour
 
     void Update() {
         KeepMovingInVerticalPlane();
+        Rotate();
     }
 
     void KeepMovingInVerticalPlane () {
@@ -24,5 +25,13 @@ public class StartForce : MonoBehaviour
             newVelocity.z = 0;
             rigidbody.velocity = newVelocity;
         }
+    }
+
+    void Rotate () {
+        const float speed = 0.01F;
+        var perlinX = Time.time * speed;
+        var perlinY = 0.5F * (this.transform.position.x + this.transform.position.y) * speed;
+        var angle = 50.0F * (Mathf.PerlinNoise(perlinX, perlinY) - 0.5F);
+        transform.Rotate(new Vector3(0, 0, angle));
     }
 }
