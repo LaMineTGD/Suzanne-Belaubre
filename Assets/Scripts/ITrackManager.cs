@@ -28,7 +28,8 @@ public class ITrackManager : MonoBehaviour
     protected virtual void Start()
     {
         m_MainCamera = Camera.main;
-
+        DisableVignette();
+        
         lineVFXManager = ShowManager.m_Instance.GetLineVFXManager();
         if(ShowManager.m_Instance.GetCurrentTrack()._SceneName == "BonnesDesillusions" 
         || ShowManager.m_Instance.GetCurrentTrack()._SceneName == "Commencement"
@@ -82,6 +83,17 @@ public class ITrackManager : MonoBehaviour
     private void OnDisable()
     {
         DisableGrainPP();
+    }
+
+    private void DisableVignette()
+    {
+        VolumeProfile vignetteProfile = ShowManager.m_Instance.GetPostProcessVolumeManager()
+        .GetComponent<Volume>().sharedProfile;
+
+        if (vignetteProfile.TryGet<Vignette>(out var vignette))
+        {
+            vignette.active = false;
+        }
     }
 
     //Below are all the methods used in the default effects
