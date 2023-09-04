@@ -42,7 +42,8 @@ Material:
   m_Parent: {fileID: -876546973899608171, guid: 33b354c80fd3c1c63886b9bf158d9c9a,
     type: 3}
   m_ModifiedSerializedProperties: 16
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _PALETTE_COUPLET
   m_InvalidKeywords:
   - _DISABLE_SSR_TRANSPARENT
   - _NORMALMAP_TANGENT_SPACE
