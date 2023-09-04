@@ -15,7 +15,7 @@ public class CestRienManager : ITrackManager
     private IEnumerator _changeParticleSpeedCoroutine;
     private IEnumerator _changeLineVFXPositionCoroutine;
 
-    private float m_RotationLerpDuration = 1000f;
+    private float rotationLerpDuration = 1000f;
     private WaitForSeconds _refrainWaitTime;
 
     private void Awake()
@@ -217,7 +217,8 @@ public class CestRienManager : ITrackManager
 
     public void OnTutuFin(OSCMessage message)
     {
-        StopCoroutine(_changeValue2Coroutine);
+        if(_changeValue2Coroutine != null)
+            StopCoroutine(_changeValue2Coroutine);
     }
 
     public void OnRefrainFin()
@@ -227,7 +228,8 @@ public class CestRienManager : ITrackManager
 
     public void OnRefrainFin(OSCMessage message)
     {
-        StopCoroutine(_rotationRefrainCoroutine);
+        if(_rotationRefrainCoroutine != null)
+            StopCoroutine(_rotationRefrainCoroutine);
     }
 
     public void OnOutro()
@@ -295,7 +297,7 @@ public class CestRienManager : ITrackManager
         Vector2 movingValue1;
         Vector2 currentValue1 = GetLineAspectValue1();
 
-        while((elapsedTime * speed) < m_RotationLerpDuration)
+        while((elapsedTime * speed) < rotationLerpDuration)
         {
             if(timeSincePause >= pauseInterval)
             {
@@ -303,7 +305,7 @@ public class CestRienManager : ITrackManager
                 yield return _refrainWaitTime;
             }
 
-            movingValue1 = Vector2.Lerp(currentValue1, targetValue1, (elapsedTime * speed) / m_RotationLerpDuration);
+            movingValue1 = Vector2.Lerp(currentValue1, targetValue1, (elapsedTime * speed) / rotationLerpDuration);
             SetLineVFXAspectValue1(movingValue1);
 
             elapsedTime += Time.deltaTime;
