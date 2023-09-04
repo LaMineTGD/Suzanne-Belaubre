@@ -52,10 +52,10 @@ public class CestRienManager : ITrackManager
         ShowManager.m_Instance.OSCReceiver.Bind("/percu_start", OnPercuStart);
         ShowManager.m_Instance.OSCReceiver.Bind("/Chant_start", OnChantStart);
         ShowManager.m_Instance.OSCReceiver.Bind("/RefrainDebut", OnRefrainDebut);
-        ShowManager.m_Instance.OSCReceiver.Bind("/CestRien_Drill", OnDrill);
+        ShowManager.m_Instance.OSCReceiver.Bind("/Drill", OnDrill);
         ShowManager.m_Instance.OSCReceiver.Bind("/RefrainFin", OnRefrainFin);
-        ShowManager.m_Instance.OSCReceiver.Bind("/CestRien_TututuDebut", OnTutuDebut);
-        ShowManager.m_Instance.OSCReceiver.Bind("/CestRien_TututuFin", OnTutuFin);
+        ShowManager.m_Instance.OSCReceiver.Bind("/TututuDebut", OnTutuDebut);
+        ShowManager.m_Instance.OSCReceiver.Bind("/TututuFin", OnTutuFin);
         ShowManager.m_Instance.OSCReceiver.Bind("/Outro", OnOutro);
         ShowManager.m_Instance.OSCReceiver.Bind("/End", OnEnd);
     }
