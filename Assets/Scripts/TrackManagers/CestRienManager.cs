@@ -1,5 +1,9 @@
 using System.Collections;
+using System.Runtime.InteropServices;
+using System.Timers;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.HighDefinition;
 
 public class CestRienManager : ITrackManager
 {
@@ -9,6 +13,8 @@ public class CestRienManager : ITrackManager
     private IEnumerator _changeValue2Coroutine;
     private IEnumerator _rotationRefrainCoroutine;
     private IEnumerator _changeParticleSpeedCoroutine;
+    private IEnumerator _changeLineVFXPositionCoroutine;
+
     private float m_RotationLerpDuration = 1000f;
     private WaitForSeconds _refrainWaitTime;
 
@@ -21,6 +27,43 @@ public class CestRienManager : ITrackManager
     {
         base.Start();
         base.ApplyDefaultEffects();
+
+        //Change the sky color
+        var currentTrackData = ShowManager.m_Instance.GetCurrentTrack();
+        SetSkyColor(currentTrackData._MainColorList[0],
+         currentTrackData._MainColorList[1],
+         currentTrackData._MainColorList[2]);
+
+        Vector3 startPosition = GetLineVFXPosition();
+        Vector3 targetPosition = new Vector3(3f, 0f, 0f);
+        float positionDuration = 3f;
+        _changeLineVFXPositionCoroutine = ChangeLineVFXPositionCoroutine(startPosition, targetPosition, positionDuration);
+        StartCoroutine(_changeLineVFXPositionCoroutine);
+
+        SetLineVFXColor(Color.magenta);
+
+        // Init();
+    }
+
+    // private void Init()
+    // {
+    //     GetCamera().fieldOfView = 15f;
+    //     SetLineVFXRate(5000f);
+    //     SetLineVFXParticleSpeed(18f);
+    //     SetLineVFXAspectValue1(new Vector2(4.558506f, 4.536615f));
+    //     SetLineVFXAspectValue2(new Vector2(-2.33f, 8.861389f));
+    //     SetLineVFXAspectCircle(new Vector2(1.249678f, 549.7247f)); 
+    // }
+
+    private void OnDisable()
+    {
+        VolumeProfile vignetteProfile = ShowManager.m_Instance.GetPostProcessVolumeManager()
+        .GetComponent<Volume>().sharedProfile;
+
+        if (vignetteProfile.TryGet<Vignette>(out var vignette))
+        {
+            vignette.active = true;
+        }
     }
 
     public void OnBegin()
@@ -38,18 +81,27 @@ public class CestRienManager : ITrackManager
         float targetParticleSpeed = GetLineVFXDefaultParticleSpeed();
         _changeParticleSpeedCoroutine = ChangeLineVFXParticleSpeedCoroutine(startParticleSpeed, targetParticleSpeed, timeToChantStart);
         StartCoroutine(_changeParticleSpeedCoroutine);
-
-        float targetFOV = 8f;
-        float lerpFOVDuration = 5f;
-        ChangeFOVLineVFX(targetFOV, lerpFOVDuration);
     }
 
     public void OnChantStart()
     {
         //Zoom FOV out until Outro 
-        float targetFOV = 100f;
+        float targetFOV = 80f;
         float timeToOutro = 200f;
         ChangeFOVLineVFX(targetFOV, timeToOutro);
+
+        if(_changeLineVFXPositionCoroutine != null)
+        {
+            StopCoroutine(_changeLineVFXPositionCoroutine);
+        }
+
+        Vector3 startPosition = GetLineVFXPosition();
+        Vector3 targetPosition = new Vector3(3f, -4.5f, 0f);
+        float positionDuration = 30f;
+        _changeLineVFXPositionCoroutine = ChangeLineVFXPositionCoroutine(startPosition, targetPosition, positionDuration);
+        StartCoroutine(_changeLineVFXPositionCoroutine);
+
+        StartCoroutine(VignetteCoroutine(0.5f));
     }
 
     public void OnPercuStart()
@@ -125,25 +177,48 @@ public class CestRienManager : ITrackManager
 
     public void OnOutro()
     {
+        float targetFOV = 60f;
+        float lerpDuration = 10f;
+        ChangeFOVLineVFX(targetFOV, lerpDuration);
+        
+        
         if(_changeRateCoroutine != null)
         {
             StopCoroutine(_changeRateCoroutine);
         }
 
-        float targetFOV = 60f;
-        float lerpDuration = 10f;
-        ChangeFOVLineVFX(targetFOV, lerpDuration);
 
         float startRate = GetLineVFXDefaultRate();
-        float targetRate = 5000;
+        float targetRate = 10000;
         float duration = 10f;
         _changeRateCoroutine = ChangeLineVFXRateCoroutine(startRate, targetRate, duration);
         StartCoroutine(_changeRateCoroutine);
+
+        //Decrease ParticleSpeed to C'est Rien begin value 
+        if(_changeParticleSpeedCoroutine != null)
+        {
+            StopCoroutine(_changeParticleSpeedCoroutine);
+        }
+
+        float fadeOutDuration = 10f;
+        float startParticleSpeed = GetLineVFXParticleSpeed();
+        float targetParticleSpeed = 8f;
+        _changeParticleSpeedCoroutine = ChangeLineVFXParticleSpeedCoroutine(startParticleSpeed, targetParticleSpeed, fadeOutDuration);
+        StartCoroutine(_changeParticleSpeedCoroutine);
+
+        StartCoroutine(VignetteCoroutine(0.678f, 0.5f, 10f));
     }
 
     public void OnEnd()
     {
         HideLineVFX();
+        VolumeProfile vignetteProfile = ShowManager.m_Instance.GetPostProcessVolumeManager()
+        .GetComponent<Volume>().sharedProfile;
+
+        if (vignetteProfile.TryGet<Vignette>(out var vignette))
+        {
+            vignette.active = false;
+        }
         Transition();
     }
 
@@ -172,6 +247,46 @@ public class CestRienManager : ITrackManager
             yield return null;
         }
         yield return null;
+    }
+
+    private IEnumerator ChangeLineVFXPositionCoroutine(Vector3 startPosition, Vector3 targetPosition, float duration)
+    {
+        float elapsedTime = 0f;
+        Vector3 position;
+        while (elapsedTime < duration)
+        {
+            position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
+            SetLineVFXPosition(position);
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+        yield return null;
+    }
+
+    private IEnumerator VignetteCoroutine(float startIntensity, float targetIntensity = 0.678f, float duration = 20f)
+    {
+        VolumeProfile vignetteProfile = ShowManager.m_Instance.GetPostProcessVolumeManager()
+        .GetComponent<Volume>().sharedProfile;
+
+        if(vignetteProfile.TryGet<Vignette>(out var vignette))
+        {
+            vignette.intensity.overrideState = true;
+            vignette.intensity.value = 0f;
+            vignette.active = true;
+
+            float elpasedTime = 0f;
+
+            while(elpasedTime < duration)
+            {
+                vignette.intensity.value = Mathf.Lerp(startIntensity, targetIntensity, elpasedTime / duration);
+
+                elpasedTime += Time.deltaTime;
+                yield return null;
+            }
+            yield return null;
+        }
     }
 
 }

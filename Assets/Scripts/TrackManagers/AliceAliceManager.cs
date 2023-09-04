@@ -9,7 +9,6 @@ public class AliceAliceManager : ITrackManager
     private IEnumerator _changeValue2Coroutine;
     private IEnumerator _changeParticleSpeedCoroutine;
     private IEnumerator _changeRadiusCoroutine;
-    private IEnumerator _changeLineVFXPositionCoroutine;
     private IEnumerator _tududuCoroutine;
 
     private bool _isRefrainStarted = false;
@@ -160,23 +159,12 @@ public class AliceAliceManager : ITrackManager
         _changeRadiusCoroutine = ChangeLineVFXRadiusCoroutine(startRadius, targetRadius, radiusDuration);
         StartCoroutine(_changeRadiusCoroutine);
 
-        if(_changeLineVFXPositionCoroutine != null)
-        {
-            StopCoroutine(_changeLineVFXPositionCoroutine);
-        }
-
-        Vector3 startPosition = Vector3.zero;
-        Vector3 targetPosition = new Vector3(0f, 0f, 3f);
-        float positionDuration = 30f;
-        _changeLineVFXPositionCoroutine = ChangeLineVFXPositionCoroutine(startPosition, targetPosition, positionDuration);
-        StartCoroutine(_changeLineVFXPositionCoroutine);  
-
         if(_changeParticleSpeedCoroutine != null)
         {
             StopCoroutine(_changeParticleSpeedCoroutine);
         }
         float startPartSpeed = GetLineVFXParticleSpeed();
-        float targetPartSpeed = 2.5f;
+        float targetPartSpeed = 4f;
         float partSpeedDuration = 2f;
         _changeParticleSpeedCoroutine = ChangeLineVFXParticleSpeedCoroutine(startPartSpeed, targetPartSpeed, partSpeedDuration);
         StartCoroutine(_changeParticleSpeedCoroutine);
@@ -192,22 +180,6 @@ public class AliceAliceManager : ITrackManager
         StartCoroutine(_changeValue2Coroutine);
     }
 
-    private IEnumerator ChangeLineVFXPositionCoroutine(Vector3 startPosition, Vector3 targetPosition, float duration)
-    {
-        float elapsedTime = 0f;
-        Vector3 position;
-        while (elapsedTime < duration)
-        {
-            position = Vector3.Lerp(startPosition, targetPosition, elapsedTime / duration);
-            SetLineVFXPosition(position);
-
-            elapsedTime += Time.deltaTime;
-
-            yield return null;
-        }
-        yield return null;
-    }
-
     public void OnRefrainFin()
     {
         OnRefrainFin(null);
@@ -216,17 +188,6 @@ public class AliceAliceManager : ITrackManager
 
     public void OnRefrainFin(OSCMessage message)
     {
-        if(_changeLineVFXPositionCoroutine != null)
-        {
-            StopCoroutine(_changeLineVFXPositionCoroutine);
-        }
-
-        Vector3 startPosition = GetLineVFXPosition();
-        Vector3 targetPosition = Vector3.zero;
-        float positionDuration = 8f;
-        _changeLineVFXPositionCoroutine = ChangeLineVFXPositionCoroutine(startPosition, targetPosition, positionDuration);
-        StartCoroutine(_changeLineVFXPositionCoroutine);    
-
         float targetFOV = 60f;
         float lerpDuration = 8f;
 
@@ -247,7 +208,7 @@ public class AliceAliceManager : ITrackManager
             StopCoroutine(_changeParticleSpeedCoroutine);
         }
         float startPartSpeed = GetLineVFXParticleSpeed();
-        float targetPartSpeed = 2.5f;
+        float targetPartSpeed = 2f;
         float partSpeedDuration = 2f;
         _changeParticleSpeedCoroutine = ChangeLineVFXParticleSpeedCoroutine(startPartSpeed, targetPartSpeed, partSpeedDuration);
         StartCoroutine(_changeParticleSpeedCoroutine);
@@ -334,12 +295,7 @@ public class AliceAliceManager : ITrackManager
         StartCoroutine(_changeParticleSpeedCoroutine);
 
         //Zoom camera in to C'est Rien start value
-        if(_changeRateCoroutine != null)
-        {
-            StopCoroutine(_changeRateCoroutine);
-        }
-
-        float targetFOV = 8f;
+        float targetFOV = 15f;
         ChangeFOVLineVFX(targetFOV, fadeOutDuration);
     }
     
@@ -351,7 +307,7 @@ public class AliceAliceManager : ITrackManager
 
     public void OnEnd(OSCMessage message)
     {
-        
+        Transition();
     }
 
     

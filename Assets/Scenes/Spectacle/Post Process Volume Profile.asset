@@ -245,16 +245,16 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.047094606
+    m_Value: 0.6779283
   smoothness:
     m_OverrideState: 1
-    m_Value: 0.365
+    m_Value: 0.01
   roundness:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.523
   rounded:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   mask:
     m_OverrideState: 1
     m_Value: {fileID: 0}
