@@ -7,6 +7,7 @@ public class StartForce : MonoBehaviour
     public Vector3 startForce;
     public float rotationSpeed = 0.01F;
     public float orbitSpeed = 15F;
+    public float orbitAltitude = 5F;
     [SerializeField] GameObject center;
 
 
@@ -58,9 +59,7 @@ public class StartForce : MonoBehaviour
 
         positionBeforeMovingToOrbit = transform.position;
         orbitStartPosition = center.transform.position;
-        orbitStartPosition.y +=
-            5F
-            + 2F * Mathf.PerlinNoise1D(transform.position.x + transform.position.y);
+        orbitStartPosition.y += orbitAltitude;
         var angle = Random.Range(0F, 360F);
         orbitStartPosition = RotatePointAroundPivot(
             orbitStartPosition,
