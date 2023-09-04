@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.83300793, g: 0.50086313, b: 0.20912254, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -213,7 +213,7 @@ MonoBehaviour:
   m_LineVFXManager: {fileID: 1201499417}
   m_PostProcessVolumeManager: {fileID: 965866303}
   m_ITrackManager: {fileID: 1888274009}
-  OSCTEstUI: {fileID: 2136158551}
+  OSCTestUI: {fileID: 2136158551}
   m_TrackList:
   - _SceneName: Aube
     _Altitude: 0
