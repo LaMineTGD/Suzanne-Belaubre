@@ -1,8 +1,9 @@
 using System.Collections;
-
+using System.Transactions;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
+using extOSC;
 
 public class CestRienManager : ITrackManager
 {
@@ -40,8 +41,23 @@ public class CestRienManager : ITrackManager
         StartCoroutine(_changeLineVFXPositionCoroutine);
 
         SetLineVFXColor(Color.magenta);
+        generateOSCReceveier();
 
         // Init();
+    }
+
+    private void generateOSCReceveier()
+    {
+        ShowManager.m_Instance.OSCReceiver.Bind("/Begin", OnBegin);
+        ShowManager.m_Instance.OSCReceiver.Bind("/percu_start", OnPercuStart);
+        ShowManager.m_Instance.OSCReceiver.Bind("/Chant_start", OnChantStart);
+        ShowManager.m_Instance.OSCReceiver.Bind("/RefrainDebut", OnRefrainDebut);
+        ShowManager.m_Instance.OSCReceiver.Bind("/CestRien_Drill", OnDrill);
+        ShowManager.m_Instance.OSCReceiver.Bind("/RefrainFin", OnRefrainFin);
+        ShowManager.m_Instance.OSCReceiver.Bind("/CestRien_TututuDebut", OnTutuDebut);
+        ShowManager.m_Instance.OSCReceiver.Bind("/CestRien_TututuFin", OnTutuFin);
+        ShowManager.m_Instance.OSCReceiver.Bind("/Outro", OnOutro);
+        ShowManager.m_Instance.OSCReceiver.Bind("/End", OnEnd);
     }
 
     // private void Init()
@@ -67,6 +83,11 @@ public class CestRienManager : ITrackManager
 
     public void OnBegin()
     {
+        OnBegin(null);
+    }
+
+    public void OnBegin(OSCMessage message)
+    {
         float timeToChantStart = 30f;
 
         //Reduce noise - from AliceAlice final particleSpeed, 
@@ -83,6 +104,11 @@ public class CestRienManager : ITrackManager
     }
 
     public void OnChantStart()
+    {
+        OnChantStart(null);
+    }
+
+    public void OnChantStart(OSCMessage message)
     {
         //Zoom FOV out until Outro 
         float targetFOV = 80f;
@@ -105,6 +131,11 @@ public class CestRienManager : ITrackManager
 
     public void OnPercuStart()
     {
+        OnPercuStart(null);
+    }
+
+    public void OnPercuStart(OSCMessage message)
+    {
         //Increase LineRadius until RefrainStart
         float timeToRefrainStart = 30f;
 
@@ -121,6 +152,11 @@ public class CestRienManager : ITrackManager
 
     public void OnDrill()
     {
+        OnDrill(null);
+    }
+
+    public void OnDrill(OSCMessage message)
+    {
         if(_changeCircleCoroutine != null)
         {
             StopCoroutine(_changeCircleCoroutine);
@@ -133,12 +169,17 @@ public class CestRienManager : ITrackManager
         StartCoroutine(_changeCircleCoroutine);
     }
 
-    public void OnEcho()
-    {
+    // public void OnEcho()
+    // {
 
-    }
+    // }
 
-    public void OnRefrainDebut()
+    // public void OnRefrainDebut()
+    // {
+    //     OnRefrainDebut(null);
+    // }
+
+    public void OnRefrainDebut(OSCMessage message)
     {
         if(_rotationRefrainCoroutine != null)
         {
@@ -153,6 +194,11 @@ public class CestRienManager : ITrackManager
 
     public void OnTutuDebut()
     {
+        OnTutuDebut(null);
+    }
+
+    public void OnTutuDebut(OSCMessage message)
+    {
         if(_changeValue2Coroutine != null)
         {
             StopCoroutine(_changeValue2Coroutine);
@@ -166,15 +212,30 @@ public class CestRienManager : ITrackManager
 
     public void OnTutuFin()
     {
+        OnTutuFin(null);
+    }
+
+    public void OnTutuFin(OSCMessage message)
+    {
         StopCoroutine(_changeValue2Coroutine);
     }
 
     public void OnRefrainFin()
     {
+        OnRefrainFin(null);
+    }
+
+    public void OnRefrainFin(OSCMessage message)
+    {
         StopCoroutine(_rotationRefrainCoroutine);
     }
 
     public void OnOutro()
+    {
+        OnOutro(null);
+    }
+
+    public void OnOutro(OSCMessage message)
     {
         float targetFOV = 60f;
         float lerpDuration = 10f;
@@ -209,6 +270,11 @@ public class CestRienManager : ITrackManager
     }
 
     public void OnEnd()
+    {
+        OnEnd(null);
+    }
+
+    public void OnEnd(OSCMessage message)
     {
         HideLineVFX();
         VolumeProfile vignetteProfile = ShowManager.m_Instance.GetPostProcessVolumeManager()
