@@ -1,13 +1,10 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.VFX;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 using System.Collections;
-using System;
 using System.Collections.Generic;
 using extOSC;
-
 
 public class SiffleManager : TrackTailorMadeManager
 {
@@ -230,10 +227,9 @@ public class SiffleManager : TrackTailorMadeManager
         ShowManager.m_Instance.OSCReceiver.Bind("/debut_deuxieme_harmo", DebutDeuxiemeHarmonique);
         ShowManager.m_Instance.OSCReceiver.Bind("/fin_chant", FinChant);
         ShowManager.m_Instance.OSCReceiver.Bind("/fin_chant_2", FinChant2);
-        ShowManager.m_Instance.OSCReceiver.Bind("/TransitionStart", OnTransitionStart);
+        ShowManager.m_Instance.OSCReceiver.Bind("/Transition", OnTransitionStart);
         ShowManager.m_Instance.OSCReceiver.Bind("/End", OnEnd);
     }
-
 
     public void PercuStart()
     {
@@ -344,6 +340,21 @@ public class SiffleManager : TrackTailorMadeManager
         StartCoroutine(LaunchWind(m_Wind3, 5.0f));
     }
 
+    public void OnTransitionStart()
+    {
+        OnTransitionStart(null);
+    }
+
+    public void OnTransitionStart(OSCMessage message)
+    {
+        TransitionColor();
+    }
+
+    public void OnEnd()
+    {
+        OnEnd(null);
+    }
+
     public IEnumerator InterpolatWithProgressionCurve(TextureCurveParameter volume, TextureCurve begin, TextureCurve end, float duration, AnimationCurve timeCurve)
     {
         float elapsedTime = 0f;
@@ -376,8 +387,6 @@ public class SiffleManager : TrackTailorMadeManager
         }
         yield return null;
     }
-
-
 
     public IEnumerator InterpolatSat(TextureCurve begin, TextureCurve end, float duration)
     {
@@ -413,21 +422,6 @@ public class SiffleManager : TrackTailorMadeManager
         AnimationCurve timeCurve = transitionCurve;
         StartCoroutine(InterpolatWithProgressionCurve(huevsHue, defaultCurve, colorCurve, crescendoDuration, timeCurve));
         StartCoroutine(InterpolatWithProgressionCurve(master, defaultMasterCurve, lightMasterCurve, crescendoDuration, timeCurve));
-    }
-
-    public void OnTransitionStart()
-    {
-        OnTransitionStart(null);
-    }
-
-    public void OnTransitionStart(OSCMessage message)
-    {
-        TransitionColor();
-    }
-
-    public void OnEnd()
-    {
-        OnEnd(null);
     }
 
     public void OnEnd(OSCMessage message)
