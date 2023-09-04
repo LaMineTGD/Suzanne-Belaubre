@@ -43,7 +43,7 @@ public class AliceAliceManager : ITrackManager
     public void OnBegin(OSCMessage message)
     {
         //Make the line disappear
-        HideLine();
+        HideLineVFX();
 
         //Change the sky color
         var currentTrackData = ShowManager.m_Instance.GetCurrentTrack();
@@ -54,19 +54,6 @@ public class AliceAliceManager : ITrackManager
         //Reduce LineVFX to min circle
         Vector2 startCircle = new Vector2(1f, 2f);
         SetLineVFXAspectCircle(startCircle);
-    }
-
-    private void HideLine()
-    {
-        SetLineVFXRadius(0f);
-    }
-
-    private void ShowLine()
-    {
-        if(_changeRadiusCoroutine != null)
-        {
-            StopCoroutine(_changeRadiusCoroutine);
-        }
         SetLineVFXRadius(0.05f);
     }
 
@@ -81,6 +68,7 @@ public class AliceAliceManager : ITrackManager
         float targetRadius = 0.01f;
         float radiusDuration = 1f;
         _changeRadiusCoroutine = ChangeLineVFXRadiusCoroutine(startRadius, targetRadius, radiusDuration);
+        ShowLineVFX();
         StartCoroutine(_changeRadiusCoroutine);
     }
 
@@ -118,7 +106,6 @@ public class AliceAliceManager : ITrackManager
 
         if(!_isRefrainStarted)
         {
-            ShowLine();
             FadeOutLine();
         }
         yield return new WaitForSeconds(0.2f);

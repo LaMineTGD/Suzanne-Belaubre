@@ -38,6 +38,10 @@ public class CestRienManager : ITrackManager
         float targetParticleSpeed = GetLineVFXDefaultParticleSpeed();
         _changeParticleSpeedCoroutine = ChangeLineVFXParticleSpeedCoroutine(startParticleSpeed, targetParticleSpeed, timeToChantStart);
         StartCoroutine(_changeParticleSpeedCoroutine);
+
+        float targetFOV = 8f;
+        float lerpFOVDuration = 5f;
+        ChangeFOVLineVFX(targetFOV, lerpFOVDuration);
     }
 
     public void OnChantStart()
@@ -126,7 +130,7 @@ public class CestRienManager : ITrackManager
             StopCoroutine(_changeRateCoroutine);
         }
 
-        float targetFOV = 10f;
+        float targetFOV = 60f;
         float lerpDuration = 10f;
         ChangeFOVLineVFX(targetFOV, lerpDuration);
 
