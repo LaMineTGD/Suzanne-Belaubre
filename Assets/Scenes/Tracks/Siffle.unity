@@ -702,6 +702,30 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  transitionCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   crescendoDuration: 8
   treeMaxRotationSpeed: 200
   diminuendoDuration: 40
@@ -1356,6 +1380,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 55fcaf517ecd2f04f8e1b5d05e1638b4, type: 2}
     - {fileID: 11400000, guid: b917e35d775a4f94095eb4571e92bca3, type: 2}
     - {fileID: 11400000, guid: b9413c22a52d14f488896452402d158e, type: 2}
+    - {fileID: 11400000, guid: c268eda69a251094eb5a9a94233185c0, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
@@ -1474,6 +1499,20 @@ MonoBehaviour:
         - m_Target: {fileID: 707637778}
           m_TargetAssemblyTypeName: SiffleManager, Assembly-CSharp
           m_MethodName: OnEnd
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 1
+    - m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 707637778}
+          m_TargetAssemblyTypeName: SiffleManager, Assembly-CSharp
+          m_MethodName: OnTransitionStart
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

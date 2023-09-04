@@ -26,6 +26,7 @@ public class SiffleManager : TrackTailorMadeManager
     TextureCurve greyCurve;
     [SerializeField] AnimationCurve evolutionCrescendoCurve;
     [SerializeField] AnimationCurve evolution2CrescendoCurve;
+    [SerializeField] AnimationCurve transitionCurve;
     [SerializeField] float crescendoDuration;
     [SerializeField] float treeMaxRotationSpeed;
 
@@ -229,6 +230,8 @@ public class SiffleManager : TrackTailorMadeManager
         ShowManager.m_Instance.OSCReceiver.Bind("/debut_deuxieme_harmo", DebutDeuxiemeHarmonique);
         ShowManager.m_Instance.OSCReceiver.Bind("/fin_chant", FinChant);
         ShowManager.m_Instance.OSCReceiver.Bind("/fin_chant_2", FinChant2);
+        ShowManager.m_Instance.OSCReceiver.Bind("/TransitionStart", OnTransitionStart);
+        ShowManager.m_Instance.OSCReceiver.Bind("/End", OnEnd);
     }
 
 
@@ -404,7 +407,30 @@ public class SiffleManager : TrackTailorMadeManager
         yield return null;
     }
 
+    public void TransitionColor()
+    {
+        TextureCurve colorCurve =  colorCurveGreen;
+        AnimationCurve timeCurve = transitionCurve;
+        StartCoroutine(InterpolatWithProgressionCurve(huevsHue, defaultCurve, colorCurve, crescendoDuration, timeCurve));
+        StartCoroutine(InterpolatWithProgressionCurve(master, defaultMasterCurve, lightMasterCurve, crescendoDuration, timeCurve));
+    }
+
+    public void OnTransitionStart()
+    {
+        OnTransitionStart(null);
+    }
+
+    public void OnTransitionStart(OSCMessage message)
+    {
+        TransitionColor();
+    }
+
     public void OnEnd()
+    {
+        OnEnd(null);
+    }
+
+    public void OnEnd(OSCMessage message)
     {
         Transition();
     }

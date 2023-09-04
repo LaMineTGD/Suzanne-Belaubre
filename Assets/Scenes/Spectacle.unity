@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.83300793, g: 0.38867193, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.83300793, g: 0.50086313, b: 0.20912254, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -356,7 +356,7 @@ MonoBehaviour:
     _FourthColorList: []
   - _SceneName: LeBruit
     _Altitude: 1
-    _Type: 0
+    _Type: 1
     _Start_Transition_duration: 4
     _Temperature: 2
     _Location: 4
