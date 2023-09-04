@@ -61,17 +61,7 @@ public class ITrackManager : MonoBehaviour
         if(!ShowManager.m_Instance.IsPreviousTrackTailorMade())
         {
             //These methods are called if there is no transition from a TailorMade scene required 
-            //SetAltitude();
-            //SetSkyColor(GetDefaultSkyColor());
             SetLineVFXColor(GetDefaultLineVFXColor());
-            //SetLocation();
-            //StartCoroutine(SetLineVFXDefaultValues());
-            //StartCoroutine(ResetCameraFOVCoroutine(2f));
-        }
-        else
-        {
-            //This method is called if the previous scene is a TailorMade script
-            //ApplyTransitionEffects();
         }
     }
 
@@ -237,11 +227,7 @@ public class ITrackManager : MonoBehaviour
         yield return null;
     }
 
-    //Change the color of the Gradient sky depending on a color defined in ShowManager for the track
-    // protected virtual void SetSkyColor(Color middleColor)
-    // {
-    //     SetSkyColor(middleColor, middleColor, middleColor);
-    // }
+    //Change the color of the Gradient sky depending on colors defined in ShowManager for the track
     protected virtual void SetSkyColor(Color bottomColor, Color middleColor, Color topColor)
     {
         ShowManager.m_Instance.GetSkyFogManager().SetSkyColor(bottomColor, middleColor, topColor);
