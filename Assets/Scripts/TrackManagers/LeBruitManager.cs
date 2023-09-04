@@ -24,12 +24,6 @@ public class LeBruitManager : TrackTailorMadeManager
         base.Start();
         base.ApplyDefaultEffects();
 
-        // //Change the sky color
-        // var currentTrackData = ShowManager.m_Instance.GetCurrentTrack();
-        // SetSkyColor(currentTrackData._MainColorList[0],
-        //  currentTrackData._MainColorList[1],
-        //  currentTrackData._MainColorList[2]);
-
         if (m_PostProcessVolume.profile.TryGet<ColorCurves>(out ColorCurves colorCurves))
         {
             defaultCurveCreation();
@@ -46,7 +40,7 @@ public class LeBruitManager : TrackTailorMadeManager
             huevsHue.Interp(defaultCurve, colorCurveGreen, 0.0f);
         }
 
-        Crescendo_1();
+        SetSkyColor();
     }
 
     private void defaultCurveCreation()
@@ -104,12 +98,7 @@ public class LeBruitManager : TrackTailorMadeManager
         colorCurveGreen = new TextureCurve(keys, 0.5f, true, bound);
     }
 
-    public void Crescendo_1()
-    {
-        Crescendo_1(null);
-    }
-
-    public void Crescendo_1(OSCMessage message)
+    public void SetSkyColor()
     {
         TextureCurve colorCurve =  colorCurveGreen;
         AnimationCurve timeCurve = evolutionCrescendoCurve;
