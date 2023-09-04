@@ -173,6 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startForce: {x: -6, y: -1, z: 0}
   rotationSpeed: 0.01
+  orbitSpeed: 18
   center: {fileID: 1115132398}
 --- !u!54 &40240745
 Rigidbody:
@@ -376,6 +377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startForce: {x: 3, y: 5, z: 0}
   rotationSpeed: 0.01
+  orbitSpeed: 10
   center: {fileID: 1115132398}
 --- !u!54 &435594147
 Rigidbody:
@@ -1234,6 +1236,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startForce: {x: 1, y: -4, z: 0}
   rotationSpeed: 0.01
+  orbitSpeed: 22
   center: {fileID: 1115132398}
 --- !u!54 &1123380945
 Rigidbody:
@@ -1745,6 +1748,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startForce: {x: 4, y: 1, z: 0}
   rotationSpeed: 0.01
+  orbitSpeed: 26
   center: {fileID: 1115132398}
 --- !u!54 &1711445897
 Rigidbody:
@@ -1894,6 +1898,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startForce: {x: 4, y: 2, z: 0}
   rotationSpeed: 0.01
+  orbitSpeed: 14
   center: {fileID: 1115132398}
 --- !u!54 &1807394764
 Rigidbody:
