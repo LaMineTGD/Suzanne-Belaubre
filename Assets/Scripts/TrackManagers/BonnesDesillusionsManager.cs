@@ -1,7 +1,7 @@
 using UnityEngine;
 using extOSC;
 
-public class BonnesDesillusionsManager : ITrackManager
+public class BonnesDesillusionsManager : TrackTailorMadeManager
 {
     [SerializeField] private Transform _background;
     protected override void Start()

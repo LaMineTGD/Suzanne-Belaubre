@@ -1,6 +1,7 @@
 using extOSC;
+using Utils;
 
-public class LesVoiesDoreesManager : ITrackManager
+public class LesVoiesDoreesManager : TrackTailorMadeManager
 {
     protected override void Start()
     {

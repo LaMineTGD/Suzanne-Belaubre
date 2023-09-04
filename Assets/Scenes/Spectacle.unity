@@ -234,7 +234,7 @@ MonoBehaviour:
     _FourthColorList: []
   - _SceneName: BonnesDesillusions
     _Altitude: 0
-    _Type: 0
+    _Type: 1
     _Start_Transition_duration: 1
     _Temperature: 1
     _Location: 0
@@ -314,7 +314,7 @@ MonoBehaviour:
     - {r: 1, g: 1, b: 1, a: 1}
   - _SceneName: LesVoiesDorees
     _Altitude: 0
-    _Type: 0
+    _Type: 1
     _Start_Transition_duration: 0
     _Temperature: 0
     _Location: 1
