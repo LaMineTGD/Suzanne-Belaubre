@@ -5,6 +5,8 @@ using extOSC;
 
 public class Background : MonoBehaviour
 {
+    float outroProgress = -1;
+
     void Start() {
         generateOSCReceveier();
     }
@@ -14,6 +16,7 @@ public class Background : MonoBehaviour
         ShowManager.m_Instance.OSCReceiver.Bind("/BD/start_couplet", StartCouplet);
         ShowManager.m_Instance.OSCReceiver.Bind("/BD/start_refrain", StartRefrain);
         ShowManager.m_Instance.OSCReceiver.Bind("/BD/start_fire", StartFire);
+        ShowManager.m_Instance.OSCReceiver.Bind("/BD/outro", StartOutro);
     }
 
     public void StartCouplet(OSCMessage message)
@@ -91,7 +94,24 @@ public class Background : MonoBehaviour
         );
     }
 
+    public void StartOutro(OSCMessage message)
+    {
+        Debug.Log("StartOutro");
+        StartOutro();
+    }
+
+    public void StartOutro()
+    {
+        outroProgress = 0;
+    }
+
     void Update() {
+        if (outroProgress < 1 && outroProgress >= 0){
+            outroProgress += Time.deltaTime * 0.1F;
+
+            var angle = 0.4F;
+            transform.Rotate(new Vector3(angle, 0, 0));
+        }
     }
 
 }

@@ -17,6 +17,7 @@ public class Bille : MonoBehaviour
     float movingToOrbitProgress;
     bool movingToOrbit = false;
 
+    float outroProgress = -1;
 
     void Start() {
         Rigidbody rigidbody = GetComponent<Rigidbody>();
@@ -29,6 +30,7 @@ public class Bille : MonoBehaviour
     {
         ShowManager.m_Instance.OSCReceiver.Bind("/start_orbit", StartOrbit);
         ShowManager.m_Instance.OSCReceiver.Bind("/start_bouncing", StartBouncing);
+        ShowManager.m_Instance.OSCReceiver.Bind("/BD/outro", StartOutro);
     }
 
     public void StartOrbit(OSCMessage message)
@@ -92,6 +94,27 @@ public class Bille : MonoBehaviour
         // will add some non linear moving to the bouncing movements.
         Orbit();
         MaybeMoveToOrbit();
+        if (outroProgress < 1 && outroProgress >= 0){
+            outroProgress += Time.deltaTime * 0.2F;
+
+            var step = -0.1F;
+            transform.position = Vector3.MoveTowards(
+                transform.position, center.transform.position, step
+            );
+        }
+    }
+
+    public void StartOutro(OSCMessage message)
+    {
+        Debug.Log("StartOutro");
+        StartOutro();
+    }
+
+    public void StartOutro()
+    {
+        outroProgress = 0;
+        Rigidbody rigidbody = GetComponent<Rigidbody>();
+        rigidbody.isKinematic = true;
     }
 
     void KeepMovingInVerticalPlane () {
