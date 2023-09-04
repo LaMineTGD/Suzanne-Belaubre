@@ -1,3 +1,5 @@
+using extOSC;
+
 public class LesVoiesDoreesManager : ITrackManager
 {
     protected override void Start()
@@ -8,13 +10,21 @@ public class LesVoiesDoreesManager : ITrackManager
         var currentTrackData = ShowManager.m_Instance.GetCurrentTrack();
         SetSkyColor(currentTrackData._MainColorList[0], currentTrackData._MainColorList[1], currentTrackData._MainColorList[2]);
         //BoostTones();
+        generateOSCReceveier();
+
     }
 
-    public void OnTransition()
+    private void generateOSCReceveier()
     {
+        ShowManager.m_Instance.OSCReceiver.Bind("/End", OnEnd);
     }
 
     public void OnEnd()
+    {
+        OnEnd(null);
+    }
+
+    public void OnEnd(OSCMessage message)
     {
         Transition();
     }
