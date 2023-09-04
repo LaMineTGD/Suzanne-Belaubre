@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using extOSC;
-using UnityEngine.Events;
 public class AubeManager : TrackTailorMadeManager
 {
     [SerializeField] private Transform lightTransform;
@@ -18,9 +17,7 @@ public class AubeManager : TrackTailorMadeManager
     private void generateOSCReceveier()
     {
         ShowManager.m_Instance.OSCReceiver.Bind("/percu_start", DebutPercussion);
-        ShowManager.m_Instance.OSCReceiver.Bind("/Chant_start", ChantContreSens);
         ShowManager.m_Instance.OSCReceiver.Bind("/fin_chant", AubeSeLeve);
-        ShowManager.m_Instance.OSCReceiver.Bind("/crescendo_f", DebutTransition);
         ShowManager.m_Instance.OSCReceiver.Bind("/debut_deuxieme_harmo", DeuxiemeVagueHarmonique);
     }
 
@@ -32,7 +29,6 @@ public class AubeManager : TrackTailorMadeManager
     {
         m_VFX.SendEvent("FirstLine");
         StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(false, "Delay", 3f, m_VFX, 50f, 0.05f));
-        Debug.Log("DeuxiemeVagueHarmonique");
     }
     public void DebutPercussion()
     {
@@ -42,16 +38,8 @@ public class AubeManager : TrackTailorMadeManager
     {
         m_VFX.SendEvent("SecondLine");
         StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(false, "Delay_Side", 3f, m_VFX, 50f, 0.05f));
-        Debug.Log("DebutPercussion");
     }
-    public void ChantContreSens()
-    {
-        ChantContreSens(null);
-    }
-    public void ChantContreSens(OSCMessage message)
-    {
-        Debug.Log("ChantContreSens");
-    }
+
     public void AubeSeLeve()
     {
         AubeSeLeve(null);
@@ -59,25 +47,10 @@ public class AubeManager : TrackTailorMadeManager
     public void AubeSeLeve(OSCMessage message)
     {
         StartCoroutine(LaunchDawn(lightTransform, endTransform, 45f));
-        Debug.Log("AubeSeLeve");
-    }
-    public void DebutTransition()
-    {
-        DebutTransition(null);
-    }
-    public void DebutTransition(OSCMessage message)
-    {
-        // Debug.Log("DebutTransition");
-        // StopCoroutine(LaunchDawn(lightTransform, endTransform, 45f));
-
-        // endTransform.Rotate(-90f, 0f, 0f);
-        // StartCoroutine(LaunchDawn(lightTransform, endTransform, 0.5f));
-        // Transition();
     }
 
     private void OnTransitionAube()
     {
-        Debug.Log("Transitioning from Aube to Bonnes Désillusions");
         StopCoroutine(LaunchDawn(lightTransform, endTransform, 45f));
 
         endTransform.Rotate(-90f, 0f, 0f);
