@@ -21,6 +21,7 @@ public class ShowManager : MonoBehaviour
     [SerializeField] private LineVFXManager m_LineVFXManager;
     [SerializeField] private PostProcessVolumeManager m_PostProcessVolumeManager;
     [SerializeField] private ITrackManager m_ITrackManager;
+    [SerializeField] private GameObject OSCTestUI;
 
     [Serializable]
     public struct TrackList
@@ -204,6 +205,26 @@ public class ShowManager : MonoBehaviour
     {
         Volume[] result = new Volume[2] { _previousTailorSkyVolume, _previousTailorPostProcessVolume };
         return result;
+    }
+
+    public void ShowOSCTestUI()
+    {
+        StartCoroutine(ShowOSCTestCoroutine());
+    }
+
+    private IEnumerator ShowOSCTestCoroutine()
+    {
+        float elapsedTime = 0f;
+        float duration = 5f;
+        OSCTestUI.SetActive(true);
+        
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        OSCTestUI.SetActive(false);
+        yield return null;
     }
 
 }

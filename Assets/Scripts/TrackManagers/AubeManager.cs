@@ -16,9 +16,20 @@ public class AubeManager : TrackTailorMadeManager
 
     private void generateOSCReceveier()
     {
+        ShowManager.m_Instance.OSCReceiver.Bind("/osc_test", OSCTest);
         ShowManager.m_Instance.OSCReceiver.Bind("/percu_start", DebutPercussion);
         ShowManager.m_Instance.OSCReceiver.Bind("/fin_chant", AubeSeLeve);
         ShowManager.m_Instance.OSCReceiver.Bind("/debut_deuxieme_harmo", DeuxiemeVagueHarmonique);
+    }
+
+    public void OSCTest()
+    {
+        OSCTest(null);
+    }
+
+    public void OSCTest(OSCMessage message)
+    {
+        ShowManager.m_Instance.ShowOSCTestUI();
     }
 
     public void DeuxiemeVagueHarmonique()
