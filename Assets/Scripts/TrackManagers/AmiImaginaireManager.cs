@@ -1,6 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.VFX;
 using extOSC;
 using System.Collections;
 using UnityEngine.Rendering.HighDefinition;
@@ -18,7 +16,6 @@ public class AmiImaginaireManager : TrackTailorMadeManager
     [SerializeField] private Color skyTopColor;
 
     private const string DROP_SIGNAL = "DropSignalTime"; // Nom de la propriété exposée pour le rayon de la sphère de conformité.
-
     private const string SDF_RATIO = "SDF_ratio"; // Nom de la propriété exposée pour le rayon de la sphère de conformité.
     private const string Drop = "drop_"; // Nom de la propriété exposée pour le rayon de la sphère de conformité.
     private float start_time = 0;
@@ -29,15 +26,8 @@ public class AmiImaginaireManager : TrackTailorMadeManager
     private ColorAdjustments _colorAdj;
     private ColorCurves _colorCurves;
 
-    public void Awake()
-    {
-
-        Debug.Log("Awake:" + Time.time);
-    }
-
     protected override void Start()
     {
-        Debug.Log("Start:" + Time.time);
         start_time = Time.time;
         generateOSCReceveier();
         base.Start();
@@ -55,7 +45,8 @@ public class AmiImaginaireManager : TrackTailorMadeManager
     private void generateOSCReceveier()
     {
         ShowManager.m_Instance.OSCReceiver.Bind("/goute_eau", WaterDropSignal);
-        ShowManager.m_Instance.OSCReceiver.Bind("/End", End);
+        ShowManager.m_Instance.OSCReceiver.Bind("/End", OnEnd);
+        ShowManager.m_Instance.OSCReceiver.Bind("/Transition", OnTransition);
         ShowManager.m_Instance.OSCReceiver.Bind("/crescendo_1", Crescendo_1);
         ShowManager.m_Instance.OSCReceiver.Bind("/crescendo_2", Crescendo_2);
         ShowManager.m_Instance.OSCReceiver.Bind("/diminuendo", Diminuendo);
@@ -76,7 +67,6 @@ public class AmiImaginaireManager : TrackTailorMadeManager
     public void WaterDropSignal(OSCMessage message)
     {
         float signalTime = Time.time - start_time - 1.0f;
-        Debug.Log("WaterDropSignal :" + signalTime);
         m_VFX.SetFloat(DROP_SIGNAL, signalTime);
         for (int i = 1; i <= 3; i++)
         {
@@ -93,7 +83,6 @@ public class AmiImaginaireManager : TrackTailorMadeManager
 
     public void Crescendo_1(OSCMessage message)
     {
-        Debug.Log("Crescendo_1");
         m_VFX.SetFloat(SDF_RATIO, 0.55f);
     }
 
@@ -104,7 +93,6 @@ public class AmiImaginaireManager : TrackTailorMadeManager
 
     public void Crescendo_2(OSCMessage message)
     {
-        Debug.Log("Crescendo_2");
         m_VFX.SetFloat(SDF_RATIO, 0.35f);
     }
 
@@ -115,7 +103,6 @@ public class AmiImaginaireManager : TrackTailorMadeManager
 
     public void Crescendo_f(OSCMessage message)
     {
-        Debug.Log("Crescendo_f");
         isFinal = true;
         m_VFX.SetFloat(SDF_RATIO, 0f);
     }
@@ -127,27 +114,30 @@ public class AmiImaginaireManager : TrackTailorMadeManager
 
     public void Diminuendo(OSCMessage message)
     {
-        Debug.Log("Diminuendo");
         if (isFinal)
             StartCoroutine(Utils.Utils.InterpolatVfxFloatVisibility(true, SDF_RATIO, 0.9f, m_VFX, 10f));
         else
             m_VFX.SetFloat(SDF_RATIO, 0.9f);
     }
 
-    public void End()
+    public void OnTransition()
     {
-        End(null);
+        OnTransition(null);
     }
 
-    public void End(OSCMessage message)
+    public void OnTransition(OSCMessage message)
     {
         m_VFX.SetFloat(rate_name, 0f);
         StartCoroutine(TransitionPostProcessToSiffle(5f));
         StartCoroutine(TransitionToSiffleSky(5f));
-        Debug.Log("End");
     }
 
-    public void OnTransition()
+    public void OnEnd()
+    {
+        OnEnd(null);
+    }
+
+    public void OnEnd(OSCMessage message)
     {
         Transition();
     }
@@ -290,7 +280,4 @@ public class AmiImaginaireManager : TrackTailorMadeManager
         _gradientSky.top.overrideState = true;
         _gradientSky.top.value = skyTopColor;
     }
-
-
-
 }
