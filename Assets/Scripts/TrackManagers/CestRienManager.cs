@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Transactions;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
@@ -70,16 +69,16 @@ public class CestRienManager : ITrackManager
     //     SetLineVFXAspectCircle(new Vector2(1.249678f, 549.7247f)); 
     // }
 
-    private void OnDisable()
-    {
-        VolumeProfile vignetteProfile = ShowManager.m_Instance.GetPostProcessVolumeManager()
-        .GetComponent<Volume>().sharedProfile;
+    // private void OnDisable()
+    // {
+    //     VolumeProfile vignetteProfile = ShowManager.m_Instance.GetPostProcessVolumeManager()
+    //     .GetComponent<Volume>().sharedProfile;
 
-        if (vignetteProfile.TryGet<Vignette>(out var vignette))
-        {
-            vignette.active = true;
-        }
-    }
+    //     if (vignetteProfile.TryGet<Vignette>(out var vignette))
+    //     {
+    //         vignette.active = false;
+    //     }
+    // }
 
     public void OnBegin()
     {
@@ -126,7 +125,7 @@ public class CestRienManager : ITrackManager
         _changeLineVFXPositionCoroutine = ChangeLineVFXPositionCoroutine(startPosition, targetPosition, positionDuration);
         StartCoroutine(_changeLineVFXPositionCoroutine);
 
-        StartCoroutine(VignetteCoroutine(0.5f));
+        // StartCoroutine(VignetteCoroutine(0.5f));
     }
 
     public void OnPercuStart()
@@ -268,7 +267,7 @@ public class CestRienManager : ITrackManager
         _changeParticleSpeedCoroutine = ChangeLineVFXParticleSpeedCoroutine(startParticleSpeed, targetParticleSpeed, fadeOutDuration);
         StartCoroutine(_changeParticleSpeedCoroutine);
 
-        StartCoroutine(VignetteCoroutine(0.678f, 0.5f, 10f));
+        // StartCoroutine(VignetteCoroutine(0.678f, 0.5f, 10f));
     }
 
     public void OnEnd()
@@ -332,28 +331,28 @@ public class CestRienManager : ITrackManager
         yield return null;
     }
 
-    private IEnumerator VignetteCoroutine(float startIntensity, float targetIntensity = 0.678f, float duration = 20f)
-    {
-        VolumeProfile vignetteProfile = ShowManager.m_Instance.GetPostProcessVolumeManager()
-        .GetComponent<Volume>().sharedProfile;
+    // private IEnumerator VignetteCoroutine(float startIntensity, float targetIntensity = 0.678f, float duration = 20f)
+    // {
+    //     VolumeProfile vignetteProfile = ShowManager.m_Instance.GetPostProcessVolumeManager()
+    //     .GetComponent<Volume>().sharedProfile;
 
-        if(vignetteProfile.TryGet<Vignette>(out var vignette))
-        {
-            vignette.intensity.overrideState = true;
-            vignette.intensity.value = 0f;
-            vignette.active = true;
+    //     if(vignetteProfile.TryGet<Vignette>(out var vignette))
+    //     {
+    //         vignette.intensity.overrideState = true;
+    //         vignette.intensity.value = 0f;
+    //         vignette.active = true;
 
-            float elpasedTime = 0f;
+    //         float elpasedTime = 0f;
 
-            while(elpasedTime < duration)
-            {
-                vignette.intensity.value = Mathf.Lerp(startIntensity, targetIntensity, elpasedTime / duration);
+    //         while(elpasedTime < duration)
+    //         {
+    //             vignette.intensity.value = Mathf.Lerp(startIntensity, targetIntensity, elpasedTime / duration);
 
-                elpasedTime += Time.deltaTime;
-                yield return null;
-            }
-            yield return null;
-        }
-    }
+    //             elpasedTime += Time.deltaTime;
+    //             yield return null;
+    //         }
+    //         yield return null;
+    //     }
+    // }
 
 }
