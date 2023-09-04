@@ -2,7 +2,7 @@ using UnityEngine;
 using extOSC;
 
 
-public class StartForce : MonoBehaviour
+public class Bille : MonoBehaviour
 {
     public Vector3 startForce;
     public float rotationSpeed = 0.01F;
