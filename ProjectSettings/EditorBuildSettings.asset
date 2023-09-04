@@ -35,7 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tracks/LesVoiesDorees.unity
     guid: f6f367ee532aaa744bf91a2ca80aafd5
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Tracks/Seum.unity
     guid: fe4b6f18db1156a4faeb589f4b826c7c
   - enabled: 1

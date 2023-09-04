@@ -86,11 +86,6 @@ public class PostProcessVolumeManager : MonoBehaviour
         {
             if(bloom.IsActive())
             {
-                if(!m_postProcessVolumeProfile.Has<Bloom>())
-                {
-                    VolumeProfileFactory.CreateVolumeComponent<Bloom>(m_postProcessVolumeProfile);
-                }
-
                 if(m_postProcessVolumeProfile.TryGet<Bloom>(out var spectacleBloom))
                 {
                     spectacleBloom.active = true;
@@ -110,11 +105,6 @@ public class PostProcessVolumeManager : MonoBehaviour
         {
             if(motionBlur.IsActive())
             {
-                if(!m_postProcessVolumeProfile.Has<MotionBlur>())
-                {
-                    VolumeProfileFactory.CreateVolumeComponent<MotionBlur>(m_postProcessVolumeProfile);
-                }
-
                 if(m_postProcessVolumeProfile.TryGet<MotionBlur>(out var spectacleMotionBlur))
                 {
                     spectacleMotionBlur.active = true;
@@ -130,11 +120,6 @@ public class PostProcessVolumeManager : MonoBehaviour
         // {
         //     if(tonemapping.IsActive())
         //     {
-        //         if(!m_postProcessVolumeProfile.Has<Tonemapping>())
-        //         {
-        //             VolumeProfileFactory.CreateVolumeComponent<Tonemapping>(m_postProcessVolumeProfile);
-        //         }
-
         //         if(m_postProcessVolumeProfile.TryGet<Tonemapping>(out var spectacleTonemapping))
         //         {
         //             spectacleTonemapping.active = true;
