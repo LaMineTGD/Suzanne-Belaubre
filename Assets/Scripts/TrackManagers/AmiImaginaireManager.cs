@@ -45,7 +45,6 @@ public class AmiImaginaireManager : TrackTailorMadeManager
     private void generateOSCReceveier()
     {
         ShowManager.m_Instance.OSCReceiver.Bind("/goute_eau", WaterDropSignal);
-        ShowManager.m_Instance.OSCReceiver.Bind("/End", OnEnd);
         ShowManager.m_Instance.OSCReceiver.Bind("/Transition", OnTransition);
         ShowManager.m_Instance.OSCReceiver.Bind("/crescendo_1", Crescendo_1);
         ShowManager.m_Instance.OSCReceiver.Bind("/crescendo_2", Crescendo_2);
@@ -130,15 +129,6 @@ public class AmiImaginaireManager : TrackTailorMadeManager
         m_VFX.SetFloat(rate_name, 0f);
         StartCoroutine(TransitionPostProcessToSiffle(5f));
         StartCoroutine(TransitionToSiffleSky(5f));
-    }
-
-    public void OnEnd()
-    {
-        OnEnd(null);
-    }
-
-    public void OnEnd(OSCMessage message)
-    {
         Transition();
     }
 

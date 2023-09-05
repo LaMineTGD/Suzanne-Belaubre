@@ -589,7 +589,6 @@ MonoBehaviour:
   m_Events:
     m_Signals:
     - {fileID: 11400000, guid: db8c2ea781cbb42408c40c2ab71b8cdd, type: 2}
-    - {fileID: 11400000, guid: b9413c22a52d14f488896452402d158e, type: 2}
     - {fileID: 11400000, guid: 11556d4b64cd5ae41aeec8bcfa2921eb, type: 2}
     - {fileID: 11400000, guid: a037aedfb891ec24baaf49839d52f1f3, type: 2}
     - {fileID: 11400000, guid: 82c1d4a3a29d5a44a9326558c36c7600, type: 2}
@@ -601,20 +600,6 @@ MonoBehaviour:
         - m_Target: {fileID: 1389022978}
           m_TargetAssemblyTypeName: AmiImaginaireManager, Assembly-CSharp
           m_MethodName: WaterDropSignal
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
-    - m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 1389022978}
-          m_TargetAssemblyTypeName: AmiImaginaireManager, Assembly-CSharp
-          m_MethodName: End
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}

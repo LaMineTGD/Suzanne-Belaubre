@@ -65,7 +65,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _BUILTIN_QueueControl: 1
-    - _ColorMultiplier: 0.0002347827
+    - _ColorMultiplier: 0
     - _Directions: 3
     - _FuzzyGrain: 2000
     - _FuzzyIntensity: 0.3
