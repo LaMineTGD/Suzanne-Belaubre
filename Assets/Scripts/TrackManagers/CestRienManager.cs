@@ -42,12 +42,14 @@ public class CestRienManager : ITrackManager
         SetLineVFXColor(Color.magenta);
         generateOSCReceveier();
 
+        OnBegin();
+
         // Init();
     }
 
     private void generateOSCReceveier()
     {
-        ShowManager.m_Instance.OSCReceiver.Bind("/Begin", OnBegin);
+        // ShowManager.m_Instance.OSCReceiver.Bind("/Begin", OnBegin);
         ShowManager.m_Instance.OSCReceiver.Bind("/percu_start", OnPercuStart);
         ShowManager.m_Instance.OSCReceiver.Bind("/Chant_start", OnChantStart);
         ShowManager.m_Instance.OSCReceiver.Bind("/RefrainDebut", OnRefrainDebut);
@@ -239,7 +241,7 @@ public class CestRienManager : ITrackManager
     public void OnOutro(OSCMessage message)
     {
         float targetFOV = 60f;
-        float lerpDuration = 10f;
+        float lerpDuration = 20f;
         ChangeFOVLineVFX(targetFOV, lerpDuration);
         
         
@@ -278,13 +280,13 @@ public class CestRienManager : ITrackManager
     public void OnEnd(OSCMessage message)
     {
         HideLineVFX();
-        VolumeProfile vignetteProfile = ShowManager.m_Instance.GetPostProcessVolumeManager()
-        .GetComponent<Volume>().sharedProfile;
+        // VolumeProfile vignetteProfile = ShowManager.m_Instance.GetPostProcessVolumeManager()
+        // .GetComponent<Volume>().sharedProfile;
 
-        if (vignetteProfile.TryGet<Vignette>(out var vignette))
-        {
-            vignette.active = false;
-        }
+        // if (vignetteProfile.TryGet<Vignette>(out var vignette))
+        // {
+        //     vignette.active = false;
+        // }
         Transition();
     }
 

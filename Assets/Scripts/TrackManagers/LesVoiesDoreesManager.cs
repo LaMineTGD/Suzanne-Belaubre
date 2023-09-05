@@ -20,7 +20,7 @@ public class LesVoiesDoreesManager : TrackTailorMadeManager
     private void generateOSCReceveier()
     {
         ShowManager.m_Instance.OSCReceiver.Bind("/Begin", Begin);
-        ShowManager.m_Instance.OSCReceiver.Bind("/FadeOut", ToBlack);
+        ShowManager.m_Instance.OSCReceiver.Bind("/Transition", ToBlack);
         // ShowManager.m_Instance.OSCReceiver.Bind("/End", OnEnd);
     }
 
