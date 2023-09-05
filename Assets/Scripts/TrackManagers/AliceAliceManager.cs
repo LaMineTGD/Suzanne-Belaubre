@@ -249,7 +249,25 @@ public class AliceAliceManager : ITrackManager
     
     public void OnProphetDebut(OSCMessage message)
     {
-        
+        if(_changeParticleSpeedCoroutine != null)
+        {
+            StopCoroutine(_changeParticleSpeedCoroutine);
+        }
+        float startPartSpeed = GetLineVFXParticleSpeed();
+        float targetPartSpeed = 8f;
+        float partSpeedDuration = 5f;
+        _changeParticleSpeedCoroutine = ChangeLineVFXParticleSpeedCoroutine(startPartSpeed, targetPartSpeed, partSpeedDuration);
+        StartCoroutine(_changeParticleSpeedCoroutine);
+
+        if(_changeValue2Coroutine != null)
+        {
+            StopCoroutine(_changeValue2Coroutine);
+        }
+        Vector2 startValue2 = GetLineAspectValue2();
+        Vector2 targetValue2 = startValue2 + Vector2.up * 8f;
+        float value2Duration = 20f;
+        _changeValue2Coroutine = ChangeLineVFXValue2Coroutine(targetValue2, value2Duration);
+        StartCoroutine(_changeValue2Coroutine);
     }
 
     public void OnProphetFin()
@@ -259,7 +277,20 @@ public class AliceAliceManager : ITrackManager
     
     public void OnProphetFin(OSCMessage message)
     {
-        
+        if(_changeParticleSpeedCoroutine != null)
+        {
+            StopCoroutine(_changeParticleSpeedCoroutine);
+        }
+        float startPartSpeed = GetLineVFXParticleSpeed();
+        float targetPartSpeed = 4f;
+        float partSpeedDuration = 1f;
+        _changeParticleSpeedCoroutine = ChangeLineVFXParticleSpeedCoroutine(startPartSpeed, targetPartSpeed, partSpeedDuration);
+        StartCoroutine(_changeParticleSpeedCoroutine);
+
+        if(_changeValue2Coroutine != null)
+        {
+            StopCoroutine(_changeValue2Coroutine);
+        }
     }
 
     public void OnFadeOut()
