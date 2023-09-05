@@ -17,12 +17,18 @@ public class LeBruitManager : TrackTailorMadeManager
     TextureCurve defaultMasterCurve;
     TextureCurve lightMasterCurve;
     TextureCurve colorCurveGreen;
+    TextureCurve colorCurveOrange;
+    TextureCurve colorCurvePurple;
+
+    TextureCurve greyCurve;
     float crescendoDuration = 8f;
 
     protected override void Start()
     {
         base.Start();
         base.ApplyDefaultEffects();
+        generateOSCReceveier();
+        
 
         if (m_PostProcessVolume.profile.TryGet<ColorCurves>(out ColorCurves colorCurves))
         {
@@ -40,7 +46,29 @@ public class LeBruitManager : TrackTailorMadeManager
             huevsHue.Interp(defaultCurve, colorCurveGreen, 0.0f);
         }
 
-        SetSkyColor();
+        SetSkyColor(colorCurveGreen);
+    }
+
+    private void generateOSCReceveier()
+    {
+        ShowManager.m_Instance.OSCReceiver.Bind("/green", ShowGreen);
+        ShowManager.m_Instance.OSCReceiver.Bind("/purple", ShowPurple);
+        ShowManager.m_Instance.OSCReceiver.Bind("/grey", ShowGrey);
+    }
+
+    public void ShowGreen(OSCMessage message)
+    {
+        SetSkyColor(colorCurveGreen);
+    }
+
+    public void ShowPurple(OSCMessage message)
+    {
+        SetSkyColor(colorCurvePurple);
+    }
+
+    public void ShowGrey(OSCMessage message)
+    {
+        SetSkyColor(greyCurve);
     }
 
     private void defaultCurveCreation()
@@ -98,9 +126,47 @@ public class LeBruitManager : TrackTailorMadeManager
         colorCurveGreen = new TextureCurve(keys, 0.5f, true, bound);
     }
 
-    public void SetSkyColor()
+    private void colorPurpleCurveCreation()
     {
-        TextureCurve colorCurve =  colorCurveGreen;
+        Keyframe key1 = new Keyframe(0.191f, 0.8756f, 0f, 0f);
+        Keyframe key2 = new Keyframe(0.4033019f, 0.7761194f, -0.9897181f, -0.9897181f);
+        Keyframe key3 = new Keyframe(0.6603774f, 0.5472637f, -0.7670738f, 0.7670738f); //240
+
+        Keyframe[] keys = new Keyframe[3];
+        keys[0] = key1;
+        keys[1] = key2;
+        keys[2] = key3;
+        colorCurvePurple = new TextureCurve(keys, 0.5f, true, bound);
+    }
+
+    // private void colorOrangeCurveCreation()
+    // {
+    //     Keyframe key1 = new Keyframe(0.2237762f, 0.5f, 0.05145023f, 0.05145023f);
+    //     Keyframe key2 = new Keyframe(0.5850816f, 0.925f, 0, 0); //240
+
+    //     Keyframe[] keys = new Keyframe[2];
+    //     keys[0] = key1;
+    //     keys[1] = key2;
+    //     colorCurveOrange = new TextureCurve(keys, 0.5f, true, bound);
+    // }
+
+    private void greyCurveCreation()
+    {
+        Keyframe key1 = new Keyframe(0.29f, 0.0f);
+        Keyframe key2 = new Keyframe(0.313f, 0.5f);
+        Keyframe key3 = new Keyframe(0.595f, 0.5f);
+        Keyframe key4 = new Keyframe(0.600f, 0.0f);
+
+        Keyframe[] keys = new Keyframe[4];
+        keys[0] = key1;
+        keys[1] = key2;
+        keys[2] = key3;
+        keys[3] = key4;
+        greyCurve = new TextureCurve(keys, 0.5f, true, bound);
+    }
+
+    public void SetSkyColor(TextureCurve colorCurve)
+    {
         AnimationCurve timeCurve = evolutionCrescendoCurve;
         StartCoroutine(InterpolatWithProgressionCurve(huevsHue, defaultCurve, colorCurve, crescendoDuration, timeCurve));
         StartCoroutine(InterpolatWithProgressionCurve(master, defaultMasterCurve, lightMasterCurve, crescendoDuration, timeCurve));
