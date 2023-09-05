@@ -9,7 +9,7 @@ public class AubeManager : TrackTailorMadeManager
     protected override void Start()
     {
         base.Start();
-        ShowManager.m_Instance.TransitionAube.AddListener(OnTransitionAube);
+        // ShowManager.m_Instance.TransitionAube.AddListener(OnTransitionAube);
         base.ApplyDefaultEffects();
         generateOSCReceveier();
     }
@@ -20,6 +20,7 @@ public class AubeManager : TrackTailorMadeManager
         ShowManager.m_Instance.OSCReceiver.Bind("/percu_start", DebutPercussion);
         ShowManager.m_Instance.OSCReceiver.Bind("/fin_chant", AubeSeLeve);
         ShowManager.m_Instance.OSCReceiver.Bind("/debut_deuxieme_harmo", DeuxiemeVagueHarmonique);
+        ShowManager.m_Instance.OSCReceiver.Bind("/End", OnEnd);
     }
 
     public void OSCTest()
@@ -60,7 +61,12 @@ public class AubeManager : TrackTailorMadeManager
         StartCoroutine(LaunchDawn(lightTransform, endTransform, 45f));
     }
 
-    private void OnTransitionAube()
+    public void OnEnd()
+    {
+        OnEnd(null);
+    }
+
+    public void OnEnd(OSCMessage message)
     {
         StopCoroutine(LaunchDawn(lightTransform, endTransform, 45f));
 
