@@ -14,13 +14,24 @@ public class LesVoiesDoreesManager : TrackTailorMadeManager
         var currentTrackData = ShowManager.m_Instance.GetCurrentTrack();
         SetSkyColor(currentTrackData._MainColorList[0], currentTrackData._MainColorList[1], currentTrackData._MainColorList[2]);
         generateOSCReceveier();
-        _backgroundMaterial.SetFloat("_ColorMultiplier", 1f);
+        _backgroundMaterial.SetFloat("_ColorMultiplier", 0f);
     }
 
     private void generateOSCReceveier()
     {
+        ShowManager.m_Instance.OSCReceiver.Bind("/Begin", Begin);
         ShowManager.m_Instance.OSCReceiver.Bind("/FadeOut", ToBlack);
         // ShowManager.m_Instance.OSCReceiver.Bind("/End", OnEnd);
+    }
+
+    public void Begin()
+    {
+        Begin(null);
+    }
+
+    public void Begin(OSCMessage message)
+    {
+        StartCoroutine(OpeningCoroutine());
     }
 
     public void ToBlack()
@@ -57,5 +68,28 @@ public class LesVoiesDoreesManager : TrackTailorMadeManager
         }
         yield return null;
         OnEnd();
+    }
+
+    private IEnumerator OpeningCoroutine()
+    {
+        float elapsedTime = 0f;
+        float durationBlack = 12f;
+        float duration = 1f;
+
+        while(elapsedTime < durationBlack)
+        {
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        elapsedTime = 0f;
+        while(elapsedTime < duration)
+        {
+            _backgroundMaterial.SetFloat("_ColorMultiplier", Mathf.Lerp(0f, 1f, elapsedTime / duration));
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+        yield return null;
     }
 }
