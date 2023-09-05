@@ -20,18 +20,7 @@ public class BonnesDesillusionsManager : TrackTailorMadeManager
 
     private void generateOSCReceveier()
     {
-        ShowManager.m_Instance.OSCReceiver.Bind("/remove_background", RemoveBackground);
         ShowManager.m_Instance.OSCReceiver.Bind("/End", OnEnd);
-    }
-
-    public void RemoveBackground()
-    {
-        RemoveBackground(null);
-    }
-
-    public void RemoveBackground(OSCMessage message)
-    {
-        _background.Rotate(90f, 0f, 0f);
     }
 
     public void OnEnd()
