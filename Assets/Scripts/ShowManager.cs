@@ -21,7 +21,9 @@ public class ShowManager : MonoBehaviour
     [SerializeField] private LineVFXManager m_LineVFXManager;
     [SerializeField] private PostProcessVolumeManager m_PostProcessVolumeManager;
     [SerializeField] private ITrackManager m_ITrackManager;
-    [SerializeField] private GameObject OSCTestUI;
+    [SerializeField] private GameObject OSCTestUIAbleton;
+    [SerializeField] private GameObject OSCTestUIProphet;
+
 
     [Serializable]
     public struct TrackList
@@ -71,7 +73,6 @@ public class ShowManager : MonoBehaviour
         StartNextTrack();
 
         OSCReceiver.Connect();
-        Debug.Log("OSCR :" + OSCReceiver.IsStarted);
     }
 
 
@@ -207,23 +208,43 @@ public class ShowManager : MonoBehaviour
         return result;
     }
 
-    public void ShowOSCTestUI()
+    public void ShowOSCAbletonUI()
     {
-        StartCoroutine(ShowOSCTestCoroutine());
+        StartCoroutine(ShowOSCAbletonCoroutine());
     }
 
-    private IEnumerator ShowOSCTestCoroutine()
+    public void ShowOSCProphetUI()
+    {
+        StartCoroutine(ShowOSCProphetCoroutine());
+    }
+
+    private IEnumerator ShowOSCAbletonCoroutine()
     {
         float elapsedTime = 0f;
         float duration = 5f;
-        OSCTestUI.SetActive(true);
+        OSCTestUIAbleton.SetActive(true);
         
         while (elapsedTime < duration)
         {
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        OSCTestUI.SetActive(false);
+        OSCTestUIAbleton.SetActive(false);
+        yield return null;
+    }
+
+    private IEnumerator ShowOSCProphetCoroutine()
+    {
+        float elapsedTime = 0f;
+        float duration = 5f;
+        OSCTestUIProphet.SetActive(true);
+        
+        while (elapsedTime < duration)
+        {
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        OSCTestUIProphet.SetActive(false);
         yield return null;
     }
 

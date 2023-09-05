@@ -30,7 +30,7 @@ public class AubeManager : TrackTailorMadeManager
 
     public void OSCTest(OSCMessage message)
     {
-        ShowManager.m_Instance.ShowOSCTestUI();
+        ShowManager.m_Instance.ShowOSCAbletonUI();
     }
 
     public void DeuxiemeVagueHarmonique()
