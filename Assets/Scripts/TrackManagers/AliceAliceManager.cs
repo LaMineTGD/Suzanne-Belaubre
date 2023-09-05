@@ -32,6 +32,8 @@ public class AliceAliceManager : ITrackManager
         ShowManager.m_Instance.OSCReceiver.Bind("/Alice_TududuDebut", OnTududuDebut);
         ShowManager.m_Instance.OSCReceiver.Bind("/Alice_TududuFin", OnTududuFin);
         ShowManager.m_Instance.OSCReceiver.Bind("/End", OnEnd);
+        ShowManager.m_Instance.OSCReceiver.Bind("/solo_violon_debut", OnProphetDebut);
+        ShowManager.m_Instance.OSCReceiver.Bind("/solo_violon_fin", OnProphetFin);
     }
 
     public void OnBegin()
