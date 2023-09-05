@@ -6,7 +6,8 @@ using extOSC;
 public class KeyboardManager : MonoBehaviour
 {
     public OSCReceiver m_OSCReceiver;
-    List<GameObject> m_SphereList = new List<GameObject>();
+    public float m_ValueMultiplier;
+    public List<GameObject> m_SphereList = new List<GameObject>();
 
     void Start()
     {
@@ -14,9 +15,9 @@ public class KeyboardManager : MonoBehaviour
         {
             m_OSCReceiver.Bind("/Note" + i.ToString(), OSCNote);
             m_OSCReceiver.Bind("/Velocity" + i.ToString(), OSCVelocity);
-            GameObject _NewSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-            _NewSphere.transform.position = new Vector3(3 * i, 0, 0);
-            m_SphereList.Add(_NewSphere);
+            //GameObject _NewSphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+            //_NewSphere.transform.position = new Vector3(3 * i, 0, 0);
+            //m_SphereList.Add(_NewSphere);
         }
     }
 
@@ -35,7 +36,8 @@ public class KeyboardManager : MonoBehaviour
             for (int i = 1; i <= 10; i++)
             {
                 if (_NoteNumber == i)
-                    m_SphereList[i].transform.position = new Vector3(m_SphereList[i].transform.position.x, message.Values[0].IntValue, m_SphereList[i].transform.position.z);
+                    //m_SphereList[i-1].transform.localPosition = new Vector3(m_SphereList[i-1].transform.localPosition.x, m_SphereList[i - 1].transform.localPosition.y + message.Values[0].IntValue * m_ValueMultiplier, m_SphereList[i-1].transform.localPosition.z);
+                    m_SphereList[i - 1].transform.position += m_SphereList[i - 1].transform.forward * m_ValueMultiplier;
             }
         }
     }
