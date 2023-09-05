@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 using extOSC;
@@ -16,6 +17,8 @@ public class Background : MonoBehaviour
         ShowManager.m_Instance.OSCReceiver.Bind("/BD/start_couplet", StartCouplet);
         ShowManager.m_Instance.OSCReceiver.Bind("/BD/start_refrain", StartRefrain);
         ShowManager.m_Instance.OSCReceiver.Bind("/BD/start_fire", StartFire);
+        ShowManager.m_Instance.OSCReceiver.Bind("/BD/start_small_fire", StartSmallFire);
+        ShowManager.m_Instance.OSCReceiver.Bind("/BD/start_small_fire2", StartSmallFire2);
         ShowManager.m_Instance.OSCReceiver.Bind("/BD/outro", StartOutro);
     }
 
@@ -92,6 +95,53 @@ public class Background : MonoBehaviour
             new LocalKeyword(shader, "_PALETTE_COUPLET"),
             false
         );
+    }
+
+    public void StartSmallFire(OSCMessage message)
+    {
+        Debug.Log("StartSmallFire");
+        StartSmallFire();
+    }
+
+    public void StartSmallFire()
+    {
+        StartCoroutine(AnimateNoiseScale(2.8f, 1f));
+    }
+
+    public void StartSmallFire2(OSCMessage message)
+    {
+        Debug.Log("StartSmallFire2");
+        StartSmallFire2();
+    }
+
+    public void StartSmallFire2()
+    {
+        StartCoroutine(AnimateNoiseScale(1.3f, 0.2f));
+    }
+
+    private IEnumerator AnimateNoiseScale(float duration, float amplitude)
+    {
+        float elapsedTime = 0f;
+        float baseNoiseScale = 1.5f;
+
+        var renderer = GetComponent<Renderer>();
+        var material = renderer.material;
+
+        while(elapsedTime < duration)
+        {
+            material.SetFloat(
+                "_Noise_Scale",
+                baseNoiseScale + amplitude * Mathf.Sin(
+                    Mathf.Lerp(0.0f, Mathf.PI, elapsedTime / duration)
+                )
+            );
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+        // Be sure to leave with the base value
+        material.SetFloat("_Noise_Scale", baseNoiseScale);
+        yield return null;
     }
 
     public void StartOutro(OSCMessage message)
