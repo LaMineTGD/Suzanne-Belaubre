@@ -23,7 +23,7 @@ public class ITrackManager : MonoBehaviour
     private Volume _activeTailorMadeSky;
     private Volume _activeTailorMadePostProcess;
     private LineVFXManager lineVFXManager;
-    private Vector4 _toneSave;
+    private Vector4 _baseTone = new Vector4(-0.046f, 0f, 0f, 100f);
 
     protected virtual void Start()
     {
@@ -312,8 +312,7 @@ public class ITrackManager : MonoBehaviour
         if (skyVolumeProfile.TryGet<ShadowsMidtonesHighlights>(out var tones))
         {
             tones.shadows.overrideState = true;
-            _toneSave = tones.shadows.value;
-            tones.shadows.value = new Vector4(0.5f, 0.5f, 0.5f, 0.5f);
+            tones.shadows.value = new Vector4(0.5f, 0f,0f, 100f);
         }
     }
 
