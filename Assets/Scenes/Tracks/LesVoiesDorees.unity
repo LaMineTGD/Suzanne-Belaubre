@@ -24,7 +24,7 @@ RenderSettings:
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 0
+  m_AmbientMode: 4
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 0}
   m_HaloStrength: 0.5
@@ -171,6 +171,7 @@ MonoBehaviour:
   m_PostProcessVolume: {fileID: 0}
   m_VFX: {fileID: 0}
   m_Light: {fileID: 0}
+  _backgroundMaterial: {fileID: 2100000, guid: 09058987b3162aa4b8d1802ef8d6b688, type: 2}
 --- !u!1 &1535233964
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,13 +339,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Events:
     m_Signals:
-    - {fileID: 11400000, guid: b9413c22a52d14f488896452402d158e, type: 2}
+    - {fileID: 11400000, guid: c268eda69a251094eb5a9a94233185c0, type: 2}
     m_Events:
     - m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 475175705}
           m_TargetAssemblyTypeName: LesVoiesDoreesManager, Assembly-CSharp
-          m_MethodName: OnEnd
+          m_MethodName: ToBlack
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
