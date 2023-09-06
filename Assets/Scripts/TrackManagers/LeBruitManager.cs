@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using extOSC;
 using UnityEngine;
+using UnityEngine.VFX;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.HighDefinition;
 
@@ -23,12 +24,25 @@ public class LeBruitManager : TrackTailorMadeManager
     TextureCurve greyCurve;
     float crescendoDuration = 8f;
 
+    public OSCReceiver m_OSCReceiver;
+    public VisualEffect _VFX;
+
     protected override void Start()
     {
+        //m_OSCReceiver.Bind("/Bug", OSCBug);
+        //m_OSCReceiver.Bind("/Thickness", OSCThickness);
+        //m_OSCReceiver.Bind("/Rate", OSCRate);
+        //m_OSCReceiver.Bind("/Radius", OSCRadius);
+
         base.Start();
         base.ApplyDefaultEffects();
         generateOSCReceveier();
-        
+
+        ShowManager.m_Instance.OSCReceiver.Bind("/Bug", OSCBug);
+        ShowManager.m_Instance.OSCReceiver.Bind("/Thickness", OSCThickness);
+        ShowManager.m_Instance.OSCReceiver.Bind("/Rate", OSCRate);
+        ShowManager.m_Instance.OSCReceiver.Bind("/Radius", OSCRadius);
+
 
         if (m_PostProcessVolume.profile.TryGet<ColorCurves>(out ColorCurves colorCurves))
         {
@@ -224,5 +238,25 @@ public class LeBruitManager : TrackTailorMadeManager
             keyframes.Add(tmpKeyframe);
         }
         return new TextureCurve(keyframes.ToArray(), 0.5f, true, bound); ;
+    }
+
+    void OSCBug(OSCMessage message)
+    {
+        _VFX.SetFloat("Bug", message.Values[0].FloatValue / 16);
+    }
+
+    void OSCThickness(OSCMessage message)
+    {
+        _VFX.SetFloat("Thickness", message.Values[0].FloatValue / 16);
+    }
+
+    void OSCRate(OSCMessage message)
+    {
+        _VFX.SetFloat("Rate", message.Values[0].FloatValue * 10);
+    }
+
+    void OSCRadius(OSCMessage message)
+    {
+        _VFX.SetFloat("Radius", message.Values[0].FloatValue / 16);
     }
 }
