@@ -139,7 +139,7 @@ public class AmiImaginaireManager : TrackTailorMadeManager
     {
         m_VFX.SetFloat(rate_name, 0f);
         StartCoroutine(TransitionPostProcessToSiffle(5f));
-        StartCoroutine(TransitionToSiffleSky(5f));
+        // StartCoroutine(TransitionToSiffleSky(5f));
     }
 
     private IEnumerator TransitionToSiffleSky(float duration)
