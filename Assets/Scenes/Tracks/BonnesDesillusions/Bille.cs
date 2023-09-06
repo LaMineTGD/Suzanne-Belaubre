@@ -17,6 +17,8 @@ public class Bille : MonoBehaviour
     float movingToOrbitProgress;
     bool movingToOrbit = false;
 
+    float speedBoost = 0F;
+
     float outroProgress = -1;
 
     void Start() {
@@ -31,6 +33,7 @@ public class Bille : MonoBehaviour
         ShowManager.m_Instance.OSCReceiver.Bind("/start_orbit", StartOrbit);
         ShowManager.m_Instance.OSCReceiver.Bind("/start_bouncing", StartBouncing);
         ShowManager.m_Instance.OSCReceiver.Bind("/BD/outro", StartOutro);
+        ShowManager.m_Instance.OSCReceiver.Bind("/BD/speed_boost", SpeedBoost);
     }
 
     public void StartOrbit(OSCMessage message)
@@ -141,7 +144,18 @@ public class Bille : MonoBehaviour
         this.transform.RotateAround(
             center.transform.position,
             Vector3.forward,
-            orbitSpeed * Time.deltaTime
+            (orbitSpeed + speedBoost) * Time.deltaTime
         );
+    }
+
+    public void SpeedBoost(OSCMessage message)
+    {
+        var boost = 800F * (message.Values[0].FloatValue / 255);
+        SpeedBoost(boost);
+    }
+
+    public void SpeedBoost(float boost)
+    {
+        speedBoost = boost;
     }
 }
