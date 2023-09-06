@@ -170,6 +170,7 @@ MonoBehaviour:
   m_OSCReceiver: {fileID: 1703881089}
   m_VFX: {fileID: 1670493648}
   m_KeyboardManager: {fileID: 213720279}
+  m_SphereContainer: {fileID: 811569188}
 --- !u!1 &213720278
 GameObject:
   m_ObjectHideFlags: 0
@@ -716,7 +717,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1, y: -5.5, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 877723130}
   - {fileID: 757755642}
@@ -832,7 +833,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &904007592
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -103,18 +103,20 @@ public class CommencementManager : ITrackManager
 
     IEnumerator FadeOut()
     {
-        for (float alpha = 1f; alpha >= 0; alpha -= 0.1f)
+        for (int Rate = 2000; Rate >= 0; Rate -= 100)
         {
-            m_ParticleColor.a = alpha;
+            //m_ParticleColor.a = alpha;
+            m_VFX.SetInt("Rate", Rate);
             yield return new WaitForSeconds(.1f);
         }
     }
 
     IEnumerator FadeIn()
     {
-        for (float alpha = 0f; alpha <= 1; alpha += 0.1f)
+        for (int Rate = 0; Rate <= 2000; Rate += 100)
         {
-            m_ParticleColor.a = alpha;
+            //m_ParticleColor.a = alpha;
+            m_VFX.SetInt("Rate", Rate);
             yield return new WaitForSeconds(.1f);
         }
     }

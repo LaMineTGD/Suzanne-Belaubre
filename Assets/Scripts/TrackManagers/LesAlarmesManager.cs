@@ -8,9 +8,11 @@ public class LesAlarmesManager : ITrackManager
     public OSCReceiver m_OSCReceiver;
     public VisualEffect m_VFX;
     public KeyboardManager m_KeyboardManager;
+    public GameObject m_SphereContainer;
 
     protected override void Start()
     {
+        StartCoroutine(SphereIn());
         base.Start();
         base.ApplyDefaultEffects();
         generateOSCReceveier();
@@ -54,6 +56,7 @@ public class LesAlarmesManager : ITrackManager
     public void FadeOut()
     {
         m_VFX.SetBool("Emit", false);
+        StartCoroutine(SphereOut());
         StartCoroutine(FadeOutCorou());
     }
 
@@ -69,5 +72,24 @@ public class LesAlarmesManager : ITrackManager
         }
         Transition();
         yield return null;
+    }
+
+    IEnumerator SphereIn()
+    {
+        for (float _Scale = 0f; _Scale <= 1f; _Scale += 0.01f)
+        {
+            m_SphereContainer.transform.localScale = new Vector3(_Scale, _Scale, _Scale);
+            yield return new WaitForSeconds(.1f);
+        }
+    }
+
+    IEnumerator SphereOut()
+    {
+        for (float _Scale = 1f; _Scale >= 0f; _Scale -= 0.01f)
+        {
+            m_SphereContainer.transform.localScale = new Vector3(_Scale, _Scale, _Scale);
+            yield return new WaitForSeconds(.1f);
+        }
+        m_SphereContainer.SetActive(false);
     }
 }
