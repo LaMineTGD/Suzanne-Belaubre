@@ -18,11 +18,12 @@ public class AliceAliceManager : ITrackManager
         base.Start();
         base.ApplyDefaultEffects();
         generateOSCReceveier();
+        OnBegin();
     }
 
     private void generateOSCReceveier()
     {
-        ShowManager.m_Instance.OSCReceiver.Bind("/Begin", OnBegin);
+        // ShowManager.m_Instance.OSCReceiver.Bind("/Begin", OnBegin);
         ShowManager.m_Instance.OSCReceiver.Bind("/percu_start", OnPercuStart);
         ShowManager.m_Instance.OSCReceiver.Bind("/Chant_start", OnChantStart);
         ShowManager.m_Instance.OSCReceiver.Bind("/Alice_Prologue", OnPrologue);
@@ -55,7 +56,7 @@ public class AliceAliceManager : ITrackManager
         //Reduce LineVFX to min circle
         Vector2 startCircle = new Vector2(1f, 2f);
         SetLineVFXAspectCircle(startCircle);
-        SetLineVFXRadius(0.05f);
+        SetLineVFXRadius(0.1f);
         ChangeFOVLineVFX(30f, 2f);
     }
 
@@ -66,7 +67,7 @@ public class AliceAliceManager : ITrackManager
             StopCoroutine(_changeRadiusCoroutine);
         }
 
-        float startRadius = 0.05f;
+        float startRadius = 0.1f;
         float targetRadius = 0.01f;
         float radiusDuration = 1f;
         _changeRadiusCoroutine = ChangeLineVFXRadiusCoroutine(startRadius, targetRadius, radiusDuration);
