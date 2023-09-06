@@ -56,7 +56,7 @@ public class AliceAliceManager : ITrackManager
         //Reduce LineVFX to min circle
         Vector2 startCircle = new Vector2(1f, 2f);
         SetLineVFXAspectCircle(startCircle);
-        SetLineVFXRadius(0.1f);
+        SetLineVFXRadius(0.2f);
         ChangeFOVLineVFX(30f, 2f);
     }
 
@@ -158,7 +158,7 @@ public class AliceAliceManager : ITrackManager
             StopCoroutine(_changeRadiusCoroutine);
         }
         float startRadius = GetLineVFXRadius();
-        float targetRadius = 0.2f;
+        float targetRadius = 0.3f;
         float radiusDuration = 15f;
         _changeRadiusCoroutine = ChangeLineVFXRadiusCoroutine(startRadius, targetRadius, radiusDuration);
         StartCoroutine(_changeRadiusCoroutine);
@@ -202,7 +202,7 @@ public class AliceAliceManager : ITrackManager
             StopCoroutine(_changeRadiusCoroutine);
         }
         float startRadius = GetLineVFXRadius();
-        float targetRadius = 0.1f;
+        float targetRadius = 0.2f;
         float radiusDuration = 3f;
         _changeRadiusCoroutine = ChangeLineVFXRadiusCoroutine(startRadius, targetRadius, radiusDuration);
         StartCoroutine(_changeRadiusCoroutine);
