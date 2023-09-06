@@ -100,7 +100,7 @@ public class Bille : MonoBehaviour
         if (outroProgress < 1 && outroProgress >= 0){
             outroProgress += Time.deltaTime * 0.2F;
 
-            var step = -0.1F;
+            var step = -0.1F * Time.deltaTime / 0.03F;
             transform.position = Vector3.MoveTowards(
                 transform.position, center.transform.position, step
             );
@@ -136,6 +136,7 @@ public class Bille : MonoBehaviour
     void Rotate () {
         var perlinX = Time.time * rotationSpeed;
         var perlinY = 0.5F * (this.transform.position.x + this.transform.position.y) * rotationSpeed;
+        // TODO use deltaTime in the angle formula.
         var angle = 50.0F * (Mathf.PerlinNoise(perlinX, perlinY) - 0.5F);
         transform.Rotate(new Vector3(0, 0, angle));
     }

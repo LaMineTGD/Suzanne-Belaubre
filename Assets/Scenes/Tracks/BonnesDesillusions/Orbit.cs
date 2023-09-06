@@ -50,7 +50,7 @@ public class Orbit : MonoBehaviour
         if (outroProgress < 1 && outroProgress >= 0){
             outroProgress += Time.deltaTime * 0.2F;
 
-            var outroStep = -0.1F;
+            var outroStep = -0.1F * Time.deltaTime / 0.03F;
             transform.position = Vector3.MoveTowards(
                 transform.position, center.transform.position, outroStep
             );

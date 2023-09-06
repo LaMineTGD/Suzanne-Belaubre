@@ -156,11 +156,13 @@ public class Background : MonoBehaviour
     }
 
     void Update() {
-        if (outroProgress < 1 && outroProgress >= 0){
+        if (outroProgress < 1F && outroProgress >= 0F){
             outroProgress += Time.deltaTime * 0.1F;
 
-            var angle = 0.4F;
-            transform.Rotate(new Vector3(angle, 0, 0));
+            var angle = 0.6F * Time.deltaTime / 0.03F;
+            if (transform.rotation.x < 0.1) {
+                transform.Rotate(new Vector3(angle, 0, 0));
+            }
         }
     }
 
