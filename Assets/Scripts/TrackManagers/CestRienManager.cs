@@ -44,7 +44,7 @@ public class CestRienManager : ITrackManager
 
         OnBegin();
 
-        // Init();
+        Init();
     }
 
     private void generateOSCReceveier()
@@ -61,15 +61,15 @@ public class CestRienManager : ITrackManager
         ShowManager.m_Instance.OSCReceiver.Bind("/End", OnEnd);
     }
 
-    // private void Init()
-    // {
-    //     GetCamera().fieldOfView = 15f;
-    //     SetLineVFXRate(5000f);
-    //     SetLineVFXParticleSpeed(18f);
-    //     SetLineVFXAspectValue1(new Vector2(4.558506f, 4.536615f));
-    //     SetLineVFXAspectValue2(new Vector2(-2.33f, 8.861389f));
-    //     SetLineVFXAspectCircle(new Vector2(1.249678f, 549.7247f)); 
-    // }
+    private void Init()
+    {
+        // GetCamera().fieldOfView = 15f;
+        // SetLineVFXRate(5000f);
+        // SetLineVFXParticleSpeed(18f);
+        // SetLineVFXAspectValue1(new Vector2(4.558506f, 4.536615f));
+        // SetLineVFXAspectValue2(new Vector2(-2.33f, 8.861389f));
+        SetLineVFXAspectCircle(new Vector2(1.249678f, 800f)); 
+    }
 
     // private void OnDisable()
     // {
