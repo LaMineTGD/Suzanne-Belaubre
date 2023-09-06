@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.83300793, g: 0.38867193, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -513,8 +513,8 @@ MonoBehaviour:
     _Temperature: 0
     _Location: 0
     _MainColorList:
-    - {r: 1, g: 0, b: 0.05882353, a: 1}
-    - {r: 1, g: 0, b: 0.05882353, a: 1}
+    - {r: 0.18867922, g: 0, b: 0, a: 1}
+    - {r: 0.1882353, g: 0, b: 0, a: 1}
     - {r: 1, g: 0.94509804, b: 0, a: 1}
     _SecondaryColorList:
     - {r: 1, g: 0, b: 0.63343525, a: 1}
@@ -552,19 +552,6 @@ MonoBehaviour:
     - {r: 1, g: 1, b: 1, a: 1}
     _FourthColorList:
     - {r: 1, g: 1, b: 1, a: 1}
-  - _SceneName: LesVoiesDorees
-    _Altitude: 0
-    _Type: 1
-    _Start_Transition_duration: 0
-    _Temperature: 0
-    _Location: 1
-    _MainColorList:
-    - {r: 1, g: 0.46666667, b: 0, a: 1}
-    - {r: 1, g: 0.46666667, b: 0, a: 1}
-    - {r: 1, g: 0.46666667, b: 0, a: 1}
-    _SecondaryColorList: []
-    _ThirdColorList: []
-    _FourthColorList: []
   - _SceneName: AmiImaginaire
     _Altitude: 2
     _Type: 1
