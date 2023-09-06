@@ -56,6 +56,7 @@ public class AliceAliceManager : ITrackManager
         Vector2 startCircle = new Vector2(1f, 2f);
         SetLineVFXAspectCircle(startCircle);
         SetLineVFXRadius(0.05f);
+        ChangeFOVLineVFX(30f, 2f);
     }
 
     private void FadeOutLine()
