@@ -69,7 +69,5 @@ public class LesAlarmesManager : ITrackManager
         }
         Transition();
         yield return null;
-           
-
     }
 }

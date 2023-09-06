@@ -9,6 +9,7 @@ public class KeyboardManager : MonoBehaviour
     public float m_ValueMultiplier;
     public List<GameObject> m_SphereList = new List<GameObject>();
     public LesAlarmesManager m_AlarmesManager;
+    private bool _isFadeOutStarted = false;
 
     public void Init()
     {
@@ -42,7 +43,11 @@ public class KeyboardManager : MonoBehaviour
 
                 if(message.Values[0].IntValue == 27)
                 {
-                    m_AlarmesManager.FadeOut();
+                    if(!_isFadeOutStarted)
+                    {
+                        _isFadeOutStarted = true;
+                        m_AlarmesManager.FadeOut();
+                    }
                 }
             }
         }
