@@ -23,11 +23,6 @@ public class CommencementManager : ITrackManager
         m_ParticleColor = m_VFX.GetVector4("ParticleColor");
         m_BaseParticleColor = m_VFX.GetVector4("ParticleColor");
         m_Size = m_VFX.GetFloat("Size");
-        m_OSCReceiver.Bind("/Note1", OSCNote);
-        m_OSCReceiver.Bind("/FadeIn", OSCFadeIn);
-        m_OSCReceiver.Bind("/Precipitation", OSCPrecipitation);
-        m_OSCReceiver.Bind("/Size", OSCSize);
-        m_OSCReceiver.Bind("/FadeOut", OSCFadeOut);
         base.Start();
         base.ApplyDefaultEffects();
         //Change the sky color
@@ -35,6 +30,11 @@ public class CommencementManager : ITrackManager
         SetSkyColor(currentTrackData._MainColorList[0], currentTrackData._MainColorList[1], currentTrackData._MainColorList[2]);
 
         generateOSCReceveier();
+        ShowManager.m_Instance.OSCReceiver.Bind("/Note1", OSCNote);
+        ShowManager.m_Instance.OSCReceiver.Bind("/FadeIn", OSCFadeIn);
+        ShowManager.m_Instance.OSCReceiver.Bind("/Precipitation", OSCPrecipitation);
+        ShowManager.m_Instance.OSCReceiver.Bind("/Size", OSCSize);
+        ShowManager.m_Instance.OSCReceiver.Bind("/FadeOut", OSCFadeOut);
     }
 
     private void Update()
